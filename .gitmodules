@@ -7,3 +7,6 @@
 [submodule "Libraries/glew"]
 	path = Libraries/glew
 	url = git@github.com:nigels-com/glew
+[submodule "Libraries/assimp"]
+	path = Libraries/assimp
+	url = git@github.com:assimp/assimp
