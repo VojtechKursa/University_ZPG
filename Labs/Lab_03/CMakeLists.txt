@@ -8,7 +8,7 @@ endif()
 
 
 
-project ("Lab_02")
+project ("Lab_03")
 
 
 
