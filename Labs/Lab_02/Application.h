@@ -25,9 +25,13 @@ private:
 
 public:
 	Application();
+	~Application();
 
 	void init();
+	void terminate();
+
 	void createWindow(int width = 800, int height = 600, const char* title = "ZPG", GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
+	void destroyWindow();
 
 	void printVersionInfo();
 

@@ -44,9 +44,9 @@ Triangle* ShapeFactory::createDefaultTriangle()
 Triangle* ShapeFactory::createColoredTriangle()
 {
 	const float points[] = {
-		  0.0f, 0.5f, 0.0f,
-		  0.5f, -0.5f, 0.0f,
-		 -0.5f, -0.5f, 0.0f
+		  0.0f, 1.0f, 0.0f,
+		  0.5f, 0.5f, 0.0f,
+		 -0.5f, 0.5f, 0.0f
 	};
 
 	const char* vertexShader =
@@ -63,7 +63,7 @@ Triangle* ShapeFactory::createColoredTriangle()
 		"out vec4 frag_colour;"
 		"in vec3 loc;"
 		"void main () {"
-		"	 frag_colour = vec4 (loc + vec3(0.5, 0.5, 0), 1.0);"
+		"	 frag_colour = vec4 (loc + vec3(0.5, 0.0, 0.0), 1.0);"
 		"}";
 
 	VBO* vbo = new VBO();
@@ -83,8 +83,8 @@ Triangle* ShapeFactory::createColoredTriangle()
 Rectangle* ShapeFactory::createDefaultSquare()
 {
 	const float data[] = {
-		   -.5f, .5f, .5f, 1, 1, 0, 0, 1,
 		   -.5f, -.5f, .5f, 1, 1, 1, 0, 1,
+		   -.5f, .5f, .5f, 1, 1, 0, 0, 1,
 		   .5f, .5f, .5f, 1, 0, 0, 0, 1,
 		   .5f, -.5f, .5f, 1, 0, 1, 0, 1,
 	};

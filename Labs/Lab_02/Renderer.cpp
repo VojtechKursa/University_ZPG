@@ -3,6 +3,14 @@
 Renderer::Renderer()
 { }
 
+Renderer::~Renderer()
+{
+	for (auto shape : this->scene)
+	{
+		delete shape;
+	}
+}
+
 void Renderer::addShape(Shape* shape)
 {
 	this->scene.push_back(shape);

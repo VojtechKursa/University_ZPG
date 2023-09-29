@@ -57,6 +57,18 @@ Application::Application()
 	this->renderer = new Renderer();
 }
 
+Application::~Application()
+{
+	if (this->renderer != nullptr)
+	{
+		delete this->renderer;
+		this->renderer = nullptr;
+	}
+
+	this->destroyWindow();
+	this->terminate();
+}
+
 
 
 void Application::init()
@@ -74,6 +86,13 @@ void Application::init()
 		GLFW_OPENGL_CORE_PROFILE);
 }
 
+void Application::terminate()
+{
+	glfwTerminate();
+}
+
+
+
 void Application::bindCallbacks()
 {
 	glfwSetKeyCallback(this->window, this->key_callback);
@@ -83,6 +102,8 @@ void Application::bindCallbacks()
 	glfwSetWindowIconifyCallback(this->window, this->window_iconify_callback);
 	glfwSetWindowSizeCallback(this->window, this->window_size_callback);
 }
+
+
 
 void Application::createWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
 {
@@ -101,6 +122,18 @@ void Application::createWindow(int width, int height, const char* title, GLFWmon
 	glewExperimental = GL_TRUE;
 	glewInit();
 }
+
+void Application::destroyWindow()
+{
+	if (this->window != nullptr)
+	{
+		glfwDestroyWindow(this->window);
+
+		this->window = nullptr;
+	}
+}
+
+
 
 void Application::printVersionInfo()
 {
@@ -122,7 +155,7 @@ void Application::loadDefaultScene()
 
 	this->renderer->addShape(ShapeFactory::createColoredTriangle());
 
-	//this->renderer->addShape(ShapeFactory::createDefaultSquare());
+	this->renderer->addShape(ShapeFactory::createDefaultSquare());
 }
 
 
@@ -140,8 +173,4 @@ void Application::run()
 
 		glfwPollEvents();
 	}
-
-	glfwDestroyWindow(this->window);
-	glfwTerminate();
-	exit(EXIT_SUCCESS);
 }

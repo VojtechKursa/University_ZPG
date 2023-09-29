@@ -12,6 +12,12 @@ Shape::Shape(VAO* vao, ShaderProgram* shaderProgram)
 	this->shaderProgram = shaderProgram;
 }
 
+Shape::~Shape()
+{
+	delete this->vao;
+	delete this->shaderProgram;
+}
+
 void Shape::draw()
 {
 	this->shaderProgram->use();

@@ -13,6 +13,7 @@ protected:
 	Shape(VAO* vao, ShaderProgram* shaderProgram);
 
 public:
+	virtual ~Shape();
 	virtual void draw();
 };
 

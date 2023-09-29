@@ -8,7 +8,17 @@ Shader::Shader(int type, const char* code)
 	glCompileShader(this->shaderId);
 }
 
+Shader::~Shader()
+{
+	glDeleteShader(this->shaderId);
+}
+
 void Shader::attachToProgram(GLuint programId)
 {
 	glAttachShader(programId, this->shaderId);
+}
+
+void Shader::detachFromProgram(GLuint programId)
+{
+	glDetachShader(programId, this->shaderId);
 }

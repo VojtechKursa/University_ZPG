@@ -10,6 +10,9 @@ protected:
 	Shader(int type, const char* code);
 
 public:
+	~Shader();
+
 	void attachToProgram(GLuint programId);
+	void detachFromProgram(GLuint programId);
 };
 

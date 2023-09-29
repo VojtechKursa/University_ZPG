@@ -16,6 +16,7 @@ private:
 
 public:
 	Renderer();
+	~Renderer();
 
 	void addShape(Shape* shape);
 

@@ -23,6 +23,12 @@ VAO::VAO()
 
 VAO::~VAO()
 {
+	for (auto vbo : vbos)
+	{
+		delete vbo;
+	}
+
+	glDeleteVertexArrays(1, &this->vaoId);
 }
 
 

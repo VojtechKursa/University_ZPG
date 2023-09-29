@@ -14,8 +14,11 @@ private:
 
 public:
 	ShaderProgram();
+	~ShaderProgram();
 
 	void addShader(Shader* shader);
+	bool removeShader(Shader* shader);
+
 	void link();
 
 	bool checkStatus();
