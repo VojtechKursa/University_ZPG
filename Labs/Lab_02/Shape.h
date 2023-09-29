@@ -1,12 +1,18 @@
 #pragma once
-#include <GL/glew.h>
+
+#include "VAO.h"
+#include "ShaderProgram.h"
 
 class Shape
 {
-private:
-	GLuint vboID;
+protected:
+	VAO* vao;
+	ShaderProgram* shaderProgram;
 
-	float* points;
-	int pointsLength;
+	Shape();
+	Shape(VAO* vao, ShaderProgram* shaderProgram);
+
+public:
+	virtual void draw();
 };
 

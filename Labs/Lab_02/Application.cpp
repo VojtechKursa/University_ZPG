@@ -1,66 +1,11 @@
 #include "Application.h"
+
+#include <stdio.h>
 #include <stdlib.h>
-#include <GL/glew.h>
+
+#include "ShapeFactory.h"
 
 
-
-Application* Application::instance = new Application();
-
-
-
-Application* Application::getInstance()
-{
-	return Application::instance;
-}
-
-void Application::run()
-{
-	this->initWindow();
-	this->setCallbacks();
-	this->mainLoop();
-	this->endProgram();
-}
-
-void Application::initWindow()
-{
-	glfwSetErrorCallback(error_callback);
-	if (!glfwInit()) {
-		fprintf(stderr, "ERROR: could not start GLFW3\n");
-		exit(EXIT_FAILURE);
-	}
-
-	//inicializace konkretni verze
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-	this->window = glfwCreateWindow(800, 600, "ZPG", NULL, NULL);
-
-	if (!window) {
-		glfwTerminate();
-		exit(EXIT_FAILURE);
-	}
-
-	glfwMakeContextCurrent(window);
-	glfwSwapInterval(1);
-
-	int width, height;
-	glfwGetFramebufferSize(window, &width, &height);
-	float ratio = width / (float)height;
-	glViewport(0, 0, width, height);
-}
-
-
-void Application::setCallbacks()
-{
-	glfwSetKeyCallback(window, key_callback);
-	glfwSetCursorPosCallback(window, cursor_callback);
-	glfwSetMouseButtonCallback(window, button_callback);
-	glfwSetWindowFocusCallback(window, window_focus_callback);
-	glfwSetWindowIconifyCallback(window, window_iconify_callback);
-	glfwSetWindowSizeCallback(window, window_size_callback);
-}
 
 void Application::error_callback(int error, const char* description)
 {
@@ -98,32 +43,63 @@ void Application::cursor_callback(GLFWwindow* window, double x, double y)
 
 void Application::button_callback(GLFWwindow* window, int button, int action, int mode)
 {
-	if (action == GLFW_PRESS) { printf("button_callback [%d,%d,%d]\n", button, action, mode); }
-}
-
-void Application::mainLoop()
-{
-	// Main loop
-	while (!glfwWindowShouldClose(window)) {
-		// clear color and depth buffer
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glUseProgram(shaderProgram);
-		glBindVertexArray(VAO);
-		// draw triangles
-		glDrawArrays(GL_TRIANGLES, 0, 3); //mode,first,count
-		// update other events like input handling
-		glfwPollEvents();
-		// put the stuff we’ve been drawing onto the display
-		glfwSwapBuffers(window);
+	if (action == GLFW_PRESS)
+	{
+		printf("button_callback [%d,%d,%d]\n", button, action, mode);
 	}
 }
 
-void Application::endProgram()
-{
-	glfwDestroyWindow(window);
 
-	glfwTerminate();
-	exit(EXIT_SUCCESS);
+
+Application::Application()
+{
+	this->window = nullptr;
+	this->renderer = new Renderer();
+}
+
+
+
+void Application::init()
+{
+	glfwSetErrorCallback(error_callback);
+	if (!glfwInit()) {
+		fprintf(stderr, "ERROR: could not start GLFW3\n");
+		exit(EXIT_FAILURE);
+	}
+
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE,
+		GLFW_OPENGL_CORE_PROFILE);
+}
+
+void Application::bindCallbacks()
+{
+	glfwSetKeyCallback(this->window, this->key_callback);
+	glfwSetCursorPosCallback(this->window, this->cursor_callback);
+	glfwSetMouseButtonCallback(this->window, this->button_callback);
+	glfwSetWindowFocusCallback(this->window, this->window_focus_callback);
+	glfwSetWindowIconifyCallback(this->window, this->window_iconify_callback);
+	glfwSetWindowSizeCallback(this->window, this->window_size_callback);
+}
+
+void Application::createWindow(int width, int height, const char* title, GLFWmonitor* monitor, GLFWwindow* share)
+{
+	this->window = glfwCreateWindow(width, height, title, monitor, share);
+	if (!this->window) {
+		glfwTerminate();
+		exit(EXIT_FAILURE);
+	}
+
+	this->bindCallbacks();
+
+	glfwMakeContextCurrent(window);
+	glfwSwapInterval(1);
+	
+	// start GLEW extension handler
+	glewExperimental = GL_TRUE;
+	glewInit();
 }
 
 void Application::printVersionInfo()
@@ -138,8 +114,34 @@ void Application::printVersionInfo()
 	printf("Using GLFW %i.%i.%i\n", major, minor, revision);
 }
 
-void Application::startGLEW()
+
+
+void Application::loadDefaultScene()
 {
-	glewExperimental = GL_TRUE;
-	glewInit();
+	//this->renderer->addShape(ShapeFactory::createDefaultTriangle());
+
+	this->renderer->addShape(ShapeFactory::createColoredTriangle());
+
+	//this->renderer->addShape(ShapeFactory::createDefaultSquare());
+}
+
+
+
+void Application::run()
+{
+	int width, height;
+	glfwGetFramebufferSize(this->window, &width, &height);
+	float ratio = width / (float)height;
+	glViewport(0, 0, width, height);
+
+	while (!glfwWindowShouldClose(this->window))
+	{
+		this->renderer->renderNextFrame(this->window);
+
+		glfwPollEvents();
+	}
+
+	glfwDestroyWindow(this->window);
+	glfwTerminate();
+	exit(EXIT_SUCCESS);
 }

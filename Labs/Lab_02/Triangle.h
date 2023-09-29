@@ -1,5 +1,14 @@
 #pragma once
-class Triangle
+
+#include "Shape.h"
+
+
+
+class Triangle : public Shape
 {
+public:
+	Triangle(VAO* vao, ShaderProgram* shaderProgram);
+
+	virtual void draw() override;
 };
 
