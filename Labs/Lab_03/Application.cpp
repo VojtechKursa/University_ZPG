@@ -7,6 +7,10 @@
 
 
 
+Application Application::instance = Application();
+
+
+
 void Application::error_callback(int error, const char* description)
 {
 	fputs(description, stderr);
@@ -54,7 +58,7 @@ void Application::button_callback(GLFWwindow* window, int button, int action, in
 Application::Application()
 {
 	this->window = nullptr;
-	this->renderer = new Renderer();
+	this->renderer = nullptr;
 }
 
 Application::~Application()
@@ -67,6 +71,13 @@ Application::~Application()
 
 	this->destroyWindow();
 	this->terminate();
+}
+
+
+
+Application Application::getInstance()
+{
+	return Application::instance;
 }
 
 
@@ -84,6 +95,8 @@ void Application::init()
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE,
 		GLFW_OPENGL_CORE_PROFILE);
+
+	this->renderer = new Renderer();
 }
 
 void Application::terminate()

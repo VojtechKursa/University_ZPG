@@ -11,7 +11,7 @@
 
 int main(void)
 {
-	Application app = Application();
+	Application app = Application::getInstance();
 
 	app.init();
 

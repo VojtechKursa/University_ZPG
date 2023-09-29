@@ -10,6 +10,8 @@
 class Application
 {
 private:
+	static Application instance;
+
 	GLFWwindow* window;
 	Renderer* renderer;
 
@@ -23,9 +25,12 @@ private:
 
 	void bindCallbacks();
 
-public:
 	Application();
+
+public:
 	~Application();
+
+	static Application getInstance();
 
 	void init();
 	void terminate();
