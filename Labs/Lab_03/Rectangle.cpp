@@ -3,13 +3,13 @@
 
 
 Rectangle::Rectangle(VAO* vao, ShaderProgram* shaderProgram)
-	: Shape(vao, shaderProgram)
+	: DrawableObject(vao, shaderProgram)
 {
 }
 
 void Rectangle::draw()
 {
-	Shape::draw();
+	DrawableObject::draw();
 
 	glDrawArrays(GL_TRIANGLE_FAN, 0, 4); //mode,first,count
 

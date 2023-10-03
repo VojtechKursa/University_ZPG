@@ -11,7 +11,7 @@ Renderer::~Renderer()
 	}
 }
 
-void Renderer::addShape(Shape* shape)
+void Renderer::addShape(DrawableObject* shape)
 {
 	this->scene.push_back(shape);
 }

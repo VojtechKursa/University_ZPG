@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/mat4x4.hpp>
+
 #include <vector>
 
 #include "Shader.h"
@@ -24,5 +26,7 @@ public:
 	bool checkStatus();
 
 	void use();
+
+	void setTransformMatrix(glm::mat4 matrix);
 };
 

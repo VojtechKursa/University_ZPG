@@ -3,14 +3,14 @@
 
 
 Triangle::Triangle(VAO* vao, ShaderProgram* shaderProgram)
-	: Shape(vao, shaderProgram)
+	: DrawableObject(vao, shaderProgram)
 { }
 
 
 
 void Triangle::draw()
 {
-	Shape::draw();
+	DrawableObject::draw();
 
 	glDrawArrays(GL_TRIANGLES, 0, 3); //mode,first,count
 }

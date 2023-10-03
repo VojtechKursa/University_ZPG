@@ -4,7 +4,7 @@
 
 
 
-class Rectangle : public Shape
+class Rectangle : public DrawableObject
 {
 public:
 	Rectangle(VAO* vao, ShaderProgram* shaderProgram);

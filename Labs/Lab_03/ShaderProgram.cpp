@@ -1,4 +1,5 @@
 #include "ShaderProgram.h"
+#include <glm/gtx/transform.hpp>
 
 ShaderProgram::ShaderProgram()
 {
@@ -82,4 +83,11 @@ bool ShaderProgram::checkStatus()
 void ShaderProgram::use()
 {
 	glUseProgram(this->programId);
+
+	/*
+	GLint idModelTransform = glGetUniformLocation(this->programId, "modelMatrix");
+	
+	if(idModelTransform != -1)
+		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &this->modelMatrix[0][0]);
+	*/
 }

@@ -4,7 +4,7 @@
 
 
 
-class Triangle : public Shape
+class Triangle : public DrawableObject
 {
 public:
 	Triangle(VAO* vao, ShaderProgram* shaderProgram);

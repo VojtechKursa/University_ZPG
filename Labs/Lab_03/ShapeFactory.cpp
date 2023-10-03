@@ -52,9 +52,10 @@ Triangle* ShapeFactory::createColoredTriangle()
 	const char* vertexShader =
 		"#version 330\n"
 		"layout(location=0) in vec3 vp;"
+		"uniform mat4 modelMatrix;"
 		"out vec3 loc;"
 		"void main () {"
-		"	 gl_Position = vec4 (vp, 1.0);"
+		"	 gl_Position = modelMatrix * vec4 (vp, 1.0);"
 		"	 loc = vp;"
 		"}";
 
@@ -83,10 +84,10 @@ Triangle* ShapeFactory::createColoredTriangle()
 Rectangle* ShapeFactory::createDefaultSquare()
 {
 	const float data[] = {
-		   -.5f, -.5f, .5f, 1, 1, 1, 0, 1,
-		   -.5f, .5f, .5f, 1, 1, 0, 0, 1,
-		   .5f, .5f, .5f, 1, 0, 0, 0, 1,
-		   .5f, -.5f, .5f, 1, 0, 1, 0, 1,
+		   -1.f, -.5f, .5f, 1, 1, 1, 0, 1,
+		   -1.f, .5f, .5f, 1, 1, 0, 0, 1,
+		   0.f, .5f, .5f, 1, 0, 0, 0, 1,
+		   0.f, -.5f, .5f, 1, 0, 1, 0, 1,
 	};
 
 	const char* vertexShader =

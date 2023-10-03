@@ -104,7 +104,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-	  <AdditionalIncludeDirectories>..\..\Libraries\glew\include;..\..\Libraries\glfw\include;..\..\Libraries\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Libraries\glew\include;..\..\Libraries\glfw\include;..\..\Libraries\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -134,12 +134,14 @@
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Rectangle.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
-    <ClCompile Include="Shape.cpp" />
+    <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="ShapeFactory.cpp" />
+    <ClCompile Include="Transformation.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
@@ -148,12 +150,14 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="FragmentShader.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Rectangle.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="ShaderProgram.h" />
-    <ClInclude Include="Shape.h" />
+    <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="ShapeFactory.h" />
+    <ClInclude Include="Transformation.h" />
     <ClInclude Include="Triangle.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />

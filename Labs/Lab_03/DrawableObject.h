@@ -3,17 +3,16 @@
 #include "VAO.h"
 #include "ShaderProgram.h"
 
-class Shape
+class DrawableObject
 {
 protected:
-	VAO* vao;
 	ShaderProgram* shaderProgram;
 
-	Shape();
-	Shape(VAO* vao, ShaderProgram* shaderProgram);
+	DrawableObject();
+	DrawableObject(VAO* vao, ShaderProgram* shaderProgram);
 
 public:
-	virtual ~Shape();
+	virtual ~DrawableObject();
 	virtual void draw();
 };
 

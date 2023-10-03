@@ -12,13 +12,13 @@
 class Renderer
 {
 private:
-	std::vector<Shape*> scene;
+	std::vector<DrawableObject*> scene;
 
 public:
 	Renderer();
 	~Renderer();
 
-	void addShape(Shape* shape);
+	void addShape(DrawableObject* shape);
 
 	void renderNextFrame(GLFWwindow* window);
 };
