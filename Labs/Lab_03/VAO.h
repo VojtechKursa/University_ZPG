@@ -21,6 +21,7 @@ public:
 	~VAO();
 
 	void bind();
+	static void unbind();
 
 	/*
 	Data reading from VBO described by VAO works approximately like:

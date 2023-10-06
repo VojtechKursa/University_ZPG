@@ -38,6 +38,11 @@ void VAO::bind()
 	glBindVertexArray(this->vaoId);
 }
 
+void VAO::unbind()
+{
+	glBindVertexArray(0);
+}
+
 
 
 void VAO::enableVertexAttributes(VBO* vbo, GLuint attributeIndex, GLint lengthOfData, GLenum dataType, GLboolean normalized, GLsizei shift, size_t beginning)

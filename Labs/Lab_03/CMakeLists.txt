@@ -10,25 +10,16 @@ endif()
 
 project ("Lab_03")
 
+set(CMAKE_BUILD_TYPE Debug)
+
 
 
 # Add source to this project's executable.
-add_executable (main
-	"main.cpp"
-  "Application.cpp" "Application.h"
-  "Renderer.cpp" "Renderer.h"
-  "ShaderProgram.cpp" "ShaderProgram.h"
-  "Shader.cpp" "Shader.h"
-  "VertexShader.cpp" "VertexShader.h"
-  "FragmentShader.cpp" "FragmentShader.h"
-  "Shape.cpp" "Shape.h"
-  "Triangle.cpp" "Triangle.h"
-  "Rectangle.cpp" "Rectangle.h"
-  "ShapeFactory.cpp" "ShapeFactory.h"
-  "VAO.cpp" "VAO.h"
-  "VBO.cpp" "VBO.h"
-  )
+file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/*.cpp" "${PROJECT_SOURCE_DIR}/*.h" "${PROJECT_SOURCE_DIR}/*.hpp")
 
+add_executable (main
+    ${SRC_FILES}
+  )
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)

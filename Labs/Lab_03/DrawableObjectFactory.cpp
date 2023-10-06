@@ -1,11 +1,13 @@
-#include "ShapeFactory.h"
+#include "DrawableObjectFactory.h"
 
 #include "VertexShader.h"
 #include "FragmentShader.h"
 
+#include "TransformModel.h"
 
 
-Triangle* ShapeFactory::createDefaultTriangle()
+
+DrawableObject* DrawableObjectFactory::createDefaultTriangle()
 {
 	const float points[] = {
 	   0.0f, 0.5f, 0.0f,
@@ -33,37 +35,40 @@ Triangle* ShapeFactory::createDefaultTriangle()
 	VAO* vao = new VAO();
 	vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+	Model* model = new Model(vao, 3);
+
 	ShaderProgram* program = new ShaderProgram();
 	program->addShader(new VertexShader(vertexShader));
 	program->addShader(new FragmentShader(fragmentShader));
 	program->link();
 
-	return new Triangle(vao, program);
+	return new DrawableObject(model, program);
 }
 
-Triangle* ShapeFactory::createColoredTriangle()
+DrawableObject* DrawableObjectFactory::createColoredTriangle()
 {
 	const float points[] = {
-		  0.0f, 1.0f, 0.0f,
-		  0.5f, 0.5f, 0.0f,
-		 -0.5f, 0.5f, 0.0f
+		0.0f, 0.0f, 0.0f,
+	    0.5f, 0.0f, 0.0f,
+	  	0.0f, 0.5f, 0.0f
 	};
 
 	const char* vertexShader =
 		"#version 330\n"
 		"layout(location=0) in vec3 vp;"
-		"out vec3 loc;"
+		"uniform mat4 modelMatrix;"
+		"out vec4 loc;"
 		"void main () {"
-		"	 gl_Position = vec4 (vp, 1.0);"
-		"	 loc = vp;"
+		"	 gl_Position = modelMatrix * vec4 (vp, 1.0);"
+		"	 loc = gl_Position;"
 		"}";
 
 	const char* fragmentShader =
 		"#version 330\n"
 		"out vec4 frag_colour;"
-		"in vec3 loc;"
+		"in vec4 loc;"
 		"void main () {"
-		"	 frag_colour = vec4 (loc + vec3(0.5, 0.0, 0.0), 1.0);"
+		"	 frag_colour = loc;"
 		"}";
 
 	VBO* vbo = new VBO();
@@ -72,21 +77,29 @@ Triangle* ShapeFactory::createColoredTriangle()
 	VAO* vao = new VAO();
 	vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, 0, nullptr);
 
+	Model* model = new Model(vao, 3);
+
 	ShaderProgram* program = new ShaderProgram();
 	program->addShader(new VertexShader(vertexShader));
 	program->addShader(new FragmentShader(fragmentShader));
 	program->link();
 
-	return new Triangle(vao, program);
+	DrawableObject* result = new DrawableObject(model, program);
+	result->setPosition(glm::vec3(0.9, 0.9, 0));
+	result->setRotation(Rotation(0, 0, M_PI));
+
+	return result;
 }
 
-Rectangle* ShapeFactory::createDefaultSquare()
+DrawableObject* DrawableObjectFactory::createDefaultSquare()
 {
-	const float data[] = {
-		   -.5f, -.5f, .5f, 1, 1, 1, 0, 1,
-		   -.5f, .5f, .5f, 1, 1, 0, 0, 1,
-		   .5f, .5f, .5f, 1, 0, 0, 0, 1,
-		   .5f, -.5f, .5f, 1, 0, 1, 0, 1,
+	const float data[] ={
+   		-.5f, -.5f,  .5f,  1, 	1, 1, 0, 1,
+   		-.5f,  .5f,  .5f,  1, 	1, 0, 0, 1,
+		 .5f, -.5f,  .5f,  1, 	0, 1, 0, 1,
+   		-.5f,  .5f,  .5f,  1, 	1, 0, 0, 1,
+		 .5f, -.5f,  .5f,  1, 	0, 1, 0, 1,
+   		 .5f,  .5f,  .5f,  1, 	0, 0, 1, 1,
 	};
 
 	const char* vertexShader =
@@ -111,13 +124,15 @@ Rectangle* ShapeFactory::createDefaultSquare()
 	vbo->buffer(data, sizeof(data));
 
 	VAO* vao = new VAO();
-	vao->enableVertexAttributes(vbo, 0, 4, GL_FLOAT, GL_FALSE, sizeof(data[0]) * 8, (size_t)0);
+	vao->enableVertexAttributes(vbo, 0, 4, GL_FLOAT, GL_FALSE, sizeof(data[0]) * 8, nullptr);
 	vao->enableVertexAttributes(vbo, 1, 4, GL_FLOAT, GL_FALSE, sizeof(data[0]) * 8, sizeof(data[0]) * 4);
+
+	Model* model = new Model(vao, 6);
 
 	ShaderProgram* program = new ShaderProgram();
 	program->addShader(new VertexShader(vertexShader));
 	program->addShader(new FragmentShader(fragmentShader));
 	program->link();
 
-	return new Rectangle(vao, program);
+	return new DrawableObject(model, program);
 }

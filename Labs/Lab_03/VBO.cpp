@@ -12,10 +12,19 @@ VBO::~VBO()
 	glDeleteBuffers(1, &this->vboId);
 }
 
+
+
 void VBO::bind()
 {
 	glBindBuffer(GL_ARRAY_BUFFER, this->vboId);
 }
+
+void VBO::unbind()
+{
+	glBindBuffer(GL_ARRAY_BUFFER, 0);
+}
+
+
 
 void VBO::buffer(const float* array, int length)
 {

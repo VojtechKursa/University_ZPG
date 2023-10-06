@@ -5,20 +5,20 @@
 
 #include <vector>
 
-#include "Shape.h"
+#include "DrawableObject.h"
 
 
 
 class Renderer
 {
 private:
-	std::vector<Shape*> scene;
+	std::vector<DrawableObject*> scene;
 
 public:
 	Renderer();
 	~Renderer();
 
-	void addShape(Shape* shape);
+	void addObject(DrawableObject* shape);
 
 	void renderNextFrame(GLFWwindow* window);
 };

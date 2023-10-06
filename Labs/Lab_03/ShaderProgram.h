@@ -1,5 +1,7 @@
 #pragma once
 
+#include <glm/mat4x4.hpp>
+
 #include <vector>
 
 #include "Shader.h"
@@ -24,5 +26,8 @@ public:
 	bool checkStatus();
 
 	void use();
+	static void unuse();
+
+	bool bindMatrix(const char* variableName, glm::mat4 matrix);
 };
 

@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "ShapeFactory.h"
+#include "DrawableObjectFactory.h"
 
 
 
@@ -16,36 +16,78 @@ void Application::error_callback(int error, const char* description)
 	fputs(description, stderr);
 }
 
-void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Application::key_callback_static(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	(static_cast<Application*>(glfwGetWindowUserPointer(window)))->key_callback(window, key, scancode, action, mods);
+}
+
+void Application::window_focus_callback_static(GLFWwindow* window, int focused)
+{
+	(static_cast<Application*>(glfwGetWindowUserPointer(window)))->window_focus_callback(window, focused);
+}
+
+void Application::window_iconify_callback_static(GLFWwindow* window, int iconified)
+{
+	(static_cast<Application*>(glfwGetWindowUserPointer(window)))->window_iconify_callback(window, iconified);
+}
+
+void Application::window_size_callback_static(GLFWwindow* window, int width, int height)
+{
+	(static_cast<Application*>(glfwGetWindowUserPointer(window)))->window_size_callback(window, width, height);
+}
+
+void Application::cursor_callback_static(GLFWwindow* window, double x, double y)
+{
+	(static_cast<Application*>(glfwGetWindowUserPointer(window)))->cursor_callback(window, x, y);
+}
+
+void Application::button_callback_static(GLFWwindow* window, int button, int action, int mode)
+{
+	(static_cast<Application*>(glfwGetWindowUserPointer(window)))->button_callback(window, button, action, mode);
+}
+
+
+
+void Application::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
 	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
+
+	for(auto listener : this->keyListeners)
+	{
+		listener->key_callback(window, key, scancode, action, mods);
+	}
 }
 
-void Application::window_focus_callback(GLFWwindow* window, int focused)
+void Application::window_focus_callback(GLFWwindow *window, int focused)
 {
 	printf("window_focus_callback \n");
 }
 
-void Application::window_iconify_callback(GLFWwindow* window, int iconified)
+void Application::window_iconify_callback(GLFWwindow *window, int iconified)
 {
 	printf("window_iconify_callback \n");
 }
 
-void Application::window_size_callback(GLFWwindow* window, int width, int height)
+void Application::window_size_callback(GLFWwindow *window, int width, int height)
 {
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
 }
 
-void Application::cursor_callback(GLFWwindow* window, double x, double y)
+void Application::cursor_callback(GLFWwindow *window, double x, double y)
 {
 	printf("cursor_callback \n");
+
+	for(auto listener : this->cursorListeners)
+	{
+		listener->cursor_callback(window, x, y);
+	}
 }
 
-void Application::button_callback(GLFWwindow* window, int button, int action, int mode)
+void Application::button_callback(GLFWwindow *window, int button, int action, int mode)
 {
 	if (action == GLFW_PRESS)
 	{
@@ -108,12 +150,14 @@ void Application::terminate()
 
 void Application::bindCallbacks()
 {
-	glfwSetKeyCallback(this->window, this->key_callback);
-	glfwSetCursorPosCallback(this->window, this->cursor_callback);
-	glfwSetMouseButtonCallback(this->window, this->button_callback);
-	glfwSetWindowFocusCallback(this->window, this->window_focus_callback);
-	glfwSetWindowIconifyCallback(this->window, this->window_iconify_callback);
-	glfwSetWindowSizeCallback(this->window, this->window_size_callback);
+	glfwSetWindowUserPointer(this->window, this);
+
+	glfwSetKeyCallback(this->window, this->key_callback_static);
+	glfwSetCursorPosCallback(this->window, this->cursor_callback_static);
+	glfwSetMouseButtonCallback(this->window, this->button_callback_static);
+	glfwSetWindowFocusCallback(this->window, this->window_focus_callback_static);
+	glfwSetWindowIconifyCallback(this->window, this->window_iconify_callback_static);
+	glfwSetWindowSizeCallback(this->window, this->window_size_callback_static);
 }
 
 
@@ -164,11 +208,11 @@ void Application::printVersionInfo()
 
 void Application::loadDefaultScene()
 {
-	//this->renderer->addShape(ShapeFactory::createDefaultTriangle());
+	//this->renderer->addObject(DrawableObjectFactory::createDefaultTriangle());
 
-	this->renderer->addShape(ShapeFactory::createColoredTriangle());
+	this->renderer->addObject(DrawableObjectFactory::createColoredTriangle());
 
-	this->renderer->addShape(ShapeFactory::createDefaultSquare());
+	this->renderer->addObject(DrawableObjectFactory::createDefaultSquare());
 }
 
 
@@ -185,5 +229,47 @@ void Application::run()
 		this->renderer->renderNextFrame(this->window);
 
 		glfwPollEvents();
+	}
+}
+
+void Application::registerKeyListener(IKeyCallbackListener *listener)
+{
+	if(listener != nullptr)
+		this->keyListeners.push_back(listener);
+}
+
+void Application::registerCursorListener(ICursorCallbackListener *listener)
+{
+	if(listener != nullptr)
+		this->cursorListeners.push_back(listener);
+}
+
+void Application::unregisterKeyListener(IKeyCallbackListener *listener)
+{
+	if(listener != nullptr)
+	{
+		for(int i = 0; i < this->keyListeners.size(); i++)
+		{
+			if(this->keyListeners[i] == listener)
+			{
+				this->keyListeners.erase(this->keyListeners.begin() + i);
+				break;
+			}
+		}
+	}
+}
+
+void Application::unregisterCursorListener(ICursorCallbackListener *listener)
+{
+	if(listener != nullptr)
+	{
+		for(int i = 0; i < this->cursorListeners.size(); i++)
+		{
+			if(this->cursorListeners[i] == listener)
+			{
+				this->cursorListeners.erase(this->cursorListeners.begin() + i);
+				break;
+			}
+		}
 	}
 }
