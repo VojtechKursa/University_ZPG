@@ -1,3 +1,7 @@
+// These 2 things need to be done first to correctly include header that defines M_PI on Windows
+#define _USE_MATH_DEFINES
+#include <cmath>
+
 #include "DrawableObjectFactory.h"
 
 #include "VertexShader.h"
@@ -86,8 +90,8 @@ DrawableObject* DrawableObjectFactory::createUpperRightTriangle()
 	program->link();
 
 	TransformComposite* transform = new TransformComposite();
-	TransformTranslate* translate = new TransformTranslate(glm::vec3(0.9, 0.9, -0.5));
-	TransformRotate* rotate = new TransformRotate(Rotation(0, 0, M_PI));
+	TransformTranslate* translate = new TransformTranslate(glm::vec3(0.9f, 0.9f, -0.5f));
+	TransformRotate* rotate = new TransformRotate(Rotation(0, 0, (float)M_PI));
 	
 	transform->addTransform(rotate);
 	transform->addTransform(translate);
@@ -237,7 +241,7 @@ DrawableObject *DrawableObjectFactory::createRotatingSquare()
 
 	TransformComposite* transform = new TransformComposite();
 
-	TransformRotateContinuous* rotation = new TransformRotateContinuous(Rotation(0,0,M_PI/8), ' ');
+	TransformRotateContinuous* rotation = new TransformRotateContinuous(Rotation(0,0,(float)M_PI/(float)8), ' ');
 	TransformScale* scale = new TransformScale(0.75);
 
 	transform->addTransform(rotation);

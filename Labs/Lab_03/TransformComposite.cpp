@@ -26,7 +26,7 @@ TransformComposite::~TransformComposite()
         {
             try
             { delete transform; }
-            catch(const std::exception& e)
+            catch(const std::exception&)
             { }
             
             transform = nullptr;
@@ -40,9 +40,9 @@ glm::mat4 TransformComposite::getMatrix()
 {
     glm::mat4 matrix = glm::identity<glm::mat4>();
 
-    for(int i = this->subtransforms.size() - 1; i >= 0; i--)
+    for(size_t i = 0; i < this->subtransforms.size(); i++)
     {
-        matrix = matrix * this->subtransforms[i]->getMatrix();
+        matrix = this->subtransforms[i]->getMatrix() * matrix;
     }
 
     return matrix;
