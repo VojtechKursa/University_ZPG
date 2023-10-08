@@ -1,19 +1,23 @@
 #include "Renderer.h"
 
+
+
 Renderer::Renderer()
 { }
 
 Renderer::~Renderer()
 {
-	for (auto shape : this->scene)
+	for (auto object : this->scene)
 	{
-		delete shape;
+		delete object;
 	}
 }
 
-void Renderer::addShape(DrawableObject* shape)
+
+
+void Renderer::addObject(DrawableObject* object)
 {
-	this->scene.push_back(shape);
+	this->scene.push_back(object);
 }
 
 void Renderer::renderNextFrame(GLFWwindow* window)
@@ -21,9 +25,9 @@ void Renderer::renderNextFrame(GLFWwindow* window)
 	// clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (auto shape : scene)
+	for (auto object : scene)
 	{
-		shape->draw();
+		object->draw();
 	}
 
 	glfwSwapBuffers(window);

@@ -12,6 +12,8 @@ public:
 	~VBO();
 
 	void bind();
+	static void unbind();
+
 	void buffer(const float* array, int length);
 };
 

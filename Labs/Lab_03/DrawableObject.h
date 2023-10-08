@@ -1,18 +1,24 @@
 #pragma once
 
-#include "VAO.h"
 #include "ShaderProgram.h"
+#include "Model.h"
+#include "Transform.h"
+
+#include "Rotation.h"
+
+
 
 class DrawableObject
 {
 protected:
 	ShaderProgram* shaderProgram;
-
-	DrawableObject();
-	DrawableObject(VAO* vao, ShaderProgram* shaderProgram);
+	Model* model;
+	Transform* transformation;
 
 public:
-	virtual ~DrawableObject();
+	DrawableObject(Model* model, ShaderProgram* shaderProgram);
+	DrawableObject(Model* model, ShaderProgram* shaderProgram, Transform* transformation);
+
 	virtual void draw();
 };
 

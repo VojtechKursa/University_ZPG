@@ -26,7 +26,8 @@ public:
 	bool checkStatus();
 
 	void use();
+	static void unuse();
 
-	void setTransformMatrix(glm::mat4 matrix);
+	bool bindMatrix(const char* variableName, glm::mat4 matrix);
 };
 

@@ -5,7 +5,7 @@
 
 #include <vector>
 
-#include "Shape.h"
+#include "DrawableObject.h"
 
 
 
@@ -18,7 +18,7 @@ public:
 	Renderer();
 	~Renderer();
 
-	void addShape(DrawableObject* shape);
+	void addObject(DrawableObject* shape);
 
 	void renderNextFrame(GLFWwindow* window);
 };

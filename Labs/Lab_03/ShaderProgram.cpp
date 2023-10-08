@@ -1,5 +1,9 @@
 #include "ShaderProgram.h"
-#include <glm/gtx/transform.hpp>
+
+#include <stdio.h>
+#include <stdlib.h>
+
+
 
 ShaderProgram::ShaderProgram()
 {
@@ -11,7 +15,6 @@ ShaderProgram::~ShaderProgram()
 	for (auto shader : this->shaders)
 	{
 		shader->detachFromProgram(this->programId);
-		delete shader;
 	}
 
 	glDeleteProgram(this->programId);
@@ -83,11 +86,26 @@ bool ShaderProgram::checkStatus()
 void ShaderProgram::use()
 {
 	glUseProgram(this->programId);
+}
 
-	/*
+void ShaderProgram::unuse()
+{
+	glUseProgram(0);
+}
+
+bool ShaderProgram::bindMatrix(const char *variableName, glm::mat4 matrix)
+{
+	this->use();
+	
 	GLint idModelTransform = glGetUniformLocation(this->programId, "modelMatrix");
 	
 	if(idModelTransform != -1)
-		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &this->modelMatrix[0][0]);
-	*/
+	{
+		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &matrix[0][0]);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }
