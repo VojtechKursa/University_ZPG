@@ -117,9 +117,9 @@ Application::~Application()
 
 
 
-Application Application::getInstance()
+Application* Application::getInstance()
 {
-	return Application::instance;
+	return &Application::instance;
 }
 
 
@@ -178,6 +178,10 @@ void Application::createWindow(int width, int height, const char* title, GLFWmon
 	// start GLEW extension handler
 	glewExperimental = GL_TRUE;
 	glewInit();
+
+	glfwGetFramebufferSize(this->window, &width, &height);
+	//float ratio = width / (float)height;
+	glViewport(0, 0, width, height);
 }
 
 void Application::destroyWindow()
@@ -210,20 +214,16 @@ void Application::loadDefaultScene()
 {
 	//this->renderer->addObject(DrawableObjectFactory::createDefaultTriangle());
 
-	this->renderer->addObject(DrawableObjectFactory::createColoredTriangle());
+	this->renderer->addObject(DrawableObjectFactory::createUpperRightTriangle());
+	this->renderer->addObject(DrawableObjectFactory::createLowerLeftTriangle());
 
-	this->renderer->addObject(DrawableObjectFactory::createDefaultSquare());
+	this->renderer->addObject(DrawableObjectFactory::createRotatingSquare());
 }
 
 
 
 void Application::run()
 {
-	int width, height;
-	glfwGetFramebufferSize(this->window, &width, &height);
-	float ratio = width / (float)height;
-	glViewport(0, 0, width, height);
-
 	while (!glfwWindowShouldClose(this->window))
 	{
 		this->renderer->renderNextFrame(this->window);

@@ -12,6 +12,7 @@ public:
     TransformScale();
     TransformScale(glm::vec3 scalingVector);
     TransformScale(float scaleX, float scaleY, float scaleZ);
+    TransformScale(float scale);
 
     virtual glm::mat4 getMatrix() override;
 };

@@ -10,35 +10,11 @@ TransformRotate::TransformRotate(Rotation rotation)
 {
     this->yawRotate = new TransformRotateSimple(glm::vec3(0,1,0), rotation.yaw);
     this->pitchRotate = new TransformRotateSimple(glm::vec3(1,0,0), rotation.pitch);
-    this->rollRotate = new TransformRotateSimple(glm::vec3(0,0,1), rotation.roll);
-}
+    this->rollRotate = new TransformRotateSimple(glm::vec3(0,0,-1), rotation.roll);
 
-TransformRotate::~TransformRotate()
-{
-    if(this->yawRotate != nullptr)
-    {
-        delete this->yawRotate;
-        this->yawRotate = nullptr;
-    }
-
-    if(this->pitchRotate != nullptr)
-    {
-        delete this->pitchRotate;
-        this->pitchRotate = nullptr;
-    }
-    
-    if(this->rollRotate != nullptr)
-    {
-        delete this->rollRotate;
-        this->rollRotate = nullptr;
-    }
-}
-
-
-
-glm::mat4 TransformRotate::getMatrix()
-{
-    return this->yawRotate->getMatrix() * this->pitchRotate->getMatrix() * this->rollRotate->getMatrix();
+    addTransform(this->yawRotate);
+    addTransform(this->pitchRotate);
+    addTransform(this->rollRotate);
 }
 
 

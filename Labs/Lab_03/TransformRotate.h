@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Transform.h"
+#include "TransformComposite.h"
 #include "TransformRotateSimple.h"
 #include "Rotation.h"
 
 
 
-class TransformRotate : public Transform
+class TransformRotate : public TransformComposite
 {
 private:
     TransformRotateSimple* yawRotate;
@@ -16,9 +16,6 @@ private:
 public:
     TransformRotate();
     TransformRotate(Rotation rotation);
-    virtual ~TransformRotate() override;
-
-    virtual glm::mat4 getMatrix() override;
 
     Rotation getRotation();
     void setRotation(Rotation rotation);

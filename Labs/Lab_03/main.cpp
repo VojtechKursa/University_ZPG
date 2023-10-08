@@ -11,15 +11,15 @@
 
 int main(void)
 {
-	Application app = Application::getInstance();
+	Application* app = Application::getInstance();
 
-	app.init();
+	app->init();
 
-	app.createWindow();
+	app->createWindow();
 
-	app.printVersionInfo();
+	app->printVersionInfo();
 
-	app.loadDefaultScene();
+	app->loadDefaultScene();
 
-	app.run();
+	app->run();
 }

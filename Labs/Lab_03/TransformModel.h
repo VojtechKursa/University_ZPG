@@ -1,13 +1,13 @@
 #pragma once
 
-#include "Transform.h"
+#include "TransformComposite.h"
 #include "TransformRotate.h"
 #include "TransformTranslate.h"
 #include "TransformScale.h"
 
 
 
-class TransformModel : public Transform
+class TransformModel : public TransformComposite
 {
 private:
     TransformRotate* rotate;
@@ -17,7 +17,7 @@ private:
 public:
     TransformModel();
     TransformModel(glm::vec3 translationVector, Rotation rotation, glm::vec3 scalingVector);
-    virtual ~TransformModel() override;
+    TransformModel(TransformTranslate* translate, TransformRotate* rotate, TransformScale* scale);
 
     virtual glm::mat4 getMatrix() override;
 

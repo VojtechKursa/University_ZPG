@@ -1,12 +1,12 @@
 #pragma once
 
-#include "Transform.h"
+#include "TransformComposite.h"
 #include "TransformRotate.h"
 #include "IKeyCallbackListener.h"
 
 
 
-class TransformRotateContinuous : public Transform, public IKeyCallbackListener
+class TransformRotateContinuous : public TransformComposite, public IKeyCallbackListener
 {
 private:
     char pauseKey;
@@ -23,12 +23,13 @@ public:
     Rotation rates;
 
     TransformRotateContinuous();
-    TransformRotateContinuous(Rotation rotationRates, char* pauseKey = nullptr);
+    TransformRotateContinuous(Rotation rotationRates, char pauseKey = 0);
 
     virtual glm::mat4 getMatrix() override;
 
-    //! \param pauseKey The pointer to a char representing the new pause key or nullptr to unset the pause key.
-    void setPauseKey(char* pauseKey = nullptr);
+    //! \param pauseKey The char representing the new pause key
+    void setPauseKey(char pauseKey);
+    void unsetPauseKey();
 
     virtual void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) override;
 };

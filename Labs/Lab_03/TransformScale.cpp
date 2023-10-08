@@ -15,6 +15,10 @@ TransformScale::TransformScale(float scaleX, float scaleY, float scaleZ)
     : TransformScale(glm::vec3(scaleX, scaleY, scaleZ))
 { }
 
+TransformScale::TransformScale(float scale)
+    : TransformScale(glm::vec3(scale, scale, scale))
+{ }
+
 
 
 glm::mat4 TransformScale::getMatrix()

@@ -4,16 +4,16 @@
 
 
 TransformRotateContinuous::TransformRotateContinuous()
-    : TransformRotateContinuous(Rotation(0,0,0), nullptr)
+    : TransformRotateContinuous(Rotation(), 0)
 { }
 
-TransformRotateContinuous::TransformRotateContinuous(Rotation rotationRates, char *pauseKey)
+TransformRotateContinuous::TransformRotateContinuous(Rotation rotationRates, char pauseKey)
 {
     this->rates = rotationRates;
     
-    if(pauseKey != nullptr)
+    if(pauseKey != 0)
     {
-        this->pauseKey = *pauseKey;
+        this->pauseKey = pauseKey;
         this->pausable = true;
     }
     else
@@ -26,15 +26,25 @@ TransformRotateContinuous::TransformRotateContinuous(Rotation rotationRates, cha
     this->paused = false;
 
     this->rotateTransform = new TransformRotate();
+    this->addTransform(this->rotateTransform);
 
-    Application::getInstance().registerKeyListener(this);
+    Application::getInstance()->registerKeyListener(this);
+}
+
+
+
+glm::mat4 TransformRotateContinuous::getMatrix()
+{
+    this->setCurrentRotation();
+
+    return TransformComposite::getMatrix();
 }
 
 
 
 void TransformRotateContinuous::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
-    if(action == 0 && key == pauseKey)
+    if(action == 1 && key == pauseKey)
     {
         if(!this->paused)
             this->setCurrentRotation(); // last rotation update before pause
@@ -44,26 +54,22 @@ void TransformRotateContinuous::key_callback(GLFWwindow *window, int key, int sc
     }
 }
 
-glm::mat4 TransformRotateContinuous::getMatrix()
-{
-    this->setCurrentRotation();
 
-    return this->rotateTransform->getMatrix();
+
+void TransformRotateContinuous::setPauseKey(char pauseKey)
+{
+    this->pauseKey = pauseKey;
+    this->pausable = true;
+    
 }
 
-void TransformRotateContinuous::setPauseKey(char *pauseKey)
+void TransformRotateContinuous::unsetPauseKey()
 {
-    if(pauseKey != nullptr)
-    {
-        this->pauseKey = *pauseKey;
-        this->pausable = true;
-    }
-    else
-    {
-        this->pauseKey = 0;
-        this->pausable = false;
-    }
+    this->pauseKey = 0;
+    this->pausable = false;
 }
+
+
 
 void TransformRotateContinuous::setCurrentRotation()
 {

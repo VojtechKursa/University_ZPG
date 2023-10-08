@@ -1,7 +1,13 @@
 #include "Rotation.h"
 
+
+
 Rotation::Rotation()
     : Rotation(0,0,0)
+{ }
+
+Rotation::Rotation(float angle)
+    : Rotation(angle, angle, angle)
 { }
 
 Rotation::Rotation(float yaw, float pitch, float roll)
@@ -10,6 +16,8 @@ Rotation::Rotation(float yaw, float pitch, float roll)
     this->pitch = pitch;
     this->roll = roll;
 }
+
+
 
 Rotation operator+(const Rotation &left, const Rotation &right)
 {

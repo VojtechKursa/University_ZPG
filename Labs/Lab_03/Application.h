@@ -44,7 +44,7 @@ public:
 
 	~Application();
 
-	static Application getInstance();
+	static Application* getInstance();
 
 	void init();
 	void terminate();

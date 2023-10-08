@@ -3,38 +3,22 @@
 
 
 TransformModel::TransformModel()
-{
-    this->translate = new TransformTranslate();
-    this->rotate = new TransformRotate();
-    this->scale = new TransformScale();
-}
+    : TransformModel(new TransformTranslate(), new TransformRotate(), new TransformScale())
+{ }
 
 TransformModel::TransformModel(glm::vec3 translationVector, Rotation rotation, glm::vec3 scalingVector)
+    : TransformModel(new TransformTranslate(translationVector), new TransformRotate(rotation), new TransformScale(scalingVector))
+{ }
+
+TransformModel::TransformModel(TransformTranslate *translate, TransformRotate *rotate, TransformScale *scale)
 {
-    this->translate = new TransformTranslate(translationVector);
-    this->rotate = new TransformRotate(rotation);
-    this->scale = new TransformScale(scalingVector);
-}
+    this->translate = translate;
+    this->rotate = rotate;
+    this->scale = scale;
 
-TransformModel::~TransformModel()
-{
-    if(this->translate != nullptr)
-    {
-        delete this->translate;
-        this->translate = nullptr;
-    }
-
-    if(this->rotate != nullptr)
-    {
-        delete this->rotate;
-        this->rotate = nullptr;
-    }
-
-    if(this->scale != nullptr)
-    {
-        delete this->scale;
-        this->scale = nullptr;
-    }
+    addTransform(this->scale);
+    addTransform(this->rotate);
+    addTransform(this->translate);
 }
 
 
