@@ -6,7 +6,7 @@
 
 
 
-class TransformRotateContinuous : public TransformComposite, public IKeyCallbackListener
+class TransformRotateContinuous : public TransformComposite, public IKeyCallbackObserver
 {
 private:
     char pauseKey;

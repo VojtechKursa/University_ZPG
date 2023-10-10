@@ -132,6 +132,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
+    <ClCompile Include="Camera.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="DrawableObjectFactory.cpp" />
     <ClCompile Include="FragmentShader.cpp" />
@@ -157,11 +158,15 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h" />
+    <ClInclude Include="Camera.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectFactory.h" />
     <ClInclude Include="FragmentShader.h" />
-    <ClInclude Include="ICursorCallbackListener.h" />
-    <ClInclude Include="IKeyCallbackListener.h" />
+    <ClInclude Include="ICursorCallbackObserver.h" />
+    <ClInclude Include="IKeyCallbackObserver.h" />
+    <ClInclude Include="IProjectionMatrixChangedObserver.h" />
+    <ClInclude Include="IViewMatrixChangedObserver.h" />
+    <ClInclude Include="IViewPortChangedObserver.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="MovingObject.h" />
     <ClInclude Include="Renderer.h" />

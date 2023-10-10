@@ -6,8 +6,9 @@
 #include <vector>
 
 #include "Renderer.h"
-#include "IKeyCallbackListener.h"
-#include "ICursorCallbackListener.h"
+#include "IKeyCallbackObserver.h"
+#include "ICursorCallbackObserver.h"
+#include "IViewPortChangedObserver.h"
 
 
 
@@ -29,8 +30,9 @@ private:
 
 	void bindCallbacks();
 
-	std::vector<IKeyCallbackListener*> keyListeners;
-	std::vector<ICursorCallbackListener*> cursorListeners;
+	std::vector<IKeyCallbackObserver*> keyObservers;
+	std::vector<ICursorCallbackObserver*> cursorObservers;
+	std::vector<IViewPortChangedObserver*> windowSizeObservers;
 
 	Application();
 
@@ -58,10 +60,12 @@ public:
 
 	void run();
 
-	void registerKeyListener(IKeyCallbackListener* listener);
-	void registerCursorListener(ICursorCallbackListener* listener);
+	void registerKeyObserver(IKeyCallbackObserver* observer);
+	void registerCursorObserver(ICursorCallbackObserver* observer);
+	void registerViewPortChangedObserver(IViewPortChangedObserver* observer);
 
-	void unregisterKeyListener(IKeyCallbackListener* listener);
-	void unregisterCursorListener(ICursorCallbackListener* listener);
+	void unregisterKeyObserver(IKeyCallbackObserver* observer);
+	void unregisterCursorObserver(ICursorCallbackObserver* observer);
+	void unregisterViewPortChangedObserver(IViewPortChangedObserver* observer);
 };
 

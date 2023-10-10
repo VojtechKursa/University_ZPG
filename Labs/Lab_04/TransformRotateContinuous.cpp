@@ -28,7 +28,7 @@ TransformRotateContinuous::TransformRotateContinuous(Rotation rotationRates, cha
     this->rotateTransform = new TransformRotate();
     this->addTransform(this->rotateTransform);
 
-    Application::getInstance()->registerKeyListener(this);
+    Application::getInstance()->registerKeyObserver(this);
 }
 
 

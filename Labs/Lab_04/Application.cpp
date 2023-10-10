@@ -55,7 +55,7 @@ void Application::key_callback(GLFWwindow *window, int key, int scancode, int ac
 
 	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
-	for(auto listener : this->keyListeners)
+	for(auto listener : this->keyObservers)
 	{
 		listener->key_callback(window, key, scancode, action, mods);
 	}
@@ -75,13 +75,18 @@ void Application::window_size_callback(GLFWwindow *window, int width, int height
 {
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
+
+	for (auto listener : this->windowSizeObservers)
+	{
+		listener->viewPortChangedHandler(width, height);
+	}
 }
 
 void Application::cursor_callback(GLFWwindow *window, double x, double y)
 {
 	printf("cursor_callback \n");
 
-	for(auto listener : this->cursorListeners)
+	for(auto listener : this->cursorObservers)
 	{
 		listener->cursor_callback(window, x, y);
 	}
@@ -132,11 +137,13 @@ void Application::init()
 		exit(EXIT_FAILURE);
 	}
 
+	/*
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_OPENGL_PROFILE,
 		GLFW_OPENGL_CORE_PROFILE);
+	*/
 
 	this->renderer = new Renderer();
 }
@@ -232,42 +239,67 @@ void Application::run()
 	}
 }
 
-void Application::registerKeyListener(IKeyCallbackListener *listener)
+
+
+void Application::registerKeyObserver(IKeyCallbackObserver *observer)
 {
-	if(listener != nullptr)
-		this->keyListeners.push_back(listener);
+	if(observer != nullptr)
+		this->keyObservers.push_back(observer);
 }
 
-void Application::registerCursorListener(ICursorCallbackListener *listener)
+void Application::registerCursorObserver(ICursorCallbackObserver *observer)
 {
-	if(listener != nullptr)
-		this->cursorListeners.push_back(listener);
+	if(observer != nullptr)
+		this->cursorObservers.push_back(observer);
 }
 
-void Application::unregisterKeyListener(IKeyCallbackListener *listener)
+void Application::registerViewPortChangedObserver(IViewPortChangedObserver* observer)
 {
-	if(listener != nullptr)
+	if (observer != nullptr)
+		this->windowSizeObservers.push_back(observer);
+}
+
+
+
+void Application::unregisterKeyObserver(IKeyCallbackObserver *observer)
+{
+	if(observer != nullptr)
 	{
-		for(int i = 0; i < this->keyListeners.size(); i++)
+		for(int i = 0; i < this->keyObservers.size(); i++)
 		{
-			if(this->keyListeners[i] == listener)
+			if(this->keyObservers[i] == observer)
 			{
-				this->keyListeners.erase(this->keyListeners.begin() + i);
+				this->keyObservers.erase(this->keyObservers.begin() + i);
 				break;
 			}
 		}
 	}
 }
 
-void Application::unregisterCursorListener(ICursorCallbackListener *listener)
+void Application::unregisterCursorObserver(ICursorCallbackObserver *observer)
 {
-	if(listener != nullptr)
+	if(observer != nullptr)
 	{
-		for(int i = 0; i < this->cursorListeners.size(); i++)
+		for(int i = 0; i < this->cursorObservers.size(); i++)
 		{
-			if(this->cursorListeners[i] == listener)
+			if(this->cursorObservers[i] == observer)
 			{
-				this->cursorListeners.erase(this->cursorListeners.begin() + i);
+				this->cursorObservers.erase(this->cursorObservers.begin() + i);
+				break;
+			}
+		}
+	}
+}
+
+void Application::unregisterViewPortChangedObserver(IViewPortChangedObserver* observer)
+{
+	if (observer != nullptr)
+	{
+		for (int i = 0; i < this->windowSizeObservers.size(); i++)
+		{
+			if (this->windowSizeObservers[i] == observer)
+			{
+				this->windowSizeObservers.erase(this->windowSizeObservers.begin() + i);
 				break;
 			}
 		}

@@ -84,6 +84,9 @@
     <ClCompile Include="VertexShader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -98,10 +101,10 @@
     <ClInclude Include="FragmentShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ICursorCallbackListener.h">
+    <ClInclude Include="ICursorCallbackObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IKeyCallbackListener.h">
+    <ClInclude Include="IKeyCallbackObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Model.h">
@@ -156,6 +159,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VertexShader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IViewMatrixChangedObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IProjectionMatrixChangedObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="IViewPortChangedObserver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

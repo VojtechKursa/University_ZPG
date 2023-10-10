@@ -1,4 +1,4 @@
-// THese 2 things need to be done first to correctly include header that defines M_PI on Windows
+// These 2 things need to be done first to correctly include header that defines M_PI on Windows
 #define _USE_MATH_DEFINES
 #include <cmath>
 
@@ -211,9 +211,11 @@ DrawableObject *DrawableObjectFactory::createRotatingSquare()
 		"layout(location=0) in vec4 vp;"
 		"layout(location=1) in vec4 col;"
 		"uniform mat4 modelMatrix;"
+		"uniform mat4 viewMatrix;"
+		"uniform mat4 projectionMatrix;"
 		"out vec4 color;"
 		"void main () {"
-		"	 gl_Position = modelMatrix * vp;"
+		"	 gl_Position = projectionMatrix * viewMatrix * modelMatrix * vp;"
 		"	 color = col;"
 		"}";
 

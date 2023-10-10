@@ -5,7 +5,7 @@
 #include "IKeyCallbackListener.h"
 
 
-class MovingObject : public DrawableObject, public IKeyCallbackListener
+class MovingObject : public DrawableObject, public IKeyCallbackObserver
 {
 private:
     void setCurrentTransform();

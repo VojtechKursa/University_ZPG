@@ -27,7 +27,7 @@ MovingObject::MovingObject(Model *model, ShaderProgram *shaderProgram, glm::vec3
     this->transform = new TransformModel();
     this->transformation = this->transform;
 
-    Application::getInstance()->registerKeyListener(this);
+    Application::getInstance()->registerKeyObserver(this);
 }
 
 

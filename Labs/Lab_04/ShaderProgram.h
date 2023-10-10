@@ -8,6 +8,8 @@
 
 
 
+class Camera;
+
 class ShaderProgram
 {
 private:
