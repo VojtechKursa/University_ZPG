@@ -232,6 +232,8 @@ void Application::loadDefaultScene()
 	this->renderer->addObject(DrawableObjectFactory::createDefaultSphere());
 	this->renderer->addObject(DrawableObjectFactory::createDefaultSmoothSuzi());
 	this->renderer->addObject(DrawableObjectFactory::createDefaultFlatSuzi());
+
+	this->renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(0, 0, -2)));
 }
 
 

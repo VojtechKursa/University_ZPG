@@ -10,9 +10,10 @@
 #include "TransformModel.h"
 #include "TransformRotateContinuous.h"
 
-#include "sphere.h"
-#include "suzi_smooth.h"
-#include "suzi_flat.h"
+#include "ModelFactory.h"
+
+#include "ModelManager.h"
+#include "ShaderManager.h"
 
 
 
@@ -75,83 +76,31 @@ DrawableObject *DrawableObjectFactory::createRotatingSquare()
 
 DrawableObject *DrawableObjectFactory::createDefaultSphere()
 {
-    const char* vertexShader =
-		"#version 330\n"
-		"layout(location=0) in vec3 pos;"
-		"layout(location=1) in vec3 norm;"
-		"uniform mat4 modelMatrix;"
-		"uniform mat4 viewMatrix;"
-		"uniform mat4 projectionMatrix;"
-		"out vec4 color;"
-		"void main () {"
-		"	 gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos, 1.0);"
-		"	 color = vec4(norm, 1.0);"
-		"}";
-
-	const char* fragmentShader =
-		"#version 330\n"
-		"in vec4 color;"
-		"out vec4 frag_colour;"
-		"void main () {"
-		"	 frag_colour = color;"
-		"}";
-
-	VBO* vbo = new VBO();
-	vbo->buffer(sphere, sizeof(sphere));
-
-	VAO* vao = new VAO();
-	vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(sphere[0]) * 6, nullptr);
-	vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(sphere[0]) * 6, sizeof(sphere[0]) * 3);
-
-	Model* model = new Model(vao, 2880);
+	Model* model = ModelManager::getInstance()->get("sphere");
 
 	ShaderProgram* program = new ShaderProgram();
-	program->addShader(new VertexShader(vertexShader));
-	program->addShader(new FragmentShader(fragmentShader));
+	program->addShader(ShaderManager::getInstance()->get("vert_default_colorPass3"));
+	program->addShader(ShaderManager::getInstance()->get("frag_colorFromIn3_grey"));
 	program->link();
 
-	TransformModel* transform = new TransformModel();
-	transform->setPosition(glm::vec3(0, 0, 10));
-	transform->setScale(glm::vec3(0.5));
+	TransformComposite* transform = new TransformComposite();
+	TransformRotateContinuous* transformRotate = new TransformRotateContinuous(Rotation(10, 0, 0), 'R');
+	TransformModel* transformModel = new TransformModel();
+	transformModel->setPosition(glm::vec3(0, 0, 10));
+	transformModel->setScale(glm::vec3(0.5));
+	transform->addTransform(transformRotate);
+	transform->addTransform(transformModel);
 
 	return new DrawableObject(model, program, transform);
 }
 
 DrawableObject* DrawableObjectFactory::createDefaultSmoothSuzi()
 {
-	const char* vertexShader =
-		"#version 330\n"
-		"layout(location=0) in vec3 pos;"
-		"layout(location=1) in vec3 norm;"
-		"uniform mat4 modelMatrix;"
-		"uniform mat4 viewMatrix;"
-		"uniform mat4 projectionMatrix;"
-		"out vec4 color;"
-		"void main () {"
-		"	 gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos, 1.0);"
-		"	 color = vec4(norm, 1.0);"
-		"}";
-
-	const char* fragmentShader =
-		"#version 330\n"
-		"in vec4 color;"
-		"out vec4 frag_colour;"
-		"void main () {"
-		"	 frag_colour = color;"
-		"}";
-
-	VBO* vbo = new VBO();
-	vbo->buffer(suziSmooth, sizeof(suziSmooth));
-
-	VAO* vao = new VAO();
-	vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(suziSmooth[0]) * 6, nullptr);
-	vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(suziSmooth[0]) * 6, sizeof(suziSmooth[0]) * 3);
-
-	Model* model = new Model(vao, 2904);
+	Model* model = ModelManager::getInstance()->get("suzi_smooth");
 
 	ShaderProgram* program = new ShaderProgram();
-	program->addShader(new VertexShader(vertexShader));
-	program->addShader(new FragmentShader(fragmentShader));
+	program->addShader(ShaderManager::getInstance()->get("vert_default_colorPass4"));
+	program->addShader(ShaderManager::getInstance()->get("frag_colorFromIn4"));
 	program->link();
 
 	TransformModel* transform = new TransformModel();
@@ -164,45 +113,34 @@ DrawableObject* DrawableObjectFactory::createDefaultSmoothSuzi()
 
 DrawableObject *DrawableObjectFactory::createDefaultFlatSuzi()
 {
-	const char* vertexShader =
-		"#version 330\n"
-		"layout(location=0) in vec3 pos;"
-		"layout(location=1) in vec3 norm;"
-		"uniform mat4 modelMatrix;"
-		"uniform mat4 viewMatrix;"
-		"uniform mat4 projectionMatrix;"
-		"out vec4 color;"
-		"void main () {"
-		"	 gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(pos, 1.0);"
-		"	 color = vec4(norm, 1.0);"
-		"}";
-
-	const char* fragmentShader =
-		"#version 330\n"
-		"in vec4 color;"
-		"out vec4 frag_colour;"
-		"void main () {"
-		"	 frag_colour = color;"
-		"}";
-
-	VBO* vbo = new VBO();
-	vbo->buffer(suziFlat, sizeof(suziFlat));
-
-	VAO* vao = new VAO();
-	vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(suziFlat[0]) * 6, nullptr);
-	vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(suziFlat[0]) * 6, sizeof(suziFlat[0]) * 3);
-
-	Model* model = new Model(vao, 2904);
+	Model* model = ModelManager::getInstance()->get("suzi_flat");
 
 	ShaderProgram* program = new ShaderProgram();
-	program->addShader(new VertexShader(vertexShader));
-	program->addShader(new FragmentShader(fragmentShader));
+	program->addShader(ShaderManager::getInstance()->get("vert_default_colorPass4"));
+	program->addShader(ShaderManager::getInstance()->get("frag_colorFromIn4"));
 	program->link();
 
 	TransformModel* transform = new TransformModel();
 	transform->setPosition(glm::vec3(5, 0, 8));
 	transform->setRotation(Rotation(180, 0, 0));
 	transform->setScale(glm::vec3(0.8f));
+
+	return new DrawableObject(model, program, transform);
+}
+
+DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation rotation, glm::vec3 scale, std::string modelName, std::string vertexShaderName, std::string fragmentShaderName)
+{
+    Model* model = ModelManager::getInstance()->get(modelName);
+
+	ShaderProgram* program = new ShaderProgram();
+	program->addShader(ShaderManager::getInstance()->get(vertexShaderName));
+	program->addShader(ShaderManager::getInstance()->get(fragmentShaderName));
+	program->link();
+
+	TransformModel* transform = new TransformModel();
+	transform->setPosition(position);
+	transform->setRotation(rotation);
+	transform->setScale(scale);
 
 	return new DrawableObject(model, program, transform);
 }
