@@ -2,7 +2,7 @@
 
 #include "TransformComposite.h"
 #include "TransformRotate.h"
-#include "IKeyCallbackListener.h"
+#include "IKeyCallbackObserver.h"
 
 
 
@@ -31,6 +31,6 @@ public:
     void setPauseKey(char pauseKey);
     void unsetPauseKey();
 
-    virtual void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) override;
+    virtual void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods) override;
 };
 

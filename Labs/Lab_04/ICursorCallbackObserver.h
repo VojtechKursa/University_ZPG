@@ -6,5 +6,5 @@
 class ICursorCallbackObserver
 {
 public:
-    virtual void cursor_callback(GLFWwindow* window, double x, double y) = 0;
+    virtual void cursorMovedHandler(GLFWwindow* window, double x, double y) = 0;
 };

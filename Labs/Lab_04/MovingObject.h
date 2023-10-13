@@ -2,7 +2,7 @@
 
 #include "DrawableObject.h"
 #include "TransformModel.h"
-#include "IKeyCallbackListener.h"
+#include "IKeyCallbackObserver.h"
 
 
 class MovingObject : public DrawableObject, public IKeyCallbackObserver
@@ -38,7 +38,7 @@ public:
 	void setRotation(Rotation newRotation);
 	void setScale(glm::vec3 newScale);
 
-    void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) override;    
+    void keyHandler(GLFWwindow *window, int key, int scancode, int action, int mods) override;    
 
 	virtual void draw() override;
 };

@@ -20,5 +20,5 @@ TransformRotateSimple::TransformRotateSimple(float pivotAxisX, float pivotAxisY,
 
 glm::mat4 TransformRotateSimple::getMatrix()
 {
-    return glm::rotate(glm::identity<glm::mat4>(), this->rotationAngle, this->pivotAxis);
+    return glm::rotate(glm::identity<glm::mat4>(), glm::radians(this->rotationAngle), this->pivotAxis);
 }

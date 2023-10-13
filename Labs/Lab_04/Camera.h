@@ -4,16 +4,18 @@
 
 #include <vector>
 
-#include "IViewMatrixChangedObserver.h"
-#include "IProjectionMatrixChangedObserver.h"
 #include "ICursorCallbackObserver.h"
 #include "IKeyCallbackObserver.h"
+#include "IViewPortChangedObserver.h"
+#include "IMouseButtonObserver.h"
+
+#include "IViewMatrixChangedObserver.h"
+#include "IProjectionMatrixChangedObserver.h"
 
 
 
-class ShaderProgram;
-
-class Camera : public ICursorCallbackObserver, public IKeyCallbackObserver				// will be subject in Observer pattern, Observed by ?ShaderProgram?
+// will be subject in Observer pattern, Observed by ?ShaderProgram?
+class Camera : public ICursorCallbackObserver, public IKeyCallbackObserver, public IMouseButtonObserver, public IViewPortChangedObserver
 {
 private:
 	std::vector<IViewMatrixChangedObserver*> viewMatrixChangedObservers;
@@ -25,19 +27,29 @@ private:
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
 
-	float alpha;
-	float phi;
+	float alpha;	// Elevation (0° - up, 90° - level, 180° - down)
+	float phi;		// Azimuth (0° - 360°, 0° - Towards +X, 90° - Towards +Z)
 
 	float fov;			// fov of the camera, in degrees
 	float viewRatio;
 	float displayRangeMin;
 	float displayRangeMax;
 
+	bool mouseButtonHeld;
+	bool firstCursorEvent;
+	int lastCursorPoint[2];
+	
+	float mouseSensitivity[2];
+	float movementSensitivity;
+
 	void calculateTarget();
 	void calculateTarget(float alpha, float phi);
 
 	void calculateViewMatrix();
 	void calculateProjectionMatrix();
+
+	void addAlpha(float change);
+	void addPhi(float change);
 
 
 public:
@@ -46,22 +58,19 @@ public:
 	Camera();
 	Camera(glm::vec3 position);
 	Camera(glm::vec3 position, float alpha, float phi);
-
-	bool setPhi(float phi);
-	bool setAlpha(float alpha);
-	bool setFov(float fov);
-	bool setViewRatio(float viewRatio);
-	bool setDisplayRange(float min, float max);
-
-	float getPhi();
-	float getAlpha();
+	~Camera();
 
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
 
-	void registerViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
-	void registerProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);
+	bool registerViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
+	bool registerProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);
 
-	virtual void cursor_callback(GLFWwindow* window, double x, double y) override;
-	virtual void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) override;
+	bool unregisterViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
+	bool unregisterProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);
+
+	virtual void cursorMovedHandler(GLFWwindow* window, double x, double y) override;
+	virtual void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods) override;
+	virtual void mouseButtonPressedHandler(GLFWwindow* window, int button, int action, int mode) override;
+	virtual void viewPortChangedHandler(int width, int height) override;
 };

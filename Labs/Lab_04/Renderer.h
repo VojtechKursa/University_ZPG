@@ -14,7 +14,7 @@ class Renderer
 {
 private:
 	std::vector<DrawableObject*> scene;
-	Camera camera;
+	Camera* camera;
 
 public:
 	Renderer();
@@ -23,4 +23,6 @@ public:
 	void addObject(DrawableObject* shape);
 
 	void renderNextFrame(GLFWwindow* window);
+
+	Camera* getCamera();
 };

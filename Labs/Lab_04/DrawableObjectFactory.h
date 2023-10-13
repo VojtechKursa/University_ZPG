@@ -8,11 +8,10 @@
 class DrawableObjectFactory
 {
 public:
-	static DrawableObject* createDefaultTriangle();
-
-	static DrawableObject* createUpperRightTriangle();
-	static DrawableObject* createLowerLeftTriangle();
-
-	static DrawableObject* createDefaultSquare();
 	static DrawableObject* createRotatingSquare();
+
+	static DrawableObject* createDefaultSphere();
+
+	static DrawableObject* createDefaultSmoothSuzi();
+	static DrawableObject* createDefaultFlatSuzi();
 };

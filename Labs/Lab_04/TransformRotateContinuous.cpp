@@ -42,7 +42,7 @@ glm::mat4 TransformRotateContinuous::getMatrix()
 
 
 
-void TransformRotateContinuous::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void TransformRotateContinuous::keyHandler(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if(action == 1 && key == pauseKey)
     {

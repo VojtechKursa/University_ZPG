@@ -41,7 +41,7 @@ void MovingObject::draw()
 
 
 
-void MovingObject::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void MovingObject::keyHandler(GLFWwindow *window, int key, int scancode, int action, int mods)
 {
     if(action == 0 && pausable && key == pauseKey)
     {
