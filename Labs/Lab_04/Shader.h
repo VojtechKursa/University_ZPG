@@ -7,9 +7,8 @@ class Shader
 protected:
 	GLuint shaderId;
 
-	Shader(int type, const char* code);
-
 public:
+	Shader(int type, const char* code);
 	~Shader();
 
 	void attachToProgram(GLuint programId);

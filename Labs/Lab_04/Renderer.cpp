@@ -3,13 +3,25 @@
 
 
 Renderer::Renderer()
-{ }
+{
+	this->camera = new Camera();
+}
 
 Renderer::~Renderer()
 {
-	for (auto object : this->scene)
+	for (auto& object : this->scene)
 	{
-		delete object;
+		if(object != nullptr)
+		{
+			delete object;
+			object = nullptr;
+		}
+	}
+
+	if(this->camera != nullptr)
+	{
+		delete this->camera;
+		this->camera = nullptr;
 	}
 }
 
@@ -31,4 +43,9 @@ void Renderer::renderNextFrame(GLFWwindow* window)
 	}
 
 	glfwSwapBuffers(window);
+}
+
+Camera *Renderer::getCamera()
+{
+	return this->camera;
 }

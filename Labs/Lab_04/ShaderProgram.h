@@ -5,16 +5,18 @@
 #include <vector>
 
 #include "Shader.h"
+#include "Camera.h"
+#include "IViewMatrixChangedObserver.h"
+#include "IProjectionMatrixChangedObserver.h"
 
 
 
-class Camera;
-
-class ShaderProgram
+class ShaderProgram : public IViewMatrixChangedObserver, public IProjectionMatrixChangedObserver
 {
 private:
 	GLuint programId;
 	std::vector<Shader*> shaders;
+	Camera* camera;
 
 public:
 	ShaderProgram();
@@ -31,5 +33,8 @@ public:
 	static void unuse();
 
 	bool bindMatrix(const char* variableName, glm::mat4 matrix);
+
+	virtual void viewMatrixChangedHandler(glm::mat4 newMatrix) override;
+	virtual void projectionMatrixChangedHandler(glm::mat4 newMatrix) override;
 };
 

@@ -3,11 +3,17 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "Application.h"
 
 
 ShaderProgram::ShaderProgram()
 {
 	this->programId = glCreateProgram();
+
+	this->camera = Application::getInstance()->getRenderer()->getCamera();
+
+	this->camera->registerViewMatrixChangedObserver(this);
+	this->camera->registerProjectionMatrixChangedObserver(this);
 }
 
 ShaderProgram::~ShaderProgram()
@@ -18,6 +24,9 @@ ShaderProgram::~ShaderProgram()
 	}
 
 	glDeleteProgram(this->programId);
+
+	this->camera->unregisterViewMatrixChangedObserver(this);
+	this->camera->unregisterProjectionMatrixChangedObserver(this);
 }
 
 void ShaderProgram::addShader(Shader* shader)
@@ -60,6 +69,9 @@ void ShaderProgram::link()
 	{
 		exit(EXIT_FAILURE);
 	}
+
+	this->bindMatrix("viewMatrix", this->camera->getViewMatrix());
+	this->bindMatrix("projectionMatrix", this->camera->getProjectionMatrix());
 }
 
 bool ShaderProgram::checkStatus()
@@ -97,15 +109,29 @@ bool ShaderProgram::bindMatrix(const char *variableName, glm::mat4 matrix)
 {
 	this->use();
 	
-	GLint idModelTransform = glGetUniformLocation(this->programId, "modelMatrix");
+	GLint uniformId = glGetUniformLocation(this->programId, variableName);
 	
-	if(idModelTransform != -1)
+	if(uniformId != -1)
 	{
-		glUniformMatrix4fv(idModelTransform, 1, GL_FALSE, &matrix[0][0]);
+		glUniformMatrix4fv(uniformId, 1, GL_FALSE, &matrix[0][0]);
 		return true;
 	}
 	else
 	{
 		return false;
 	}
+
+	this->unuse();
+}
+
+
+
+void ShaderProgram::viewMatrixChangedHandler(glm::mat4 newMatrix)
+{
+	this->bindMatrix("viewMatrix", newMatrix);
+}
+
+void ShaderProgram::projectionMatrixChangedHandler(glm::mat4 newMatrix)
+{
+	this->bindMatrix("projectionMatrix", newMatrix);
 }

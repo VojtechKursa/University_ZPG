@@ -6,5 +6,5 @@
 class IKeyCallbackObserver
 {
 public:
-    virtual void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods) = 0;
+    virtual void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods) = 0;
 };

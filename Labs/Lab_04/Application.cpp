@@ -4,6 +4,7 @@
 #include <stdlib.h>
 
 #include "DrawableObjectFactory.h"
+#include "ObservedSubjectHelper.h"
 
 
 
@@ -55,9 +56,9 @@ void Application::key_callback(GLFWwindow *window, int key, int scancode, int ac
 
 	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
-	for(auto listener : this->keyObservers)
+	for(auto observer : this->keyObservers)
 	{
-		listener->key_callback(window, key, scancode, action, mods);
+		observer->keyHandler(window, key, scancode, action, mods);
 	}
 }
 
@@ -76,9 +77,9 @@ void Application::window_size_callback(GLFWwindow *window, int width, int height
 	printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
 
-	for (auto listener : this->windowSizeObservers)
+	for (auto observer : this->windowSizeObservers)
 	{
-		listener->viewPortChangedHandler(width, height);
+		observer->viewPortChangedHandler(width, height);
 	}
 }
 
@@ -86,17 +87,19 @@ void Application::cursor_callback(GLFWwindow *window, double x, double y)
 {
 	printf("cursor_callback \n");
 
-	for(auto listener : this->cursorObservers)
+	for(auto observer : this->cursorObservers)
 	{
-		listener->cursor_callback(window, x, y);
+		observer->cursorMovedHandler(window, x, y);
 	}
 }
 
 void Application::button_callback(GLFWwindow *window, int button, int action, int mode)
 {
-	if (action == GLFW_PRESS)
+	printf("button_callback [%d,%d,%d]\n", button, action, mode);
+
+	for(auto observer : this->buttonCallbackObservers)
 	{
-		printf("button_callback [%d,%d,%d]\n", button, action, mode);
+		observer->mouseButtonPressedHandler(window, button, action, mode);
 	}
 }
 
@@ -125,6 +128,11 @@ Application::~Application()
 Application* Application::getInstance()
 {
 	return &Application::instance;
+}
+
+Renderer *Application::getRenderer()
+{
+	return this->renderer;
 }
 
 
@@ -219,18 +227,21 @@ void Application::printVersionInfo()
 
 void Application::loadDefaultScene()
 {
-	//this->renderer->addObject(DrawableObjectFactory::createDefaultTriangle());
+	//this->renderer->addObject(DrawableObjectFactory::createRotatingSquare());
 
-	this->renderer->addObject(DrawableObjectFactory::createUpperRightTriangle());
-	this->renderer->addObject(DrawableObjectFactory::createLowerLeftTriangle());
+	this->renderer->addObject(DrawableObjectFactory::createDefaultSphere());
+	this->renderer->addObject(DrawableObjectFactory::createDefaultSmoothSuzi());
+	this->renderer->addObject(DrawableObjectFactory::createDefaultFlatSuzi());
 
-	this->renderer->addObject(DrawableObjectFactory::createRotatingSquare());
+	this->renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(0, 0, -2)));
 }
 
 
 
 void Application::run()
 {
+	glEnable(GL_DEPTH_TEST);
+
 	while (!glfwWindowShouldClose(this->window))
 	{
 		this->renderer->renderNextFrame(this->window);
@@ -241,67 +252,44 @@ void Application::run()
 
 
 
-void Application::registerKeyObserver(IKeyCallbackObserver *observer)
+bool Application::registerKeyObserver(IKeyCallbackObserver *observer)
 {
-	if(observer != nullptr)
-		this->keyObservers.push_back(observer);
+	return ObservedSubjectHelper::registerObserver(this->keyObservers, observer);
 }
 
-void Application::registerCursorObserver(ICursorCallbackObserver *observer)
+bool Application::registerCursorObserver(ICursorCallbackObserver *observer)
 {
-	if(observer != nullptr)
-		this->cursorObservers.push_back(observer);
+	return ObservedSubjectHelper::registerObserver(this->cursorObservers, observer);
 }
 
-void Application::registerViewPortChangedObserver(IViewPortChangedObserver* observer)
+bool Application::registerViewPortChangedObserver(IViewPortChangedObserver* observer)
 {
-	if (observer != nullptr)
-		this->windowSizeObservers.push_back(observer);
+	return ObservedSubjectHelper::registerObserver(this->windowSizeObservers, observer);
+}
+
+bool Application::registerButtonObserver(IMouseButtonObserver *observer)
+{
+	return ObservedSubjectHelper::registerObserver(this->buttonCallbackObservers, observer);
 }
 
 
 
-void Application::unregisterKeyObserver(IKeyCallbackObserver *observer)
+bool Application::unregisterKeyObserver(IKeyCallbackObserver *observer)
 {
-	if(observer != nullptr)
-	{
-		for(int i = 0; i < this->keyObservers.size(); i++)
-		{
-			if(this->keyObservers[i] == observer)
-			{
-				this->keyObservers.erase(this->keyObservers.begin() + i);
-				break;
-			}
-		}
-	}
+	return ObservedSubjectHelper::unregisterObserver(this->keyObservers, observer);
 }
 
-void Application::unregisterCursorObserver(ICursorCallbackObserver *observer)
+bool Application::unregisterCursorObserver(ICursorCallbackObserver *observer)
 {
-	if(observer != nullptr)
-	{
-		for(int i = 0; i < this->cursorObservers.size(); i++)
-		{
-			if(this->cursorObservers[i] == observer)
-			{
-				this->cursorObservers.erase(this->cursorObservers.begin() + i);
-				break;
-			}
-		}
-	}
+	return ObservedSubjectHelper::unregisterObserver(this->cursorObservers, observer);
 }
 
-void Application::unregisterViewPortChangedObserver(IViewPortChangedObserver* observer)
+bool Application::unregisterViewPortChangedObserver(IViewPortChangedObserver* observer)
 {
-	if (observer != nullptr)
-	{
-		for (int i = 0; i < this->windowSizeObservers.size(); i++)
-		{
-			if (this->windowSizeObservers[i] == observer)
-			{
-				this->windowSizeObservers.erase(this->windowSizeObservers.begin() + i);
-				break;
-			}
-		}
-	}
+	return ObservedSubjectHelper::unregisterObserver(this->windowSizeObservers, observer);
+}
+
+bool Application::unregisterButtonObserver(IMouseButtonObserver *observer)
+{
+	return ObservedSubjectHelper::unregisterObserver(this->buttonCallbackObservers, observer);
 }

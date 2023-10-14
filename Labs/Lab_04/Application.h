@@ -9,6 +9,7 @@
 #include "IKeyCallbackObserver.h"
 #include "ICursorCallbackObserver.h"
 #include "IViewPortChangedObserver.h"
+#include "IMouseButtonObserver.h"
 
 
 
@@ -33,6 +34,7 @@ private:
 	std::vector<IKeyCallbackObserver*> keyObservers;
 	std::vector<ICursorCallbackObserver*> cursorObservers;
 	std::vector<IViewPortChangedObserver*> windowSizeObservers;
+	std::vector<IMouseButtonObserver*> buttonCallbackObservers;
 
 	Application();
 
@@ -48,10 +50,12 @@ public:
 
 	static Application* getInstance();
 
+	Renderer* getRenderer();
+
 	void init();
 	void terminate();
 
-	void createWindow(int width = 800, int height = 800, const char* title = "ZPG", GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
+	void createWindow(int width = 800, int height = 600, const char* title = "ZPG", GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
 	void destroyWindow();
 
 	void printVersionInfo();
@@ -60,12 +64,14 @@ public:
 
 	void run();
 
-	void registerKeyObserver(IKeyCallbackObserver* observer);
-	void registerCursorObserver(ICursorCallbackObserver* observer);
-	void registerViewPortChangedObserver(IViewPortChangedObserver* observer);
+	bool registerKeyObserver(IKeyCallbackObserver* observer);
+	bool registerCursorObserver(ICursorCallbackObserver* observer);
+	bool registerViewPortChangedObserver(IViewPortChangedObserver* observer);
+	bool registerButtonObserver(IMouseButtonObserver* observer);
 
-	void unregisterKeyObserver(IKeyCallbackObserver* observer);
-	void unregisterCursorObserver(ICursorCallbackObserver* observer);
-	void unregisterViewPortChangedObserver(IViewPortChangedObserver* observer);
+	bool unregisterKeyObserver(IKeyCallbackObserver* observer);
+	bool unregisterCursorObserver(ICursorCallbackObserver* observer);
+	bool unregisterViewPortChangedObserver(IViewPortChangedObserver* observer);
+	bool unregisterButtonObserver(IMouseButtonObserver* observer);
 };
 

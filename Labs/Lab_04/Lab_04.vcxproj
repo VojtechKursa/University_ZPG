@@ -102,7 +102,7 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>..\..\Libraries\glew\include;..\..\Libraries\glfw\include;..\..\Libraries\glm;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -138,10 +138,13 @@
     <ClCompile Include="FragmentShader.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="ModelFactory.cpp" />
+    <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="MovingObject.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="TransformComposite.cpp" />
@@ -164,15 +167,24 @@
     <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="ICursorCallbackObserver.h" />
     <ClInclude Include="IKeyCallbackObserver.h" />
+    <ClInclude Include="IMouseButtonObserver.h" />
     <ClInclude Include="IProjectionMatrixChangedObserver.h" />
     <ClInclude Include="IViewMatrixChangedObserver.h" />
     <ClInclude Include="IViewPortChangedObserver.h" />
+    <ClInclude Include="Manager.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="ModelFactory.h" />
+    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="MovingObject.h" />
+    <ClInclude Include="ObservedSubjectHelper.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="Shader.h" />
+    <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="sphere.h" />
+    <ClInclude Include="suzi_flat.h" />
+    <ClInclude Include="suzi_smooth.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="TransformComposite.h" />
     <ClInclude Include="TransformGeneric.h" />
@@ -190,6 +202,20 @@
     <CopyFileToFolders Include="glew32.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="shaders\frag_colorFromIn3_grey.frag">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="shaders\frag_colorFromIn4.frag">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="shaders\vert_default_colorPass3.vert">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="shaders\vert_default_colorPass4.vert">
+      <FileType>Document</FileType>
+    </None>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
