@@ -224,10 +224,16 @@
     <None Include="shaders\frag_colorFromIn4.frag">
       <Filter>Shaders</Filter>
     </None>
+    <None Include="shaders\frag_light.frag">
+      <Filter>Shaders</Filter>
+    </None>
     <None Include="shaders\vert_default_colorPass3.vert">
       <Filter>Shaders</Filter>
     </None>
     <None Include="shaders\vert_default_colorPass4.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="shaders\vert_light.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

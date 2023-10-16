@@ -160,6 +160,27 @@ glm::mat4 Camera::getProjectionMatrix()
 
 
 
+bool Camera::setPosition(glm::vec3 position)
+{
+	this->eyePosition = position;
+
+	this->calculateViewMatrix();
+
+	return true;
+}
+
+bool Camera::setRotation(Rotation rotation)
+{
+	this->phi = rotation.yaw;
+	this->alpha = rotation.pitch;
+
+	this->calculateViewMatrix();
+
+	return true;
+}
+
+
+
 void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 {
 	if(this->mouseButtonHeld)

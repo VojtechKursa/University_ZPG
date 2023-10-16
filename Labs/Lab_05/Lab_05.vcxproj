@@ -210,10 +210,16 @@
     <None Include="shaders\frag_colorFromIn4.frag">
       <FileType>Document</FileType>
     </None>
+    <None Include="shaders\frag_light.frag">
+      <FileType>Document</FileType>
+    </None>
     <None Include="shaders\vert_default_colorPass3.vert">
       <FileType>Document</FileType>
     </None>
     <None Include="shaders\vert_default_colorPass4.vert">
+      <FileType>Document</FileType>
+    </None>
+    <None Include="shaders\vert_light.vert">
       <FileType>Document</FileType>
     </None>
   </ItemGroup>

@@ -229,11 +229,26 @@ void Application::loadDefaultScene()
 {
 	//this->renderer->addObject(DrawableObjectFactory::createRotatingSquare());
 
+	/*
 	this->renderer->addObject(DrawableObjectFactory::createDefaultSphere());
 	this->renderer->addObject(DrawableObjectFactory::createDefaultSmoothSuzi());
 	this->renderer->addObject(DrawableObjectFactory::createDefaultFlatSuzi());
 
 	this->renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(0, 0, -2)));
+	*/
+
+	DrawableObject** arr = DrawableObjectFactory::create4SpheresWithLight();
+
+	for(int i = 0; i < 4; i++)
+	{
+		this->renderer->addObject(arr[i]);
+	}
+
+	delete[] arr;
+
+	Camera* camera = this->renderer->getCamera();
+	camera->setPosition(glm::vec3(0,2,0));
+	camera->setRotation(Rotation(0,180,0));
 }
 
 

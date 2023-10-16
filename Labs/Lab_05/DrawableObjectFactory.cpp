@@ -144,3 +144,22 @@ DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation
 
 	return new DrawableObject(model, program, transform);
 }
+
+DrawableObject **DrawableObjectFactory::create4SpheresWithLight()
+{
+	DrawableObject** arr = new DrawableObject*[4];
+
+	const int pos[8] = {
+		0,	2,
+		2,	0,
+		0,	-2,
+		-2,	0
+	};
+
+	for(int i = 0; i < 8; i+=2)
+	{
+		arr[i/2] = createObject(glm::vec3(pos[i], 0, pos[i+1]), Rotation(), glm::vec3(0.75), "sphere", "vert_light", "frag_light");
+	}
+
+	return arr;
+}

@@ -21,6 +21,8 @@ private:
 	std::vector<IViewMatrixChangedObserver*> viewMatrixChangedObservers;
 	std::vector<IProjectionMatrixChangedObserver*> projectionMatrixChangedObservers;
 
+	glm::vec3 eyePosition;
+
 	glm::vec3 target;
 	glm::vec3 up;
 
@@ -53,8 +55,6 @@ private:
 
 
 public:
-	glm::vec3 eyePosition;
-
 	Camera();
 	Camera(glm::vec3 position);
 	Camera(glm::vec3 position, float alpha, float phi);
@@ -62,6 +62,9 @@ public:
 
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
+
+	bool setPosition(glm::vec3 position);
+	bool setRotation(Rotation rotation);
 
 	bool registerViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
 	bool registerProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);
