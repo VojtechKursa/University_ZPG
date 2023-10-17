@@ -19,8 +19,11 @@ DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Trans
 
 void DrawableObject::draw()
 {
-	this->shaderProgram->bindMatrix("modelMatrix", this->transformation->getMatrix());
+	this->shaderProgram->bindUniform("modelMatrix", this->transformation->getMatrix());
 	this->shaderProgram->use();
 	
-	this->model->draw();
+	if (this->model != nullptr)
+	{
+		this->model->draw();
+	}
 }

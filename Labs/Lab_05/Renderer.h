@@ -7,13 +7,15 @@
 
 #include "DrawableObject.h"
 #include "Camera.h"
+#include "Light.h"
 
 
 
 class Renderer
 {
 private:
-	std::vector<DrawableObject*> scene;
+	std::vector<DrawableObject*> objects;
+	std::vector<Light*> lights;
 	Camera* camera;
 
 public:

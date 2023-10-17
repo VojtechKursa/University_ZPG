@@ -5,5 +5,5 @@
 class IViewMatrixChangedObserver
 {
 public:
-	virtual void viewMatrixChangedHandler(glm::mat4 newMatrix) = 0;
+	virtual void viewMatrixChangedHandler(glm::mat4 newMatrix, glm::vec3 newPosition) = 0;
 };

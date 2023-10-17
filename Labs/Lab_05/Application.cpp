@@ -247,7 +247,7 @@ void Application::loadDefaultScene()
 	delete[] arr;
 
 	Camera* camera = this->renderer->getCamera();
-	camera->setPosition(glm::vec3(0,2,0));
+	camera->setPosition(glm::vec3(0,6,0));
 	camera->setRotation(Rotation(0,180,0));
 }
 

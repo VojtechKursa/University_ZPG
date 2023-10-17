@@ -4,6 +4,8 @@
 #include <stdlib.h>
 
 #include "Application.h"
+#include "Light.h"
+
 
 
 ShaderProgram::ShaderProgram()
@@ -70,8 +72,8 @@ void ShaderProgram::link()
 		exit(EXIT_FAILURE);
 	}
 
-	this->bindMatrix("viewMatrix", this->camera->getViewMatrix());
-	this->bindMatrix("projectionMatrix", this->camera->getProjectionMatrix());
+	this->bindUniform("viewMatrix", this->camera->getViewMatrix());
+	this->bindUniform("projectionMatrix", this->camera->getProjectionMatrix());
 }
 
 bool ShaderProgram::checkStatus()
@@ -105,11 +107,30 @@ void ShaderProgram::unuse()
 	glUseProgram(0);
 }
 
-bool ShaderProgram::bindMatrix(const char *variableName, glm::mat4 matrix)
+bool ShaderProgram::bindUniform(const char* uniformName, glm::vec3 vec)
+{
+	this->use();
+
+	GLint uniformId = glGetUniformLocation(this->programId, uniformName);
+
+	if (uniformId != -1)
+	{
+		glUniform3fv(uniformId, 1, &vec[0]);
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+
+	this->unuse();
+}
+
+bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
 {
 	this->use();
 	
-	GLint uniformId = glGetUniformLocation(this->programId, variableName);
+	GLint uniformId = glGetUniformLocation(this->programId, uniformName);
 	
 	if(uniformId != -1)
 	{
@@ -126,12 +147,19 @@ bool ShaderProgram::bindMatrix(const char *variableName, glm::mat4 matrix)
 
 
 
-void ShaderProgram::viewMatrixChangedHandler(glm::mat4 newMatrix)
+void ShaderProgram::viewMatrixChangedHandler(glm::mat4 newMatrix, glm::vec3 newPosition)
 {
-	this->bindMatrix("viewMatrix", newMatrix);
+	this->bindUniform("viewMatrix", newMatrix);
+	this->bindUniform("cameraPosWorld", newPosition);
 }
 
 void ShaderProgram::projectionMatrixChangedHandler(glm::mat4 newMatrix)
 {
-	this->bindMatrix("projectionMatrix", newMatrix);
+	this->bindUniform("projectionMatrix", newMatrix);
+}
+
+void ShaderProgram::lightChangedHandler(Light* light)
+{
+	this->bindUniform("lightPosition", light->getPosition());
+	this->bindUniform("lightColor", light->getLightColor());
 }

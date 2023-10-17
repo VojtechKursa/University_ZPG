@@ -9,7 +9,7 @@ Renderer::Renderer()
 
 Renderer::~Renderer()
 {
-	for (auto& object : this->scene)
+	for (auto& object : this->objects)
 	{
 		if(object != nullptr)
 		{
@@ -29,7 +29,7 @@ Renderer::~Renderer()
 
 void Renderer::addObject(DrawableObject* object)
 {
-	this->scene.push_back(object);
+	this->objects.push_back(object);
 }
 
 void Renderer::renderNextFrame(GLFWwindow* window)
@@ -37,7 +37,12 @@ void Renderer::renderNextFrame(GLFWwindow* window)
 	// clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-	for (auto object : scene)
+	for (auto light : lights)
+	{
+		light->draw();
+	}
+
+	for (auto object : objects)
 	{
 		object->draw();
 	}

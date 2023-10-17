@@ -4,6 +4,8 @@
 
 #include <vector>
 
+#include "Rotation.h"
+
 #include "ICursorCallbackObserver.h"
 #include "IKeyCallbackObserver.h"
 #include "IViewPortChangedObserver.h"
@@ -14,7 +16,6 @@
 
 
 
-// will be subject in Observer pattern, Observed by ?ShaderProgram?
 class Camera : public ICursorCallbackObserver, public IKeyCallbackObserver, public IMouseButtonObserver, public IViewPortChangedObserver
 {
 private:

@@ -8,10 +8,13 @@
 #include "Camera.h"
 #include "IViewMatrixChangedObserver.h"
 #include "IProjectionMatrixChangedObserver.h"
+#include "ILightObserver.h"
+
+class Light;
 
 
 
-class ShaderProgram : public IViewMatrixChangedObserver, public IProjectionMatrixChangedObserver
+class ShaderProgram : public IViewMatrixChangedObserver, public IProjectionMatrixChangedObserver, public ILightObserver
 {
 private:
 	GLuint programId;
@@ -32,9 +35,11 @@ public:
 	void use();
 	static void unuse();
 
-	bool bindMatrix(const char* variableName, glm::mat4 matrix);
+	bool bindUniform(const char* uniformName, glm::vec3 vec);
+	bool bindUniform(const char* uniformName, glm::mat4 matrix);
 
-	virtual void viewMatrixChangedHandler(glm::mat4 newMatrix) override;
+	virtual void viewMatrixChangedHandler(glm::mat4 newMatrix, glm::vec3 newPosition) override;
 	virtual void projectionMatrixChangedHandler(glm::mat4 newMatrix) override;
+	virtual void lightChangedHandler(Light* light) override;
 };
 

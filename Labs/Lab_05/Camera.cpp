@@ -30,7 +30,7 @@ void Camera::calculateViewMatrix()
 
 	for (auto obs : this->viewMatrixChangedObservers)
 	{
-		obs->viewMatrixChangedHandler(this->viewMatrix);
+		obs->viewMatrixChangedHandler(this->viewMatrix, this->eyePosition);
 	}
 }
 
