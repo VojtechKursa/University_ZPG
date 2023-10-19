@@ -10,13 +10,14 @@
 #include "IKeyCallbackObserver.h"
 #include "IViewPortChangedObserver.h"
 #include "IMouseButtonObserver.h"
+#include "IFrameObserver.h"
 
 #include "IViewMatrixChangedObserver.h"
 #include "IProjectionMatrixChangedObserver.h"
 
 
 
-class Camera : public ICursorCallbackObserver, public IKeyCallbackObserver, public IMouseButtonObserver, public IViewPortChangedObserver
+class Camera : public ICursorCallbackObserver, public IKeyCallbackObserver, public IMouseButtonObserver, public IViewPortChangedObserver, public IFrameObserver
 {
 private:
 	std::vector<IViewMatrixChangedObserver*> viewMatrixChangedObservers;
@@ -26,6 +27,8 @@ private:
 
 	glm::vec3 target;
 	glm::vec3 up;
+
+	glm::vec3 motionVector;
 
 	glm::mat4 viewMatrix;
 	glm::mat4 projectionMatrix;
@@ -54,6 +57,8 @@ private:
 	void addAlpha(float change);
 	void addPhi(float change);
 
+	glm::vec3 getActualMotionVector();
+
 
 public:
 	Camera();
@@ -77,4 +82,5 @@ public:
 	virtual void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods) override;
 	virtual void mouseButtonPressedHandler(GLFWwindow* window, int button, int action, int mode) override;
 	virtual void viewPortChangedHandler(int width, int height) override;
+	virtual void frameHandler(double timeSinceLastFrameSec) override;
 };

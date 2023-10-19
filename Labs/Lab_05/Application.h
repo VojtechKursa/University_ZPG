@@ -10,6 +10,7 @@
 #include "ICursorCallbackObserver.h"
 #include "IViewPortChangedObserver.h"
 #include "IMouseButtonObserver.h"
+#include "IFrameObserver.h"
 
 
 
@@ -35,6 +36,9 @@ private:
 	std::vector<ICursorCallbackObserver*> cursorObservers;
 	std::vector<IViewPortChangedObserver*> windowSizeObservers;
 	std::vector<IMouseButtonObserver*> buttonCallbackObservers;
+	std::vector<IFrameObserver*> frameObservers;
+
+	void notifyFrameObservers(double timeSinceLastFrameSec);
 
 	Application();
 
@@ -68,10 +72,12 @@ public:
 	bool registerCursorObserver(ICursorCallbackObserver* observer);
 	bool registerViewPortChangedObserver(IViewPortChangedObserver* observer);
 	bool registerButtonObserver(IMouseButtonObserver* observer);
+	bool registerFrameObserver(IFrameObserver* observer);
 
 	bool unregisterKeyObserver(IKeyCallbackObserver* observer);
 	bool unregisterCursorObserver(ICursorCallbackObserver* observer);
 	bool unregisterViewPortChangedObserver(IViewPortChangedObserver* observer);
 	bool unregisterButtonObserver(IMouseButtonObserver* observer);
+	bool unregisterFrameObserver(IFrameObserver* observer);
 };
 

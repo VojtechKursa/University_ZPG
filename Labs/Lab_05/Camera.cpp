@@ -76,6 +76,18 @@ void Camera::addPhi(float change)
 
 
 
+glm::vec3 Camera::getActualMotionVector()
+{
+	glm::vec3 motionVectorNorm = glm::normalize(this->motionVector);
+	
+	glm::vec3 res = glm::vec3(glm::rotate(glm::rotate(glm::identity<glm::mat4>(), glm::radians(phi + 90), glm::vec3(0,1,0)), glm::radians(alpha - 90), glm::vec3(1,0,0)) * glm::vec4(motionVectorNorm, 1.0f));
+	res.z = -res.z;
+
+	return res;
+}
+
+
+
 Camera::Camera()
 	: Camera(glm::vec3(0), 90, 90)
 { }
@@ -105,6 +117,8 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	this->mouseSensitivity[0] = this->mouseSensitivity[1] = 1.f;
 	this->movementSensitivity = 1.f;
 
+	this->motionVector = glm::vec3(0.f);
+
 	this->calculateViewMatrix();
 	this->calculateProjectionMatrix();
 
@@ -113,6 +127,7 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	app->registerKeyObserver(this);
 	app->registerButtonObserver(this);
 	app->registerViewPortChangedObserver(this);
+	app->registerFrameObserver(this);
 }
 
 Camera::~Camera()
@@ -203,27 +218,45 @@ void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 
 void Camera::keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
-	if(action == 1)
+	switch (key)
 	{
-		switch (key)
-		{
-			case 'W':
-				this->eyePosition += this->target * this->movementSensitivity;
-				this->calculateViewMatrix();
-				break;
-			case 'S':
-				this->eyePosition -= this->target * this->movementSensitivity;
-				this->calculateViewMatrix();
-				break;
-			case 'A':
-				this->eyePosition -= glm::normalize(glm::cross(this->target, this->up)) * this->movementSensitivity;
-				this->calculateViewMatrix();
-				break;
-			case 'D':
-				this->eyePosition += glm::normalize(glm::cross(this->target, this->up)) * this->movementSensitivity;
-				this->calculateViewMatrix();
-				break;
-		}
+		case GLFW_KEY_W:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(0,0,1);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(0,0,1);
+			break;
+		case GLFW_KEY_S:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(0,0,-1);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(0,0,-1);
+			break;
+		case GLFW_KEY_A:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(-1,0,0);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(-1,0,0);
+			break;
+		case GLFW_KEY_D:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(1,0,0);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(1,0,0);
+			break;
+		case GLFW_KEY_Q:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(0,1,0);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(0,1,0);
+			break;
+		case GLFW_KEY_Y:
+		case GLFW_KEY_Z:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(0,-1,0);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(0,-1,0);
+			break;
 	}
 }
 
@@ -247,4 +280,18 @@ void Camera::viewPortChangedHandler(int width, int height)
 	this->viewRatio = width / (float)height;
 
 	this->calculateProjectionMatrix();
+}
+
+void Camera::frameHandler(double timeSinceLastFrameSec)
+{
+	if(this->motionVector != glm::vec3(0.f))
+	{
+		glm::vec3 actualMotionVector = this->getActualMotionVector();
+
+		glm::vec3 newEyePos = this->eyePosition + (actualMotionVector * this->movementSensitivity * (float)timeSinceLastFrameSec);
+
+		printf("Motion vector: (%.2f, %.2f, %.2f). Camera target: (%.2f, %.2f, %.2f). Actual motion vector: (%.2f, %.2f, %.2f).\n", this->motionVector.x, this->motionVector.y, this->motionVector.z, this->target.x, this->target.y, this->target.z, actualMotionVector.x, actualMotionVector.y, actualMotionVector.z);
+
+		this->setPosition(newEyePos);
+	}
 }

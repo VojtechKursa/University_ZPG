@@ -105,6 +105,16 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 
 
 
+void Application::notifyFrameObservers(double timeSinceLastFrameSec)
+{
+	for(auto observer : this->frameObservers)
+	{
+		observer->frameHandler(timeSinceLastFrameSec);
+	}
+}
+
+
+
 Application::Application()
 {
 	this->window = nullptr;
@@ -237,7 +247,9 @@ void Application::loadDefaultScene()
 	this->renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(0, 0, -2)));
 	*/
 
-	DrawableObject** arr = DrawableObjectFactory::create4SpheresWithLight();
+	this->renderer->addLight(DrawableObjectFactory::createDefaultLight());
+
+	DrawableObject** arr = DrawableObjectFactory::create4SpheresWithLight("frag_light_phong");
 
 	for(int i = 0; i < 4; i++)
 	{
@@ -256,9 +268,18 @@ void Application::loadDefaultScene()
 void Application::run()
 {
 	glEnable(GL_DEPTH_TEST);
+	
+	double lastFrameTime = glfwGetTime();
+	double currentTime, elapsedTime;
 
 	while (!glfwWindowShouldClose(this->window))
 	{
+		currentTime = glfwGetTime();
+		elapsedTime = currentTime - lastFrameTime;
+		lastFrameTime = currentTime;
+
+		this->notifyFrameObservers(elapsedTime);
+
 		this->renderer->renderNextFrame(this->window);
 
 		glfwPollEvents();
@@ -287,6 +308,11 @@ bool Application::registerButtonObserver(IMouseButtonObserver *observer)
 	return ObservedSubjectHelper::registerObserver(this->buttonCallbackObservers, observer);
 }
 
+bool Application::registerFrameObserver(IFrameObserver *observer)
+{
+	return ObservedSubjectHelper::registerObserver(this->frameObservers, observer);
+}
+
 
 
 bool Application::unregisterKeyObserver(IKeyCallbackObserver *observer)
@@ -307,4 +333,9 @@ bool Application::unregisterViewPortChangedObserver(IViewPortChangedObserver* ob
 bool Application::unregisterButtonObserver(IMouseButtonObserver *observer)
 {
 	return ObservedSubjectHelper::unregisterObserver(this->buttonCallbackObservers, observer);
+}
+
+bool Application::unregisterFrameObserver(IFrameObserver *observer)
+{
+    return ObservedSubjectHelper::unregisterObserver(this->frameObservers, observer);
 }
