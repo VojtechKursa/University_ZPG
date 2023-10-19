@@ -23,6 +23,9 @@ public:
 	~Renderer();
 
 	void addObject(DrawableObject* shape);
+	void addLight(Light* light);
+
+	std::vector<Light*> getLights();
 
 	void renderNextFrame(GLFWwindow* window);
 

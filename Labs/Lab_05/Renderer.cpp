@@ -29,8 +29,24 @@ Renderer::~Renderer()
 
 void Renderer::addObject(DrawableObject* object)
 {
-	this->objects.push_back(object);
+	if(object != nullptr)
+		this->objects.push_back(object);
 }
+
+void Renderer::addLight(Light *light)
+{
+	if(light != nullptr)
+		this->lights.push_back(light);
+}
+
+
+
+std::vector<Light *> Renderer::getLights()
+{
+    return lights;
+}
+
+
 
 void Renderer::renderNextFrame(GLFWwindow* window)
 {

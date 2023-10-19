@@ -15,6 +15,8 @@
 #include "ModelManager.h"
 #include "ShaderManager.h"
 
+#include "Application.h"
+
 
 
 DrawableObject *DrawableObjectFactory::createRotatingSquare()
@@ -128,7 +130,7 @@ DrawableObject *DrawableObjectFactory::createDefaultFlatSuzi()
 	return new DrawableObject(model, program, transform);
 }
 
-DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation rotation, glm::vec3 scale, std::string modelName, std::string vertexShaderName, std::string fragmentShaderName)
+DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation rotation, glm::vec3 scale, std::string modelName, std::string vertexShaderName, std::string fragmentShaderName, bool bindToLights)
 {
     Model* model = ModelManager::getInstance()->get(modelName);
 
@@ -136,6 +138,16 @@ DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation
 	program->addShader(ShaderManager::getInstance()->get(vertexShaderName));
 	program->addShader(ShaderManager::getInstance()->get(fragmentShaderName));
 	program->link();
+
+	if(bindToLights)
+	{
+		std::vector<Light*> lights = Application::getInstance()->getRenderer()->getLights();
+
+		for(auto light : lights)
+		{
+			light->registerLightObserver(program);
+		}
+	}
 
 	TransformModel* transform = new TransformModel();
 	transform->setPosition(position);
@@ -145,7 +157,7 @@ DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation
 	return new DrawableObject(model, program, transform);
 }
 
-DrawableObject **DrawableObjectFactory::create4SpheresWithLight()
+DrawableObject **DrawableObjectFactory::create4SpheresWithLight(const char* fragShaderName)
 {
 	DrawableObject** arr = new DrawableObject*[4];
 
@@ -158,8 +170,28 @@ DrawableObject **DrawableObjectFactory::create4SpheresWithLight()
 
 	for(int i = 0; i < 8; i+=2)
 	{
-		arr[i/2] = createObject(glm::vec3(pos[i], 0, pos[i+1]), Rotation(), glm::vec3(0.6f), "sphere", "vert_light", "frag_light_phong");
+		arr[i/2] = createObject(glm::vec3(pos[i], 0, pos[i+1]), Rotation(), glm::vec3(0.6f), "sphere", "vert_light", fragShaderName, true);
 	}
 
 	return arr;
+}
+
+
+
+Light *DrawableObjectFactory::createDefaultLight()
+{
+	ShaderProgram* program = new ShaderProgram();
+	program->addShader(ShaderManager::getInstance()->get("vert_default_colorPass3"));
+	program->addShader(ShaderManager::getInstance()->get("frag_colorConst"));
+	program->link();
+
+	program->bindUniform("objColor", glm::vec3(1.0f));
+
+	glm::vec3 defaultPos = glm::vec3(0,2,0);
+
+	TransformModel* transform = new TransformModel();
+	transform->setScale(glm::vec3(0.2f));
+	transform->setPosition(defaultPos);
+
+	return new Light(defaultPos, glm::vec3(1.f), transform, program, ModelManager::getInstance()->get("sphere"), true);
 }
