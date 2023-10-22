@@ -125,15 +125,15 @@ void Light::keyHandler(GLFWwindow *window, int key, int scancode, int action, in
 			break;
 		case GLFW_KEY_KP_4:
 			if(action == GLFW_PRESS)
-				this->motionVector += glm::vec3(-1,0,0);
-			else if(action == GLFW_RELEASE)
-				this->motionVector -= glm::vec3(-1,0,0);
-			break;
-		case GLFW_KEY_KP_6:
-			if(action == GLFW_PRESS)
 				this->motionVector += glm::vec3(1,0,0);
 			else if(action == GLFW_RELEASE)
 				this->motionVector -= glm::vec3(1,0,0);
+			break;
+		case GLFW_KEY_KP_6:
+			if(action == GLFW_PRESS)
+				this->motionVector += glm::vec3(-1,0,0);
+			else if(action == GLFW_RELEASE)
+				this->motionVector -= glm::vec3(-1,0,0);
 			break;
 		case GLFW_KEY_KP_9:
 			if(action == GLFW_PRESS)
@@ -147,5 +147,9 @@ void Light::keyHandler(GLFWwindow *window, int key, int scancode, int action, in
 			else if(action == GLFW_RELEASE)
 				this->motionVector -= glm::vec3(0,-1,0);
 			break;
+        case GLFW_KEY_KP_5:
+            if(action == GLFW_PRESS)
+                this->setPosition(glm::vec3(0));
+            break;
     }
 }

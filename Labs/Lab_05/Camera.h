@@ -46,7 +46,7 @@ private:
 	int lastCursorPoint[2];
 	
 	float mouseSensitivity[2];
-	float movementSensitivity;
+	float movementSpeed;
 
 	void calculateTarget();
 	void calculateTarget(float alpha, float phi);

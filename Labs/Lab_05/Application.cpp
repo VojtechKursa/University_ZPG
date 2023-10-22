@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "DrawableObjectFactory.h"
+#include "SceneLoader.h"
 #include "ObservedSubjectHelper.h"
 
 
@@ -237,30 +237,11 @@ void Application::printVersionInfo()
 
 void Application::loadDefaultScene()
 {
-	//this->renderer->addObject(DrawableObjectFactory::createRotatingSquare());
+	//SceneLoader::loadDefault3DScene(this->renderer);
 
-	/*
-	this->renderer->addObject(DrawableObjectFactory::createDefaultSphere());
-	this->renderer->addObject(DrawableObjectFactory::createDefaultSmoothSuzi());
-	this->renderer->addObject(DrawableObjectFactory::createDefaultFlatSuzi());
-
-	this->renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(0, 0, -2)));
-	*/
-
-	this->renderer->addLight(DrawableObjectFactory::createDefaultLight());
-
-	DrawableObject** arr = DrawableObjectFactory::create4SpheresWithLight("frag_light_phong");
-
-	for(int i = 0; i < 4; i++)
-	{
-		this->renderer->addObject(arr[i]);
-	}
-
-	delete[] arr;
-
-	Camera* camera = this->renderer->getCamera();
-	camera->setPosition(glm::vec3(0,6,0));
-	camera->setRotation(Rotation(0,180,0));
+	//SceneLoader::loadSphereWithLight(this->renderer, BLINN);
+	//SceneLoader::loadSpheresWithLight(this->renderer, BLINN);
+	SceneLoader::loadLightsDemoScene(this->renderer);
 }
 
 

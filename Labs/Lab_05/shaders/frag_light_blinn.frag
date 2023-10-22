@@ -21,9 +21,9 @@ void main (void)
 
     vec3 lightVector = normalize(lightPosition - worldPos3);
     vec3 viewDir = normalize(cameraPosWorld - worldPos3);
-    vec3 reflectDir = reflect(-lightVector, worldNorNor);
-
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), shininessConstant);
+    vec3 halfwayDir = normalize(lightVector + viewDir);
+    
+    float spec = pow(max(dot(worldNorNor, halfwayDir), 0.0), shininessConstant);
     vec4 specular = specularStrength * spec * lightColor4;
 
     float dotProduct = max(dot(lightVector, worldNorNor), 0.0);

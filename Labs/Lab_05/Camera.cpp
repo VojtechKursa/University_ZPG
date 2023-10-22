@@ -79,7 +79,7 @@ void Camera::addPhi(float change)
 glm::vec3 Camera::getActualMotionVector()
 {
 	glm::vec3 motionVectorNorm = glm::normalize(this->motionVector);
-	
+
 	glm::vec3 res = glm::vec3(glm::rotate(glm::rotate(glm::identity<glm::mat4>(), glm::radians(phi + 90), glm::vec3(0,1,0)), glm::radians(alpha - 90), glm::vec3(1,0,0)) * glm::vec4(motionVectorNorm, 1.0f));
 	res.z = -res.z;
 
@@ -115,7 +115,7 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	this->lastCursorPoint[0] = this->lastCursorPoint[1] = -1;
 
 	this->mouseSensitivity[0] = this->mouseSensitivity[1] = 1.f;
-	this->movementSensitivity = 1.f;
+	this->movementSpeed = 1.f;
 
 	this->motionVector = glm::vec3(0.f);
 
@@ -137,6 +137,7 @@ Camera::~Camera()
 	app->unregisterKeyObserver(this);
 	app->unregisterButtonObserver(this);
 	app->unregisterViewPortChangedObserver(this);
+	app->unregisterFrameObserver(this);
 }
 
 
@@ -257,6 +258,12 @@ void Camera::keyHandler(GLFWwindow* window, int key, int scancode, int action, i
 			else if(action == GLFW_RELEASE)
 				this->motionVector -= glm::vec3(0,-1,0);
 			break;
+		case GLFW_KEY_LEFT_SHIFT:
+			if(action == GLFW_PRESS)
+				this->movementSpeed *= 4;
+			else if (action == GLFW_RELEASE)
+				this->movementSpeed /= 4;
+			break;
 	}
 }
 
@@ -288,9 +295,9 @@ void Camera::frameHandler(double timeSinceLastFrameSec)
 	{
 		glm::vec3 actualMotionVector = this->getActualMotionVector();
 
-		glm::vec3 newEyePos = this->eyePosition + (actualMotionVector * this->movementSensitivity * (float)timeSinceLastFrameSec);
+		glm::vec3 newEyePos = this->eyePosition + (actualMotionVector * this->movementSpeed * (float)timeSinceLastFrameSec);
 
-		printf("Motion vector: (%.2f, %.2f, %.2f). Camera target: (%.2f, %.2f, %.2f). Actual motion vector: (%.2f, %.2f, %.2f).\n", this->motionVector.x, this->motionVector.y, this->motionVector.z, this->target.x, this->target.y, this->target.z, actualMotionVector.x, actualMotionVector.y, actualMotionVector.z);
+		//printf("Motion vector: (%.2f, %.2f, %.2f). Camera target: (%.2f, %.2f, %.2f). Actual motion vector: (%.2f, %.2f, %.2f).\n", this->motionVector.x, this->motionVector.y, this->motionVector.z, this->target.x, this->target.y, this->target.z, actualMotionVector.x, actualMotionVector.y, actualMotionVector.z);
 
 		this->setPosition(newEyePos);
 	}

@@ -116,14 +116,11 @@ bool ShaderProgram::bindUniform(const char* uniformName, glm::vec3 vec)
 	if (uniformId != -1)
 	{
 		glUniform3fv(uniformId, 1, &vec[0]);
-		return true;
-	}
-	else
-	{
-		return false;
 	}
 
 	this->unuse();
+
+	return uniformId != -1;
 }
 
 bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
@@ -135,14 +132,11 @@ bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
 	if(uniformId != -1)
 	{
 		glUniformMatrix4fv(uniformId, 1, GL_FALSE, &matrix[0][0]);
-		return true;
-	}
-	else
-	{
-		return false;
 	}
 
 	this->unuse();
+
+	return uniformId != -1;
 }
 
 

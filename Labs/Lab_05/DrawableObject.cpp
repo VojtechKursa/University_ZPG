@@ -21,7 +21,11 @@ void DrawableObject::draw()
 {
 	if(this->model != nullptr && this->shaderProgram != nullptr && this->transformation != nullptr)
 	{
-		this->shaderProgram->bindUniform("modelMatrix", this->transformation->getMatrix());
+		glm::mat4 modelMatrix = this->transformation->getMatrix();
+		glm::mat4 normalMatrix = glm::transpose(glm::inverse(modelMatrix));
+
+		this->shaderProgram->bindUniform("modelMatrix", modelMatrix);
+		this->shaderProgram->bindUniform("normalMatrix", normalMatrix);
 		this->shaderProgram->use();
 		
 		this->model->draw();
