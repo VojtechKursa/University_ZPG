@@ -166,12 +166,12 @@ void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 	{
 		if(!firstCursorEvent)
 		{
-			this->addPhi((float)(x - this->lastCursorPoint[0]) * this->mouseSensitivity[0]);
-			this->addAlpha((float)(y - this->lastCursorPoint[1]) * this->mouseSensitivity[1]);
+			this->addPhi((x - this->lastCursorPoint[0]) * this->mouseSensitivity[0]);
+			this->addAlpha((y - this->lastCursorPoint[1]) * this->mouseSensitivity[1]);
 		}
 
-		this->lastCursorPoint[0] = (int)x;
-		this->lastCursorPoint[1] = (int)y;
+		this->lastCursorPoint[0] = x;
+		this->lastCursorPoint[1] = y;
 		this->firstCursorEvent = false;
 
 		this->calculateViewMatrix();

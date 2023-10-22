@@ -8,18 +8,18 @@ endif()
 
 
 
-project ("Lab_02")
+project ("Project")
 
 
 
 # Add source to this project's executable.
 add_executable (main
-	"Lab_02.cpp" "Lab_02.h")
+	"main.cpp")
 
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET Lab_02 PROPERTY CXX_STANDARD 20)
+  set_property(TARGET main PROPERTY CXX_STANDARD 20)
 endif()
 
 
@@ -27,22 +27,23 @@ endif()
 # Libraries
 
 # GLM
-target_include_directories(main ../../Libraries/glm/)
+target_include_directories(main PUBLIC ../../Libraries-src/glm/)
 
 
 # GLFW
-add_subdirectory(../../Libraries/glfw ../../Libraries/glfw)
+add_subdirectory(../../Libraries-src/glfw ../../Libraries-src/glfw)
 add_dependencies(main glfw)
 
-target_include_directories(main ../../Libraries/glfw/include)
+target_include_directories(main PUBLIC ../../Libraries-src/glfw/include)
 
 target_link_libraries(main glfw)
 
 
 # OpenGL
+set(OpenGL_GL_PREFERENCE "GLVND")
 find_package(OpenGL REQUIRED)
 
-target_include_directories(main ${OPENGL_INCLUDE_DIRS})
+target_include_directories(main PUBLIC ${OPENGL_INCLUDE_DIRS})
 
 target_link_libraries(main ${OPENGL_LIBRARIES})
 
@@ -50,15 +51,14 @@ target_link_libraries(main ${OPENGL_LIBRARIES})
 # GLU
 # find_package(GLU REQUIRED)
 
-# target_include_directories(main ${GLU_INCLUDE_DIRS})
+# target_include_directories(main PUBLIC ${GLU_INCLUDE_DIRS})
 
 # target_link_libraries(main ${GLU_LIBRARY})
 
 
 # GLEW
-add_subdirectory(../../Libraries/glew)
-add_dependencies(main glew)
+target_include_directories(main PUBLIC ../../Libraries-src/glew/include)
 
-target_include_directories(main ../../Libraries/glew/include)
+target_link_directories(main PUBLIC ../../Libraries-src/glew/lib)
+target_link_libraries(main GLEW)
 
-target_link_libraries(main glew)
