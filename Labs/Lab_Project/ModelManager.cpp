@@ -7,9 +7,7 @@
 #pragma warning( disable : 4305 )
 #endif
 
-#include "suzi_flat.h"
-#include "suzi_smooth.h"
-#include "sphere.h"
+#include "Models/models.h"
 
 #ifdef _MSC_VER
 #pragma warning( pop )
@@ -17,9 +15,9 @@
 
 
 
-std::string ModelManager::names[] = {"suzi_flat", "suzi_smooth", "sphere"};
-const float* ModelManager::data[] = {suziFlat, suziSmooth, sphere};
-unsigned long ModelManager::sizes[] = {sizeof(suziFlat), sizeof(suziSmooth), sizeof(sphere)};
+std::string ModelManager::names[] = {"plain", "sphere", "suzi_flat", "suzi_smooth", "gift", "bushes", "tree"};
+const float* ModelManager::data[] = {plain, sphere, suziFlat, suziSmooth, gift, bushes, tree};
+unsigned long ModelManager::sizes[] = {sizeof(plain), sizeof(sphere), sizeof(suziFlat), sizeof(suziSmooth), sizeof(gift), sizeof(bushes), sizeof(tree)};
 
 ModelManager* ModelManager::instance = new ModelManager();
 

@@ -6,14 +6,14 @@
 
 #include "Rotation.h"
 
-#include "ICursorCallbackObserver.h"
-#include "IKeyCallbackObserver.h"
-#include "IViewPortChangedObserver.h"
-#include "IMouseButtonObserver.h"
-#include "IFrameObserver.h"
+#include "Interfaces/ICursorCallbackObserver.h"
+#include "Interfaces/IKeyCallbackObserver.h"
+#include "Interfaces/IViewPortChangedObserver.h"
+#include "Interfaces/IMouseButtonObserver.h"
+#include "Interfaces/IFrameObserver.h"
 
-#include "IViewMatrixChangedObserver.h"
-#include "IProjectionMatrixChangedObserver.h"
+#include "Interfaces/IViewMatrixChangedObserver.h"
+#include "Interfaces/IProjectionMatrixChangedObserver.h"
 
 
 

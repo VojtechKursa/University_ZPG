@@ -6,11 +6,11 @@
 #include <vector>
 
 #include "Renderer.h"
-#include "IKeyCallbackObserver.h"
-#include "ICursorCallbackObserver.h"
-#include "IViewPortChangedObserver.h"
-#include "IMouseButtonObserver.h"
-#include "IFrameObserver.h"
+#include "Interfaces/IKeyCallbackObserver.h"
+#include "Interfaces/ICursorCallbackObserver.h"
+#include "Interfaces/IViewPortChangedObserver.h"
+#include "Interfaces/IMouseButtonObserver.h"
+#include "Interfaces/IFrameObserver.h"
 
 
 

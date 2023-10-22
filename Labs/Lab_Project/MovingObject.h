@@ -1,8 +1,8 @@
 #pragma once
 
 #include "DrawableObject.h"
-#include "TransformModel.h"
-#include "IKeyCallbackObserver.h"
+#include "Transforms/TransformModel.h"
+#include "Interfaces/IKeyCallbackObserver.h"
 
 
 class MovingObject : public DrawableObject, public IKeyCallbackObserver

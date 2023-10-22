@@ -4,9 +4,9 @@
 
 #include <vector>
 
-#include "ILightObserver.h"
-#include "IKeyCallbackObserver.h"
-#include "IFrameObserver.h"
+#include "Interfaces/ILightObserver.h"
+#include "Interfaces/IKeyCallbackObserver.h"
+#include "Interfaces/IFrameObserver.h"
 #include "DrawableObject.h"
 
 

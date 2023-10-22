@@ -12,7 +12,7 @@ class ShaderManager : public Manager<Shader>
 private:
     static ShaderManager* instance;
 
-    const char* directory = "shaders/";  // path to directory with shaders, WITH trailing slash
+    const char* directory = "Shaders/";  // path to directory with shaders, WITH trailing slash
     std::unordered_map<std::string, int> extensionTypeMap;
 
     std::string getFilePath(std::string name, std::string extension);

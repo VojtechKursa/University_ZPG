@@ -7,8 +7,8 @@
 #include "VertexShader.h"
 #include "FragmentShader.h"
 
-#include "TransformModel.h"
-#include "TransformRotateContinuous.h"
+#include "Transforms/TransformModel.h"
+#include "Transforms/TransformRotateContinuous.h"
 
 #include "ModelFactory.h"
 

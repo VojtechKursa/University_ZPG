@@ -1,1 +1,0 @@
-../../Models/suzi_smooth.h

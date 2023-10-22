@@ -8,14 +8,19 @@ endif()
 
 
 
-project ("Lab_05")
+project ("ZPG_Project")
 
 set(CMAKE_BUILD_TYPE Debug)
 
 
 
 # Add source to this project's executable.
-file(GLOB SRC_FILES "${PROJECT_SOURCE_DIR}/*.cpp" "${PROJECT_SOURCE_DIR}/*.h" "${PROJECT_SOURCE_DIR}/*.hpp")
+file(GLOB SRC_FILES
+  "${PROJECT_SOURCE_DIR}/*.h" "${PROJECT_SOURCE_DIR}/*.cpp"
+  "${PROJECT_SOURCE_DIR}/Interfaces/*.h"
+  "${PROJECT_SOURCE_DIR}/Models/*.h"
+  "${PROJECT_SOURCE_DIR}/Transforms/*.h" "${PROJECT_SOURCE_DIR}/Transforms/*.cpp"
+  )
 
 add_executable (main
     ${SRC_FILES}

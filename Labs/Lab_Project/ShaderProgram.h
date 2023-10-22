@@ -6,9 +6,9 @@
 
 #include "Shader.h"
 #include "Camera.h"
-#include "IViewMatrixChangedObserver.h"
-#include "IProjectionMatrixChangedObserver.h"
-#include "ILightObserver.h"
+#include "Interfaces/IViewMatrixChangedObserver.h"
+#include "Interfaces/IProjectionMatrixChangedObserver.h"
+#include "Interfaces/ILightObserver.h"
 
 class Light;
 
