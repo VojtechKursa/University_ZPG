@@ -36,14 +36,14 @@ endif()
 # Libraries
 
 # GLM
-target_include_directories(main PUBLIC ../../Libraries/glm/)
+target_include_directories(main PUBLIC ../../Libraries-src/glm/)
 
 
 # GLFW
-add_subdirectory(../../Libraries/glfw ../../Libraries/glfw)
+add_subdirectory(../../Libraries-src/glfw ../../Libraries-src/glfw)
 add_dependencies(main glfw)
 
-target_include_directories(main PUBLIC ../../Libraries/glfw/include)
+target_include_directories(main PUBLIC ../../Libraries-src/glfw/include)
 
 target_link_libraries(main glfw)
 
@@ -66,7 +66,7 @@ target_link_libraries(main ${OPENGL_LIBRARIES})
 
 
 # GLEW
-target_include_directories(main PUBLIC ../../Libraries/glew/include)
+target_include_directories(main PUBLIC ../../Libraries-src/glew/include)
 
-target_link_directories(main PUBLIC ../../Libraries/glew/lib)
+target_link_directories(main PUBLIC ../../Libraries-src/glew/lib)
 target_link_libraries(main GLEW)

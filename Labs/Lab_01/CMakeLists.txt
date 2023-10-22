@@ -12,14 +12,14 @@ add_executable(main Lab_01.cpp)
 # Libraries
 
 # GLM
-include_directories(../../Libraries/glm/)
+include_directories(../../Libraries-src/glm/)
 
 
 # GLFW
-add_subdirectory(../../Libraries/glfw ../../Libraries/glfw)
+add_subdirectory(../../Libraries-src/glfw ../../Libraries-src/glfw)
 add_dependencies(main glfw)
 
-include_directories(../../Libraries/glfw/include)
+include_directories(../../Libraries-src/glfw/include)
 
 target_link_libraries(main glfw)
 
