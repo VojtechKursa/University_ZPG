@@ -48,6 +48,8 @@ private:
 	float mouseSensitivity[2];
 	float movementSpeed;
 
+	bool flying;
+
 	void calculateTarget();
 	void calculateTarget(float alpha, float phi);
 
@@ -71,6 +73,9 @@ public:
 
 	bool setPosition(glm::vec3 position);
 	bool setRotation(Rotation rotation);
+
+	bool setFlying(bool flying);
+	bool getFlying();
 
 	bool registerViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
 	bool registerProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);

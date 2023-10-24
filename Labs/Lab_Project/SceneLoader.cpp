@@ -80,3 +80,54 @@ void SceneLoader::loadSpheresWithLight(Renderer* renderer, LightModel lightModel
 	camera->setPosition(glm::vec3(0,8,0));
 	camera->setRotation(Rotation(90,179.9f,0));
 }
+
+int random(int min, int max)
+{
+    return (rand() % (max - min) + min);
+}
+
+void SceneLoader::loadForest(Renderer* renderer)
+{
+    struct generatorParams
+    {
+        std::string name;
+        int count;
+        int maxTilt;
+    };
+
+    const int plainSize = 50;
+    const struct generatorParams generatorParameters[] = {
+        {"tree", 50, 10},
+        {"gift", 10, 0},
+        {"bushes", 20, 20}
+    };
+
+
+
+    renderer->addLight(DrawableObjectFactory::createLight());
+
+    renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(0), Rotation(), glm::vec3(plainSize, 1, plainSize), "plain", "vert_default_colorPass3", "frag_colorConst", false, glm::vec3(0.3f, 0.8f, 0.3f)));
+
+    int x, z, yaw, roll, pitch;
+
+    for (auto& param : generatorParameters)
+    {
+        for (int i = 0; i < param.count; i++)
+        {
+            x = random(-plainSize, plainSize + 1);
+            z = random(-plainSize, plainSize + 1);
+            yaw = random(0, 360);
+            roll = random(-param.maxTilt, param.maxTilt + 1);
+            pitch = random(-param.maxTilt, param.maxTilt + 1);
+
+            renderer->addObject(DrawableObjectFactory::createObject(glm::vec3(x, 0, z), Rotation(yaw, pitch, roll), glm::vec3(1), param.name, "vert_light", "frag_light_blinn", true));
+        }
+    }
+    
+
+
+    Camera* camera = renderer->getCamera();
+    camera->setPosition(glm::vec3(0, 2, 0));
+    camera->setRotation(Rotation(90, 90, 0));
+    camera->setFlying(false);
+}

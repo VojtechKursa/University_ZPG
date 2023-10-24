@@ -130,7 +130,7 @@ DrawableObject *DrawableObjectFactory::createDefaultFlatSuzi(std::string vertexS
 	return new DrawableObject(model, program, transform);
 }
 
-DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation rotation, glm::vec3 scale, std::string modelName, std::string vertexShaderName, std::string fragmentShaderName, bool bindToLights)
+DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation rotation, glm::vec3 scale, std::string modelName, std::string vertexShaderName, std::string fragmentShaderName, bool bindToLights, glm::vec3 color)
 {
     Model* model = ModelManager::getInstance()->get(modelName);
 
@@ -138,6 +138,11 @@ DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation
 	program->addShader(ShaderManager::getInstance()->get(vertexShaderName));
 	program->addShader(ShaderManager::getInstance()->get(fragmentShaderName));
 	program->link();
+
+	if (fragmentShaderName == "frag_colorConst")
+	{
+		program->bindUniform("objColor", color);
+	}
 
 	if(bindToLights)
 	{

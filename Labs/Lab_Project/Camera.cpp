@@ -83,6 +83,12 @@ glm::vec3 Camera::getActualMotionVector()
 	glm::vec3 res = glm::vec3(glm::rotate(glm::rotate(glm::identity<glm::mat4>(), glm::radians(phi + 90), glm::vec3(0,1,0)), glm::radians(alpha - 90), glm::vec3(1,0,0)) * glm::vec4(motionVectorNorm, 1.0f));
 	res.z = -res.z;
 
+	if (!this->flying)
+	{
+		res.y = 0;
+		res = glm::normalize(res);
+	}
+
 	return res;
 }
 
@@ -118,6 +124,8 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	this->movementSpeed = 1.f;
 
 	this->motionVector = glm::vec3(0.f);
+
+	this->flying = true;
 
 	this->calculateViewMatrix();
 	this->calculateProjectionMatrix();
@@ -197,6 +205,19 @@ bool Camera::setRotation(Rotation rotation)
 
 
 
+bool Camera::setFlying(bool flying)
+{
+	this->flying = flying;
+	return true;
+}
+
+bool Camera::getFlying()
+{
+	return this->flying;
+}
+
+
+
 void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 {
 	if(this->mouseButtonHeld)
@@ -213,7 +234,7 @@ void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 
 		this->calculateViewMatrix();
 
-		printf("New target: %.2f %.2f %.2f\n", this->target.x, this->target.y, this->target.z);
+		//printf("New target: %.2f %.2f %.2f\n", this->target.x, this->target.y, this->target.z);
 	}
 }
 
@@ -263,6 +284,10 @@ void Camera::keyHandler(GLFWwindow* window, int key, int scancode, int action, i
 				this->movementSpeed *= 4;
 			else if (action == GLFW_RELEASE)
 				this->movementSpeed /= 4;
+			break;
+		case GLFW_KEY_V:
+			if (action == GLFW_PRESS)
+				this->setFlying(!this->getFlying());
 			break;
 	}
 }

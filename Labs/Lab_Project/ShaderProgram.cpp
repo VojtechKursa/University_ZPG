@@ -123,6 +123,22 @@ bool ShaderProgram::bindUniform(const char* uniformName, glm::vec3 vec)
 	return uniformId != -1;
 }
 
+bool ShaderProgram::bindUniform(const char* uniformName, glm::mat3 matrix)
+{
+	this->use();
+
+	GLint uniformId = glGetUniformLocation(this->programId, uniformName);
+
+	if (uniformId != -1)
+	{
+		glUniformMatrix3fv(uniformId, 1, GL_FALSE, &matrix[0][0]);
+	}
+
+	this->unuse();
+
+	return uniformId != -1;
+}
+
 bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
 {
 	this->use();

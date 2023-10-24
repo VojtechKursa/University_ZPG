@@ -27,4 +27,6 @@ public:
 
     static void loadSphereWithLight(Renderer* renderer, LightModel lightModel);
     static void loadSpheresWithLight(Renderer* renderer, LightModel lightModel);
+
+    static void loadForest(Renderer* renderer);
 };

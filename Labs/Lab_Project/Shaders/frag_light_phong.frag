@@ -16,7 +16,7 @@ void main (void)
     float specularStrength = 2;
     float shininessConstant = 32;
 
-    vec3 worldPos3 = vec3(worldPos);
+    vec3 worldPos3 = worldPos.xyz / worldPos.w;
     vec3 worldNorNor = normalize(worldNor);
 
     vec3 lightVector = normalize(lightPosition - worldPos3);

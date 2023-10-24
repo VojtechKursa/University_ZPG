@@ -54,7 +54,7 @@ void Application::key_callback(GLFWwindow *window, int key, int scancode, int ac
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
-	printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
+	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
 	for(auto observer : this->keyObservers)
 	{
@@ -64,17 +64,17 @@ void Application::key_callback(GLFWwindow *window, int key, int scancode, int ac
 
 void Application::window_focus_callback(GLFWwindow *window, int focused)
 {
-	printf("window_focus_callback \n");
+	//printf("window_focus_callback \n");
 }
 
 void Application::window_iconify_callback(GLFWwindow *window, int iconified)
 {
-	printf("window_iconify_callback \n");
+	//printf("window_iconify_callback \n");
 }
 
 void Application::window_size_callback(GLFWwindow *window, int width, int height)
 {
-	printf("resize %d, %d \n", width, height);
+	//printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
 
 	for (auto observer : this->windowSizeObservers)
@@ -85,7 +85,7 @@ void Application::window_size_callback(GLFWwindow *window, int width, int height
 
 void Application::cursor_callback(GLFWwindow *window, double x, double y)
 {
-	printf("cursor_callback \n");
+	//printf("cursor_callback \n");
 
 	for(auto observer : this->cursorObservers)
 	{
@@ -95,7 +95,7 @@ void Application::cursor_callback(GLFWwindow *window, double x, double y)
 
 void Application::button_callback(GLFWwindow *window, int button, int action, int mode)
 {
-	printf("button_callback [%d,%d,%d]\n", button, action, mode);
+	//printf("button_callback [%d,%d,%d]\n", button, action, mode);
 
 	for(auto observer : this->buttonCallbackObservers)
 	{
@@ -205,7 +205,6 @@ void Application::createWindow(int width, int height, const char* title, GLFWmon
 	glewInit();
 
 	glfwGetFramebufferSize(this->window, &width, &height);
-	//float ratio = width / (float)height;
 	glViewport(0, 0, width, height);
 }
 
@@ -241,7 +240,8 @@ void Application::loadDefaultScene()
 
 	//SceneLoader::loadSphereWithLight(this->renderer, BLINN);
 	//SceneLoader::loadSpheresWithLight(this->renderer, BLINN);
-	SceneLoader::loadLightsDemoScene(this->renderer);
+	//SceneLoader::loadLightsDemoScene(this->renderer);
+	SceneLoader::loadForest(this->renderer);
 }
 
 
