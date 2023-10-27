@@ -21,6 +21,9 @@ class SceneLoader
 private:
     static std::string getFragmentShaderName(LightModel lightModel);
 
+    static const LightModel lightModels[];
+    static const int lightModelsCount;
+
 public:
     static void loadDefault3DScene(Renderer* renderer);
     static void loadLightsDemoScene(Renderer* renderer);

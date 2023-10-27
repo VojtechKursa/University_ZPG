@@ -151,5 +151,9 @@ void Light::keyHandler(GLFWwindow *window, int key, int scancode, int action, in
             if(action == GLFW_PRESS)
                 this->setPosition(glm::vec3(0));
             break;
+        case GLFW_KEY_T:
+            if(action == GLFW_PRESS)
+                this->setPosition(Application::getInstance()->getRenderer()->getCamera()->getPosition() + glm::vec3(0,1,0));
+            break;
     }
 }

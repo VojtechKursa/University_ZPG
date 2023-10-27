@@ -130,21 +130,21 @@ DrawableObject *DrawableObjectFactory::createDefaultFlatSuzi(std::string vertexS
 	return new DrawableObject(model, program, transform);
 }
 
-DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation rotation, glm::vec3 scale, std::string modelName, std::string vertexShaderName, std::string fragmentShaderName, bool bindToLights, glm::vec3 color)
+DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 {
-    Model* model = ModelManager::getInstance()->get(modelName);
+    Model* model = ModelManager::getInstance()->get(properties.modelName);
 
 	ShaderProgram* program = new ShaderProgram();
-	program->addShader(ShaderManager::getInstance()->get(vertexShaderName));
-	program->addShader(ShaderManager::getInstance()->get(fragmentShaderName));
+	program->addShader(ShaderManager::getInstance()->get(properties.vertexShaderName));
+	program->addShader(ShaderManager::getInstance()->get(properties.fragmentShaderName));
 	program->link();
 
-	if (fragmentShaderName == "frag_colorConst")
+	if (properties.fragmentShaderName == "frag_colorConst")
 	{
-		program->bindUniform("objColor", color);
+		program->bindUniform("objColor", properties.color);
 	}
 
-	if(bindToLights)
+	if(properties.bindToLights)
 	{
 		std::vector<Light*> lights = Application::getInstance()->getRenderer()->getLights();
 
@@ -155,9 +155,9 @@ DrawableObject *DrawableObjectFactory::createObject(glm::vec3 position, Rotation
 	}
 
 	TransformModel* transform = new TransformModel();
-	transform->setPosition(position);
-	transform->setRotation(rotation);
-	transform->setScale(scale);
+	transform->setPosition(properties.position);
+	transform->setRotation(properties.rotation);
+	transform->setScale(properties.scale);
 
 	return new DrawableObject(model, program, transform);
 }

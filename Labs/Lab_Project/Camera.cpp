@@ -86,7 +86,9 @@ glm::vec3 Camera::getActualMotionVector()
 	if (!this->flying)
 	{
 		res.y = 0;
-		res = glm::normalize(res);
+
+		if(res.x != 0 || res.z != 0)
+			res = glm::normalize(res);
 	}
 
 	return res;
@@ -117,7 +119,7 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	this->displayRangeMax = 100.f;
 
 	this->firstCursorEvent = true;
-	this->mouseButtonHeld = false;
+	this->cameraRotationEnabled = false;
 	this->lastCursorPoint[0] = this->lastCursorPoint[1] = -1;
 
 	this->mouseSensitivity[0] = this->mouseSensitivity[1] = 1.f;
@@ -184,6 +186,11 @@ glm::mat4 Camera::getProjectionMatrix()
 
 
 
+glm::vec3 Camera::getPosition()
+{
+    return this->eyePosition;
+}
+
 bool Camera::setPosition(glm::vec3 position)
 {
 	this->eyePosition = position;
@@ -191,6 +198,11 @@ bool Camera::setPosition(glm::vec3 position)
 	this->calculateViewMatrix();
 
 	return true;
+}
+
+Rotation Camera::getRotation()
+{
+    return Rotation(this->phi, this->alpha, 0);
 }
 
 bool Camera::setRotation(Rotation rotation)
@@ -220,7 +232,7 @@ bool Camera::getFlying()
 
 void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 {
-	if(this->mouseButtonHeld)
+	if(this->cameraRotationEnabled)
 	{
 		if(!firstCursorEvent)
 		{
@@ -267,17 +279,23 @@ void Camera::keyHandler(GLFWwindow* window, int key, int scancode, int action, i
 				this->motionVector -= glm::vec3(1,0,0);
 			break;
 		case GLFW_KEY_Q:
-			if(action == GLFW_PRESS)
-				this->motionVector += glm::vec3(0,1,0);
-			else if(action == GLFW_RELEASE)
-				this->motionVector -= glm::vec3(0,1,0);
+			if(this->getFlying())
+			{
+				if(action == GLFW_PRESS)
+					this->motionVector += glm::vec3(0,1,0);
+				else if(action == GLFW_RELEASE)
+					this->motionVector -= glm::vec3(0,1,0);
+			}
 			break;
 		case GLFW_KEY_Y:
 		case GLFW_KEY_Z:
-			if(action == GLFW_PRESS)
-				this->motionVector += glm::vec3(0,-1,0);
-			else if(action == GLFW_RELEASE)
-				this->motionVector -= glm::vec3(0,-1,0);
+			if(this->getFlying())
+			{
+				if(action == GLFW_PRESS)
+					this->motionVector += glm::vec3(0,-1,0);
+				else if(action == GLFW_RELEASE)
+					this->motionVector -= glm::vec3(0,-1,0);
+			}
 			break;
 		case GLFW_KEY_LEFT_SHIFT:
 			if(action == GLFW_PRESS)
@@ -298,11 +316,11 @@ void Camera::mouseButtonPressedHandler(GLFWwindow* window, int button, int actio
 	{
 		if(action == GLFW_PRESS)
 		{
-			this->mouseButtonHeld = true;
+			this->cameraRotationEnabled = true;
 		}
 		else if(action == GLFW_RELEASE)
 		{
-			this->mouseButtonHeld = false;
+			this->cameraRotationEnabled = false;
 		}
 	}
 }

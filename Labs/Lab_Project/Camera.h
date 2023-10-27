@@ -41,7 +41,7 @@ private:
 	float displayRangeMin;
 	float displayRangeMax;
 
-	bool mouseButtonHeld;
+	bool cameraRotationEnabled;
 	bool firstCursorEvent;
 	int lastCursorPoint[2];
 	
@@ -71,7 +71,9 @@ public:
 	glm::mat4 getViewMatrix();
 	glm::mat4 getProjectionMatrix();
 
+	glm::vec3 getPosition();
 	bool setPosition(glm::vec3 position);
+	Rotation getRotation();
 	bool setRotation(Rotation rotation);
 
 	bool setFlying(bool flying);

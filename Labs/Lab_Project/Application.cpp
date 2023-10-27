@@ -164,6 +164,13 @@ void Application::init()
 	*/
 
 	this->renderer = new Renderer();
+
+	/*
+	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.f);
+	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1f);
+	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.01f);
+	glEnable(GL_LIGHTING);
+	*/
 }
 
 void Application::terminate()

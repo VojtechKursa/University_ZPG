@@ -6,6 +6,10 @@ in vec3 worldNor;
 uniform vec3 lightColor;
 uniform vec3 lightPosition;
 
+uniform float constantAttCoeficient = 1;
+uniform float linearAttCoeficient = 0.1;
+uniform float quadraticAttCoeficient = 0.01;
+
 out vec4 fragColor;
 
 void main (void)
@@ -20,5 +24,8 @@ void main (void)
     
     vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);
 
-    fragColor = (ambient + diffuse) * objColor;
+    float lightDistance = length(lightVector);
+    float attenuation = 1 / (constantAttCoeficient + linearAttCoeficient * lightDistance + quadraticAttCoeficient * lightDistance * lightDistance);
+
+    fragColor = ((diffuse * attenuation) + ambient) * objColor;
 }
