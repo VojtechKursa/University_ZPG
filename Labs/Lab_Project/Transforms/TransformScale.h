@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Transform.h"
+#include "../Interfaces/ITransformContinuousable.h"
 
 
 
-class TransformScale : public Transform
+class TransformScale : public Transform, public ITransformContinuousable
 {
 public:
     glm::vec3 scalingVector;
@@ -15,4 +16,5 @@ public:
     TransformScale(float scale);
 
     virtual glm::mat4 getMatrix() override;
+    virtual void increaseTransformParameter(glm::vec3 increase) override;
 };

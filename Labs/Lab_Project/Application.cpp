@@ -243,12 +243,15 @@ void Application::printVersionInfo()
 
 void Application::loadDefaultScene()
 {
+	//SceneLoader::loadRotatingSquare(this->renderer);
 	//SceneLoader::loadDefault3DScene(this->renderer);
+
+	SceneLoader::loadContinuousMovementDemo(this->renderer);
 
 	//SceneLoader::loadSphereWithLight(this->renderer, BLINN);
 	//SceneLoader::loadSpheresWithLight(this->renderer, BLINN);
 	//SceneLoader::loadLightsDemoScene(this->renderer);
-	SceneLoader::loadForest(this->renderer);
+	//SceneLoader::loadForest(this->renderer);
 }
 
 

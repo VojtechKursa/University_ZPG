@@ -1,10 +1,11 @@
 #pragma once
 
 #include "Transform.h"
+#include "../Interfaces/ITransformContinuousable.h"
 
 
 
-class TransformRotateSimple : public Transform
+class TransformRotateSimple : public Transform, public ITransformContinuousable
 {
 public:
     glm::vec3 pivotAxis;
@@ -23,5 +24,6 @@ public:
     TransformRotateSimple(float pivotAxisX, float pivotAxisY, float pivotAxisZ, float rotationAngle);
 
     virtual glm::mat4 getMatrix() override;
+    virtual void increaseTransformParameter(glm::vec3 increase) override;
 };
 

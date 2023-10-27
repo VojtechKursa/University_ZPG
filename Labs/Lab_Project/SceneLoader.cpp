@@ -3,9 +3,16 @@
 #include "DrawableObjectFactory.h"
 #include "Helper.h"
 
+#include "ModelManager.h"
+#include "ShaderManager.h"
+#include "Transforms/TransformContinuous.h"
+#include "Transforms/TransformTranslate.h"
+
+
 
 const LightModel SceneLoader::lightModels[] = {CONST, LAMBERT, PHONG, BLINN};
 const int SceneLoader::lightModelsCount = sizeof(lightModels) / sizeof(LightModel);
+
 
 
 std::string SceneLoader::getFragmentShaderName(LightModel lightModel)
@@ -23,6 +30,34 @@ std::string SceneLoader::getFragmentShaderName(LightModel lightModel)
         default:
             return "frag_light_const";
     }
+}
+
+
+
+void SceneLoader::loadRotatingSquare(Renderer* renderer)
+{
+    renderer->addObject(DrawableObjectFactory::createRotatingSquare());
+}
+
+void SceneLoader::loadContinuousMovementDemo(Renderer* renderer)
+{
+    Camera* camera = renderer->getCamera();
+    camera->setRotation(Rotation(270, 90, 0));
+
+
+    TransformContinuous* transform = new TransformContinuous(new TransformTranslate(-5, 0, -10), glm::vec3(1,0,0), 'P');
+    Model* sphere = ModelManager::getInstance()->get("sphere");
+    ShaderManager* shaderManager = ShaderManager::getInstance();
+
+    Shader* frag = shaderManager->get("vert_default_colorPass3");
+    Shader* vert = shaderManager->get("frag_colorFromIn3");
+    
+    ShaderProgram* shader = new ShaderProgram();
+    shader->addShader(frag);
+    shader->addShader(vert);
+    shader->link();
+
+    renderer->addObject(new DrawableObject(sphere, shader, transform));
 }
 
 void SceneLoader::loadDefault3DScene(Renderer* renderer)

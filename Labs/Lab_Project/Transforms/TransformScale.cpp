@@ -25,3 +25,8 @@ glm::mat4 TransformScale::getMatrix()
 {
     return glm::scale(glm::identity<glm::mat4>(), this->scalingVector);
 }
+
+void TransformScale::increaseTransformParameter(glm::vec3 increase)
+{
+    this->scalingVector += increase;
+}

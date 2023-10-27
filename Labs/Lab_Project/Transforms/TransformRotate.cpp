@@ -30,3 +30,10 @@ void TransformRotate::setRotation(Rotation rotation)
     this->pitchRotate->rotationAngle = rotation.pitch;
     this->rollRotate->rotationAngle = rotation.roll;
 }
+
+void TransformRotate::increaseTransformParameter(glm::vec3 increase)
+{
+    this->yawRotate->rotationAngle += increase.x;
+    this->pitchRotate->rotationAngle += increase.y;
+    this->rollRotate->rotationAngle += increase.z;
+}

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "TransformComposite.h"
+#include "TransformCompositeContinuousable.h"
 #include "TransformRotateSimple.h"
 #include "../Rotation.h"
 
 
 
-class TransformRotate : public TransformComposite
+class TransformRotate : public TransformCompositeContinuousable
 {
 private:
     TransformRotateSimple* yawRotate;
@@ -19,5 +19,7 @@ public:
 
     Rotation getRotation();
     void setRotation(Rotation rotation);
+
+    virtual void increaseTransformParameter(glm::vec3 increase) override;
 };
 

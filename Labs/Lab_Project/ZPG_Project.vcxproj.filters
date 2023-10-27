@@ -93,6 +93,12 @@
     <ClCompile Include="Transforms\TransformComposite.cpp">
       <Filter>Transforms</Filter>
     </ClCompile>
+    <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp">
+      <Filter>Transforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Transforms\TransformContinuous.cpp">
+      <Filter>Transforms</Filter>
+    </ClCompile>
     <ClCompile Include="Transforms\TransformGeneric.cpp">
       <Filter>Transforms</Filter>
     </ClCompile>
@@ -100,9 +106,6 @@
       <Filter>Transforms</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotate.cpp">
-      <Filter>Transforms</Filter>
-    </ClCompile>
-    <ClCompile Include="Transforms\TransformRotateContinuous.cpp">
       <Filter>Transforms</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotateSimple.cpp">
@@ -194,6 +197,12 @@
     <ClInclude Include="Transforms\TransformComposite.h">
       <Filter>Transforms</Filter>
     </ClInclude>
+    <ClInclude Include="Transforms\TransformCompositeContinuousable.h">
+      <Filter>Transforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformContinuous.h">
+      <Filter>Transforms</Filter>
+    </ClInclude>
     <ClInclude Include="Transforms\TransformGeneric.h">
       <Filter>Transforms</Filter>
     </ClInclude>
@@ -201,9 +210,6 @@
       <Filter>Transforms</Filter>
     </ClInclude>
     <ClInclude Include="Transforms\TransformRotate.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformRotateContinuous.h">
       <Filter>Transforms</Filter>
     </ClInclude>
     <ClInclude Include="Transforms\TransformRotateSimple.h">
@@ -231,6 +237,12 @@
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Interfaces\IProjectionMatrixChangedObserver.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\ITransform.h">
+      <Filter>Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\ITransformContinuousable.h">
       <Filter>Interfaces</Filter>
     </ClInclude>
     <ClInclude Include="Interfaces\IViewMatrixChangedObserver.h">

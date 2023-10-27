@@ -31,6 +31,8 @@
     <ClInclude Include="Interfaces\ILightObserver.h" />
     <ClInclude Include="Interfaces\IMouseButtonObserver.h" />
     <ClInclude Include="Interfaces\IProjectionMatrixChangedObserver.h" />
+    <ClInclude Include="Interfaces\ITransform.h" />
+    <ClInclude Include="Interfaces\ITransformContinuousable.h" />
     <ClInclude Include="Interfaces\IViewMatrixChangedObserver.h" />
     <ClInclude Include="Interfaces\IViewPortChangedObserver.h" />
     <ClInclude Include="Light.h" />
@@ -58,10 +60,11 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Transforms\Transform.h" />
     <ClInclude Include="Transforms\TransformComposite.h" />
+    <ClInclude Include="Transforms\TransformCompositeContinuousable.h">
+    <ClInclude Include="Transforms\TransformContinuous.h">
     <ClInclude Include="Transforms\TransformGeneric.h" />
     <ClInclude Include="Transforms\TransformModel.h" />
     <ClInclude Include="Transforms\TransformRotate.h" />
-    <ClInclude Include="Transforms\TransformRotateContinuous.h" />
     <ClInclude Include="Transforms\TransformRotateSimple.h" />
     <ClInclude Include="Transforms\TransformScale.h" />
     <ClInclude Include="Transforms\TransformTranslate.h" />
@@ -90,10 +93,11 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Transforms\Transform.cpp" />
     <ClCompile Include="Transforms\TransformComposite.cpp" />
+    <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp">
+    <ClCompile Include="Transforms\TransformContinuous.cpp">
     <ClCompile Include="Transforms\TransformGeneric.cpp" />
     <ClCompile Include="Transforms\TransformModel.cpp" />
     <ClCompile Include="Transforms\TransformRotate.cpp" />
-    <ClCompile Include="Transforms\TransformRotateContinuous.cpp" />
     <ClCompile Include="Transforms\TransformRotateSimple.cpp" />
     <ClCompile Include="Transforms\TransformScale.cpp" />
     <ClCompile Include="Transforms\TransformTranslate.cpp" />

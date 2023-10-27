@@ -1,14 +1,13 @@
 #pragma once
 
-#include <glm/mat4x4.hpp>
 #include <glm/ext.hpp>
 
+#include "../Interfaces/ITransform.h"
 
 
-class Transform
+
+class Transform : public ITransform
 {
 public:
     virtual ~Transform();
-
-    virtual glm::mat4 getMatrix() = 0;
 };

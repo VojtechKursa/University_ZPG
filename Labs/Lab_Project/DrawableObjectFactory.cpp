@@ -8,7 +8,7 @@
 #include "FragmentShader.h"
 
 #include "Transforms/TransformModel.h"
-#include "Transforms/TransformRotateContinuous.h"
+#include "Transforms/TransformContinuous.h"
 
 #include "ModelFactory.h"
 
@@ -67,11 +67,13 @@ DrawableObject *DrawableObjectFactory::createRotatingSquare()
 
 	TransformComposite* transform = new TransformComposite();
 
-	TransformRotateContinuous* rotation = new TransformRotateContinuous(Rotation(0,0,(float)M_PI/(float)8), ' ');
+	TransformContinuous* rotation = new TransformContinuous(new TransformRotate(), glm::vec3(0, 0, 30), ' ');
+	TransformContinuous* translation = new TransformContinuous(new TransformTranslate(glm::vec3(0,0,0)), glm::vec3(0,0,0.5f), ' ');
 	TransformScale* scale = new TransformScale(0.75);
 
 	transform->addTransform(rotation);
 	transform->addTransform(scale);
+	transform->addTransform(translation);
 
 	return new DrawableObject(model, program, transform);
 }
@@ -86,7 +88,7 @@ DrawableObject *DrawableObjectFactory::createDefaultSphere(std::string vertexSha
 	program->link();
 
 	TransformComposite* transform = new TransformComposite();
-	TransformRotateContinuous* transformRotate = new TransformRotateContinuous(rotateSpeed, 'R');
+	TransformContinuous* transformRotate = new TransformContinuous(new TransformRotate(), glm::vec3(rotateSpeed.yaw, rotateSpeed.pitch, rotateSpeed.roll), 'R');
 	TransformModel* transformModel = new TransformModel();
 	transformModel->setPosition(position);
 	transformModel->setScale(scale);
