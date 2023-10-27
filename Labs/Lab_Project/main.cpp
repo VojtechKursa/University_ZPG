@@ -1,15 +1,10 @@
 ﻿// Student: Vojtěch Kursa (KUR0170)
 
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-
-#include <stdlib.h>
-
 #include "Application.h"
 
 
 
-int main(void)
+int main(const int argc, const char** argv)
 {
 	Application* app = Application::getInstance();
 
@@ -19,7 +14,12 @@ int main(void)
 
 	app->printVersionInfo();
 
-	app->loadDefaultScene();
+	if(argc > 1)
+		app->loadDefaultScene(argv[1]);
+	else
+		app->loadDefaultScene();
 
 	app->run();
+
+	return 0;
 }

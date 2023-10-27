@@ -241,17 +241,27 @@ void Application::printVersionInfo()
 
 
 
-void Application::loadDefaultScene()
+void Application::loadDefaultScene(const char* scene)
 {
-	//SceneLoader::loadRotatingSquare(this->renderer);
-	//SceneLoader::loadDefault3DScene(this->renderer);
-
-	SceneLoader::loadContinuousMovementDemo(this->renderer);
-
-	//SceneLoader::loadSphereWithLight(this->renderer, BLINN);
-	//SceneLoader::loadSpheresWithLight(this->renderer, BLINN);
-	//SceneLoader::loadLightsDemoScene(this->renderer);
-	//SceneLoader::loadForest(this->renderer);
+	if (scene == nullptr)
+		scene = "forest";
+	
+	if(!strcasecmp(scene, "rotate"))
+		SceneLoader::loadRotatingSquare(this->renderer);
+	else if(!strcasecmp(scene, "3d"))
+		SceneLoader::loadDefault3DScene(this->renderer);
+	else if(!strcasecmp(scene, "cont"))
+		SceneLoader::loadContinuousMovementDemo(this->renderer);
+	else if(!strcasecmp(scene, "sphere"))
+		SceneLoader::loadSphereWithLight(this->renderer, BLINN);
+	else if(!strcasecmp(scene, "spheres"))
+		SceneLoader::loadSpheresWithLight(this->renderer, BLINN);
+	else if(!strcasecmp(scene, "lights"))
+		SceneLoader::loadLightsDemoScene(this->renderer);
+	else if(!strcasecmp(scene, "forest"))
+		SceneLoader::loadForest(this->renderer);
+	else
+		SceneLoader::loadForest(this->renderer);
 }
 
 

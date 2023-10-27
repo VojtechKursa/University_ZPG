@@ -64,7 +64,7 @@ public:
 
 	void printVersionInfo();
 
-	void loadDefaultScene();
+	void loadDefaultScene(const char* scene = nullptr);
 
 	void run();
 
