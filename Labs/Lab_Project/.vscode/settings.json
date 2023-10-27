@@ -1,0 +1,14 @@
+{
+    "search.exclude": {
+        "**/build": true,       // kept here so these files can be removed from files.exclude and still be ignored by search
+        "**/CMakeFiles": true
+    },
+    "files.exclude": {
+        "cmake_install.cmake": true,
+        "CMakeCache.txt": true,
+        "CMakeDoxyfile.in": true,
+        "CMakeDoxygenDefaults.cmake": true,
+        "build/": true,
+        "CMakeFiles/": true
+    }
+}
