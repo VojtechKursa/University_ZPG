@@ -4,15 +4,18 @@
 
 
 
-DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram)
-	: DrawableObject(model, shaderProgram, new TransformTranslate())
+DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Material material)
+	: DrawableObject(model, shaderProgram, new TransformTranslate(), material)
 { }
 
-DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Transform *transformation)
+DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Transform *transformation, Material material)
 {
 	this->model = model;
 	this->shaderProgram = shaderProgram;
 	this->transformation = transformation;
+	this->material = material;
+
+	this->material.setToShader(this->shaderProgram);
 }
 
 

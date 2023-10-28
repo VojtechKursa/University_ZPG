@@ -107,7 +107,25 @@ void ShaderProgram::unuse()
 	glUseProgram(0);
 }
 
-bool ShaderProgram::bindUniform(const char* uniformName, glm::vec3 vec)
+
+
+bool ShaderProgram::bindUniform(const char *uniformName, float value)
+{
+	this->use();
+
+	GLint uniformId = glGetUniformLocation(this->programId, uniformName);
+
+	if (uniformId != -1)
+	{
+		glUniform1f(uniformId, value);
+	}
+
+	this->unuse();
+
+	return uniformId != -1;
+}
+
+bool ShaderProgram::bindUniform(const char *uniformName, glm::vec3 vec)
 {
 	this->use();
 
@@ -116,6 +134,22 @@ bool ShaderProgram::bindUniform(const char* uniformName, glm::vec3 vec)
 	if (uniformId != -1)
 	{
 		glUniform3fv(uniformId, 1, &vec[0]);
+	}
+
+	this->unuse();
+
+	return uniformId != -1;
+}
+
+bool ShaderProgram::bindUniform(const char *uniformName, glm::vec4 vec)
+{
+    this->use();
+
+	GLint uniformId = glGetUniformLocation(this->programId, uniformName);
+
+	if (uniformId != -1)
+	{
+		glUniform4fv(uniformId, 1, &vec[0]);
 	}
 
 	this->unuse();

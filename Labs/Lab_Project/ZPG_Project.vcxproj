@@ -37,6 +37,8 @@
     <ClInclude Include="Interfaces\IViewPortChangedObserver.h" />
     <ClInclude Include="Light.h" />
     <ClInclude Include="Manager.h" />
+    <ClInclude Include="Material.h" />
+    <ClInclude Include="MaterialSetFlag.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="ModelFactory.h" />
     <ClInclude Include="ModelManager.h" />
@@ -80,6 +82,7 @@
     <ClCompile Include="Helper.cpp" />
     <ClCompile Include="Light.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Material.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="ModelFactory.cpp" />
     <ClCompile Include="ModelManager.cpp" />

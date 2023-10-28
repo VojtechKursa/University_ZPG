@@ -141,11 +141,6 @@ DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 	program->addShader(ShaderManager::getInstance()->get(properties.fragmentShaderName));
 	program->link();
 
-	if (properties.fragmentShaderName == "frag_colorConst")
-	{
-		program->bindUniform("objColor", properties.color);
-	}
-
 	if(properties.bindToLights)
 	{
 		std::vector<Light*> lights = Application::getInstance()->getRenderer()->getLights();
@@ -161,7 +156,7 @@ DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 	transform->setRotation(properties.rotation);
 	transform->setScale(properties.scale);
 
-	return new DrawableObject(model, program, transform);
+	return new DrawableObject(model, program, transform, properties.material);
 }
 
 
@@ -174,8 +169,6 @@ Light *DrawableObjectFactory::createLight(glm::vec3 position, bool movable, std:
 		program->addShader(ShaderManager::getInstance()->get(vertexShaderName));
 		program->addShader(ShaderManager::getInstance()->get(fragmentShaderName));
 		program->link();
-
-		program->bindUniform("objColor", color);
 
 		TransformModel* transform = new TransformModel();
 		transform->setScale(scale);

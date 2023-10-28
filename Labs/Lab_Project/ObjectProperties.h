@@ -5,6 +5,7 @@
 #include <string>
 
 #include "Rotation.h"
+#include "Material.h"
 
 
 
@@ -17,5 +18,5 @@ struct ObjectProperties
     std::string vertexShaderName = "vert_default_colorPass4";
     std::string fragmentShaderName = "frag_colorFromIn4";
     bool bindToLights = false;
-    glm::vec3 color = glm::vec3(1,1,1);
+    Material material = Material();
 };

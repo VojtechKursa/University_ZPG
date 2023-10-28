@@ -11,14 +11,18 @@ uniform float constantAttCoeficient = 1;
 uniform float linearAttCoeficient = 0.1;
 uniform float quadraticAttCoeficient = 0.01;
 
+uniform float ambientCoeficient = 1;
+uniform float diffusionCoeficient = 1;
+uniform float specularCoeficient = 2;
+uniform float shininessConstant = 32;
+
+uniform vec4 objColor = vec4(0.385, 0.647, 0.812, 1.0);
+
 out vec4 fragColor;
 
 void main (void)
 {
-    vec4 objColor = vec4(0.385, 0.647, 0.812, 1.0);
     vec4 lightColor4 = vec4(lightColor, 1.0);
-    float specularStrength = 2;
-    float shininessConstant = 32;
 
     vec3 worldPos3 = worldPos.xyz / worldPos.w;
     vec3 worldNorNor = normalize(worldNor);
@@ -36,13 +40,13 @@ void main (void)
     else
     {
         float spec = pow(max(dot(worldNorNor, halfwayDir), 0.0), shininessConstant);
-        specular = specularStrength * spec * lightColor4;
+        specular = specularCoeficient * spec * lightColor4;
     }
     
     float dotProduct = max(dot(lightVectorNorm, worldNorNor), 0.0);
-    vec4 diffuse = dotProduct * lightColor4;
+    vec4 diffuse = dotProduct * lightColor4 * diffusionCoeficient;
 
-    vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0);
+    vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0) * ambientCoeficient;
 
     float lightDistance = length(lightVector);
     float attenuation = 1 / (constantAttCoeficient + linearAttCoeficient * lightDistance + quadraticAttCoeficient * lightDistance * lightDistance);

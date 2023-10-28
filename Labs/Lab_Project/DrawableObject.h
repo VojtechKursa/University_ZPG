@@ -3,8 +3,7 @@
 #include "ShaderProgram.h"
 #include "Model.h"
 #include "Transforms/Transform.h"
-
-#include "Rotation.h"
+#include "Material.h"
 
 
 
@@ -14,10 +13,11 @@ protected:
 	ShaderProgram* shaderProgram;
 	Model* model;
 	Transform* transformation;
+	Material material;
 
 public:
-	DrawableObject(Model* model, ShaderProgram* shaderProgram);
-	DrawableObject(Model* model, ShaderProgram* shaderProgram, Transform* transformation);
+	DrawableObject(Model* model, ShaderProgram* shaderProgram, Material material = Material());
+	DrawableObject(Model* model, ShaderProgram* shaderProgram, Transform* transformation, Material material = Material());
 
 	virtual void draw();
 };

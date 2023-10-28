@@ -17,7 +17,7 @@ void Light::notifyObservers()
 
 
 Light::Light(glm::vec3 position, glm::vec3 lightColor, Transform* transformation, ShaderProgram* shaderProgram, Model* model, bool movable)
-    : DrawableObject(model, shaderProgram, transformation)
+    : DrawableObject(model, shaderProgram, transformation, Material(lightColor))
 {
     this->position = position;
     this->lightColor = lightColor;

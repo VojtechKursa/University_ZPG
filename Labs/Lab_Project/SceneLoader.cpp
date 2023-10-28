@@ -1,6 +1,8 @@
 #include "SceneLoader.h"
 
 #include "DrawableObjectFactory.h"
+#include "ObjectProperties.h"
+#include "Material.h"
 #include "Helper.h"
 
 #include "ModelManager.h"
@@ -186,7 +188,7 @@ void SceneLoader::loadForest(Renderer* renderer)
     plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
     plainProperties.modelName = "plain";
     plainProperties.fragmentShaderName = "frag_colorConst";
-    plainProperties.color = glm::vec3(0.3f, 0.8f, 0.3f);
+    plainProperties.material = Material(glm::vec3(0, 0.3f, 0));
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));
 

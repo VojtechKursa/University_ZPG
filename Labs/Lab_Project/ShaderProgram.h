@@ -35,7 +35,9 @@ public:
 	void use();
 	static void unuse();
 
+	bool bindUniform(const char* uniformName, float value);
 	bool bindUniform(const char* uniformName, glm::vec3 vec);
+	bool bindUniform(const char* uniformName, glm::vec4 vec);
 	bool bindUniform(const char* uniformName, glm::mat3 matrix);
 	bool bindUniform(const char* uniformName, glm::mat4 matrix);
 
