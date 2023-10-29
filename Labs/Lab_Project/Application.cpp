@@ -252,6 +252,8 @@ void Application::loadDefaultScene(const char* scene)
 		SceneLoader::loadDefault3DScene(this->renderer);
 	else if(!strcasecmp(scene, "cont"))
 		SceneLoader::loadContinuousMovementDemo(this->renderer);
+	else if(!strcasecmp(scene, "solar"))
+		SceneLoader::loadSolarSystem(this->renderer);
 	else if(!strcasecmp(scene, "sphere"))
 		SceneLoader::loadSphereWithLight(this->renderer, BLINN);
 	else if(!strcasecmp(scene, "spheres"))

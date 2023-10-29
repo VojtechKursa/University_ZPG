@@ -1,5 +1,6 @@
 #include "SceneLoader.h"
 
+#include "OrbittingObject.h"
 #include "DrawableObjectFactory.h"
 #include "ObjectProperties.h"
 #include "Material.h"
@@ -60,6 +61,46 @@ void SceneLoader::loadContinuousMovementDemo(Renderer* renderer)
     shader->link();
 
     renderer->addObject(new DrawableObject(sphere, shader, transform));
+}
+
+void SceneLoader::loadSolarSystem(Renderer* renderer)
+{
+    const float scales[] = {
+        1,
+        0.5f,
+        0.25f
+    };
+    const glm::vec3 offsets[] = {
+        {0, 0, 0},
+        {3.5f, 0, 0},
+        {1, 0, 0}
+    };
+    float rotationSpeed = 30;
+
+
+    Camera* camera = renderer->getCamera();
+    camera->setRotation(Rotation(270, 120, 0));
+    camera->setPosition(glm::vec3(0, 4, 8));
+
+    Model* sphere = ModelManager::getInstance()->get("sphere");
+
+    ShaderManager* shaderManager = ShaderManager::getInstance();
+    Shader* frag = shaderManager->get("vert_default_colorPass3");
+    Shader* vert = shaderManager->get("frag_colorFromIn3");
+    
+    ShaderProgram* shader = new ShaderProgram();
+    shader->addShader(frag);
+    shader->addShader(vert);
+    shader->link();
+
+    OrbittingObject* obj = new OrbittingObject(sphere, shader, new TransformScale(scales[0]), glm::vec3(0,1,0), rotationSpeed, glm::vec3(0,0,0), offsets[0]);
+    renderer->addObject(obj);
+
+    for(int i = 1; i < 3; i++)
+    {
+        obj = new OrbittingObject(sphere, shader, new TransformScale(scales[i]), glm::vec3(0,1,0), i * rotationSpeed, obj, offsets[i]);
+        renderer->addObject(obj);
+    }
 }
 
 void SceneLoader::loadDefault3DScene(Renderer* renderer)

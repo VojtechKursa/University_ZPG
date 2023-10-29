@@ -63,6 +63,9 @@
     <ClCompile Include="MovingObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="OrbittingObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -109,6 +112,9 @@
       <Filter>Transforms</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotate.cpp">
+      <Filter>Transforms</Filter>
+    </ClCompile>
+    <ClCompile Include="Transforms\TransformRotateAround.cpp">
       <Filter>Transforms</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotateSimple.cpp">
@@ -170,6 +176,9 @@
     <ClInclude Include="ObservedSubjectHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="OrbittingObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -219,6 +228,9 @@
       <Filter>Transforms</Filter>
     </ClInclude>
     <ClInclude Include="Transforms\TransformRotate.h">
+      <Filter>Transforms</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformRotateAround.h">
       <Filter>Transforms</Filter>
     </ClInclude>
     <ClInclude Include="Transforms\TransformRotateSimple.h">

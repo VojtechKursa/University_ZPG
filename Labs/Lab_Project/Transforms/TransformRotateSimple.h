@@ -14,13 +14,13 @@ public:
     TransformRotateSimple();
     
     //* \param pivotAxis The axis of rotation
-    //* \param rotationAngle The angle of rotation (in radians)
+    //* \param rotationAngle The angle of rotation (in degrees)
     TransformRotateSimple(glm::vec3 pivotAxis, float rotationAngle);
 
     //* \param pivotAxisX The X part of the vector defining the axis of rotation
     //* \param pivotAxisY The Y part of the vector defining the axis of rotation
     //* \param pivotAxisZ The Z part of the vector defining the axis of rotation
-    //* \param rotationAngle The angle of rotation (in radians)
+    //* \param rotationAngle The angle of rotation (in degrees)
     TransformRotateSimple(float pivotAxisX, float pivotAxisY, float pivotAxisZ, float rotationAngle);
 
     virtual glm::mat4 getMatrix() override;

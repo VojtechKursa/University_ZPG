@@ -18,6 +18,9 @@ DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Trans
 	this->material.setToShader(this->shaderProgram);
 }
 
+DrawableObject::~DrawableObject()
+{ }
+
 
 
 void DrawableObject::draw()

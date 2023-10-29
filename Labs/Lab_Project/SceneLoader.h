@@ -27,6 +27,7 @@ private:
 public:
     static void loadRotatingSquare(Renderer* renderer);
     static void loadContinuousMovementDemo(Renderer* renderer);
+    static void loadSolarSystem(Renderer* renderer);
 
     static void loadDefault3DScene(Renderer* renderer);
     static void loadLightsDemoScene(Renderer* renderer);

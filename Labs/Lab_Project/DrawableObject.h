@@ -18,6 +18,7 @@ protected:
 public:
 	DrawableObject(Model* model, ShaderProgram* shaderProgram, Material material = Material());
 	DrawableObject(Model* model, ShaderProgram* shaderProgram, Transform* transformation, Material material = Material());
+	virtual ~DrawableObject();
 
 	virtual void draw();
 };

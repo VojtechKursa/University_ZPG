@@ -53,6 +53,7 @@
     <ClInclude Include="MovingObject.h" />
     <ClInclude Include="ObjectProperties.h" />
     <ClInclude Include="ObservedSubjectHelper.h" />
+    <ClInclude Include="OrbittingObject.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="SceneLoader.h" />
@@ -67,6 +68,7 @@
     <ClInclude Include="Transforms\TransformGeneric.h" />
     <ClInclude Include="Transforms\TransformModel.h" />
     <ClInclude Include="Transforms\TransformRotate.h" />
+    <ClInclude Include="Transforms\TransformRotateAround.h" />
     <ClInclude Include="Transforms\TransformRotateSimple.h" />
     <ClInclude Include="Transforms\TransformScale.h" />
     <ClInclude Include="Transforms\TransformTranslate.h" />
@@ -87,6 +89,7 @@
     <ClCompile Include="ModelFactory.cpp" />
     <ClCompile Include="ModelManager.cpp" />
     <ClCompile Include="MovingObject.cpp" />
+    <ClCompile Include="OrbittingObject.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
@@ -101,6 +104,7 @@
     <ClCompile Include="Transforms\TransformGeneric.cpp" />
     <ClCompile Include="Transforms\TransformModel.cpp" />
     <ClCompile Include="Transforms\TransformRotate.cpp" />
+    <ClCompile Include="Transforms\TransformRotateAround.cpp" />
     <ClCompile Include="Transforms\TransformRotateSimple.cpp" />
     <ClCompile Include="Transforms\TransformScale.cpp" />
     <ClCompile Include="Transforms\TransformTranslate.cpp" />
