@@ -86,15 +86,22 @@ void SceneLoader::loadSolarSystem(Renderer* renderer)
 
     ShaderManager* shaderManager = ShaderManager::getInstance();
     Shader* frag = shaderManager->get("vert_default_colorPass3");
-    Shader* vert = shaderManager->get("frag_colorFromIn3");
+    Shader* vert = shaderManager->get("frag_colorConst");
     
     ShaderProgram* shader = new ShaderProgram();
     shader->addShader(frag);
     shader->addShader(vert);
     shader->link();
 
-    OrbittingObject* obj = new OrbittingObject(sphere, shader, new TransformScale(scales[0]), glm::vec3(0,1,0), rotationSpeed, glm::vec3(0,0,0), offsets[0]);
+    OrbittingObject* obj = new OrbittingObject(sphere, shader, new TransformScale(scales[0]), glm::vec3(0,1,0), rotationSpeed, glm::vec3(0,0,0), offsets[0], Material(glm::vec3(0.5, 0.5, 0)));
     renderer->addObject(obj);
+
+    frag = shaderManager->get("frag_colorFromIn3");
+    vert = shaderManager->get("vert_default_colorPass3");
+    shader = new ShaderProgram();
+    shader->addShader(frag);
+    shader->addShader(vert);
+    shader->link();
 
     for(int i = 1; i < 3; i++)
     {
@@ -183,14 +190,17 @@ void SceneLoader::loadSpheresWithLight(Renderer* renderer, LightModel lightModel
 		-2,	0
 	};
 
+    LightModel lightModels[4] = { lightModel, lightModel, lightModel, lightModel };
+
     ObjectProperties properties;
     properties.modelName = "sphere";
     properties.vertexShaderName = "vert_light";
-    properties.fragmentShaderName = getFragmentShaderName(lightModel);
+    
     properties.bindToLights = true;
 
 	for(int i = 0; i < 8; i+=2)
 	{
+        properties.fragmentShaderName = getFragmentShaderName(lightModels[i / 2]);
         properties.position = glm::vec3(pos[i], 0, pos[i+1]);
 
 		renderer->addObject(DrawableObjectFactory::createObject(properties));
@@ -228,6 +238,9 @@ void SceneLoader::loadForest(Renderer* renderer)
     ObjectProperties plainProperties;
     plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
     plainProperties.modelName = "plain";
+    //plainProperties.vertexShaderName = "vert_light";
+    //plainProperties.fragmentShaderName = "frag_light_blinn";
+    //plainProperties.bindToLights = true;
     plainProperties.fragmentShaderName = "frag_colorConst";
     plainProperties.material = Material(glm::vec3(0, 0.3f, 0));
 
@@ -287,7 +300,7 @@ void SceneLoader::loadForest(Renderer* renderer)
         renderer->addObject(DrawableObjectFactory::createObject(properties));
     }
 
-
+    ;
 
     Camera* camera = renderer->getCamera();
     camera->setPosition(glm::vec3(0, 2, 0));

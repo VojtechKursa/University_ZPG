@@ -63,8 +63,8 @@
     <ClInclude Include="ShaderProgram.h" />
     <ClInclude Include="Transforms\Transform.h" />
     <ClInclude Include="Transforms\TransformComposite.h" />
-    <ClInclude Include="Transforms\TransformCompositeContinuousable.h">
-    <ClInclude Include="Transforms\TransformContinuous.h">
+    <ClInclude Include="Transforms\TransformCompositeContinuousable.h" />
+    <ClInclude Include="Transforms\TransformContinuous.h" />
     <ClInclude Include="Transforms\TransformGeneric.h" />
     <ClInclude Include="Transforms\TransformModel.h" />
     <ClInclude Include="Transforms\TransformRotate.h" />
@@ -99,8 +99,8 @@
     <ClCompile Include="ShaderProgram.cpp" />
     <ClCompile Include="Transforms\Transform.cpp" />
     <ClCompile Include="Transforms\TransformComposite.cpp" />
-    <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp">
-    <ClCompile Include="Transforms\TransformContinuous.cpp">
+    <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp" />
+    <ClCompile Include="Transforms\TransformContinuous.cpp" />
     <ClCompile Include="Transforms\TransformGeneric.cpp" />
     <ClCompile Include="Transforms\TransformModel.cpp" />
     <ClCompile Include="Transforms\TransformRotate.cpp" />

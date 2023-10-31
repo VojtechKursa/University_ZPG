@@ -3,6 +3,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#ifdef _MSC_VER 
+#define strncasecmp _strnicmp
+#define strcasecmp _stricmp
+#endif
+
 #include "SceneLoader.h"
 #include "ObservedSubjectHelper.h"
 
