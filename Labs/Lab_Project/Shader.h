@@ -11,6 +11,8 @@ public:
 	Shader(int type, const char* code);
 	~Shader();
 
+	bool checkStatus();
+
 	void attachToProgram(GLuint programId);
 	void detachFromProgram(GLuint programId);
 };

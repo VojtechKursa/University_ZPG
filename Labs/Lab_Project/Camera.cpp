@@ -238,13 +238,13 @@ void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 		{
 			this->addPhi((float)(x - this->lastCursorPoint[0]) * this->mouseSensitivity[0]);
 			this->addAlpha((float)(y - this->lastCursorPoint[1]) * this->mouseSensitivity[1]);
+
+			this->calculateViewMatrix();
 		}
 
 		this->lastCursorPoint[0] = (int)x;
 		this->lastCursorPoint[1] = (int)y;
 		this->firstCursorEvent = false;
-
-		this->calculateViewMatrix();
 
 		//printf("New target: %.2f %.2f %.2f\n", this->target.x, this->target.y, this->target.z);
 	}
@@ -317,6 +317,9 @@ void Camera::mouseButtonPressedHandler(GLFWwindow* window, int button, int actio
 		if(action == GLFW_PRESS)
 		{
 			this->cameraRotationEnabled = true;
+			
+			this->lastCursorPoint[0] = this->lastCursorPoint[1] = 0;
+			this->firstCursorEvent = true;
 		}
 		else if(action == GLFW_RELEASE)
 		{
