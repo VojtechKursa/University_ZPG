@@ -195,24 +195,26 @@ bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
 
 void ShaderProgram::notify(const Event *event)
 {
-	const CameraEventData* cameraData; 
-	const MatrixEventData* matrixData;
-	const LightEventData* lightData;
-
 	switch(event->eventType)
 	{
 		case EVENT_CAMERA:
-			cameraData = static_cast<const CameraEventData*>(event->data);
-			this->viewMatrixChangedHandler(cameraData->matrix, cameraData->cameraPosition);
+		{
+			const CameraEventData* data = static_cast<const CameraEventData*>(event->data);
+			this->viewMatrixChangedHandler(data->matrix, data->cameraPosition);
 			break;
+		}
 		case EVENT_PROJECTION_MATRIX:
-			matrixData = static_cast<const MatrixEventData*>(event->data);
-			this->projectionMatrixChangedHandler(matrixData->matrix);
+		{
+			const MatrixEventData* data = static_cast<const MatrixEventData*>(event->data);
+			this->projectionMatrixChangedHandler(data->matrix);
 			break;
+		}
 		case EVENT_LIGHT:
-			lightData = static_cast<const LightEventData*>(event->data);
-			this->lightChangedHandler(lightData->light);
+		{
+			const LightEventData* data = static_cast<const LightEventData*>(event->data);
+			this->lightChangedHandler(data->light);
 			break;
+		}
 	}
 }
 

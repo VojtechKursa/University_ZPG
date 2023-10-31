@@ -78,19 +78,20 @@ bool Light::setLightColor(glm::vec3 lightColor)
 
 void Light::notify(const Event *event)
 {
-    const FrameEventData* frameData;
-    const KeyEventData* keyData;
-
     switch(event->eventType)
     {
         case EVENT_FRAME:
-            frameData = static_cast<const FrameEventData*>(event->data);
-            this->frameHandler(frameData->timeSinceLastFrameSec);
+        {
+            const FrameEventData* data = static_cast<const FrameEventData*>(event->data);
+            this->frameHandler(data->timeSinceLastFrameSec);
             break;
+        }
         case EVENT_KEY:
-            keyData = static_cast<const KeyEventData*>(event->data);
-            this->keyHandler(keyData->key, keyData->scanCode, keyData->action, keyData->mods);
+        {
+            const KeyEventData* data = static_cast<const KeyEventData*>(event->data);
+            this->keyHandler(data->key, data->scanCode, data->action, data->mods);
             break;
+        }
     }
 }
 

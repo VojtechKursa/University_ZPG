@@ -206,34 +206,38 @@ bool Camera::getFlying()
 
 void Camera::notify(const Event *event)
 {
-	const MouseButtonEventData* mouseButtonData;
-	const CursorEventData* cursorData;
-	const KeyEventData* keyEventData;
-	const FrameEventData* frameData;
-	const ViewPortChangedEventData* viewPortData;
-
 	switch(event->eventType)
 	{
 		case EVENT_MOUSE_BUTTON:
-			mouseButtonData = static_cast<const MouseButtonEventData*>(event->data);
-			this->mouseButtonHandler(mouseButtonData->button, mouseButtonData->action, mouseButtonData->mode);
+		{
+			const MouseButtonEventData* data = static_cast<const MouseButtonEventData*>(event->data);
+			this->mouseButtonHandler(data->button, data->action, data->mode);
 			break;
+		}
 		case EVENT_CURSOR:
-			cursorData = static_cast<const CursorEventData*>(event->data);
-			this->cursorMovedHandler(cursorData->x, cursorData->y);
+		{
+			const CursorEventData* data = static_cast<const CursorEventData*>(event->data);
+			this->cursorMovedHandler(data->x, data->y);
 			break;
+		}
 		case EVENT_KEY:
-			keyEventData = static_cast<const KeyEventData*>(event->data);
-			this->keyHandler(keyEventData->key, keyEventData->scanCode, keyEventData->action, keyEventData->mods);
+		{
+			const KeyEventData* data = static_cast<const KeyEventData*>(event->data);
+			this->keyHandler(data->key, data->scanCode, data->action, data->mods);
 			break;
+		}
 		case EVENT_FRAME:
-			frameData = static_cast<const FrameEventData*>(event->data);
-			this->frameHandler(frameData->timeSinceLastFrameSec);
+		{
+			const FrameEventData* data = static_cast<const FrameEventData*>(event->data);
+			this->frameHandler(data->timeSinceLastFrameSec);
 			break;
+		}
 		case EVENT_VIEWPORT:
-			viewPortData = static_cast<const ViewPortChangedEventData*>(event->data);
-			this->viewPortChangedHandler(viewPortData->newWidth, viewPortData->newHeight);
+		{
+			const ViewPortChangedEventData* data = static_cast<const ViewPortChangedEventData*>(event->data);
+			this->viewPortChangedHandler(data->newWidth, data->newHeight);
 			break;
+		}
 	}
 }
 

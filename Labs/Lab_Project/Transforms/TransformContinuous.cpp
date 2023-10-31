@@ -75,19 +75,20 @@ glm::mat4 TransformContinuous::getMatrix()
 
 void TransformContinuous::notify(const Event *event)
 {
-    const KeyEventData* keyEvent;
-    const FrameEventData* framesEvent;
-
     switch(event->eventType)
     {
         case EVENT_KEY:
-            keyEvent = static_cast<const KeyEventData*>(event->data);
-            this->keyHandler(keyEvent->key, keyEvent->scanCode, keyEvent->action, keyEvent->mods);
+        {
+            const KeyEventData* data = static_cast<const KeyEventData*>(event->data);
+            this->keyHandler(data->key, data->scanCode, data->action, data->mods);
             break;
+        }
         case EVENT_FRAME:
-            framesEvent = static_cast<const FrameEventData*>(event->data);
-            this->frameHandler(framesEvent->timeSinceLastFrameSec);
+        {
+            const FrameEventData* data = static_cast<const FrameEventData*>(event->data);
+            this->frameHandler(data->timeSinceLastFrameSec);
             break;
+        }
     }
 }
 

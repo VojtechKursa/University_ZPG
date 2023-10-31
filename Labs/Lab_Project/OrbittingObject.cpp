@@ -69,9 +69,11 @@ void OrbittingObject::notify(const Event * event)
     switch(event->eventType)
     {
         case EVENT_FRAME:
-            const FrameEventData* frameEvent = static_cast<const FrameEventData*>(event->data);
-            this->frameHandler(frameEvent->timeSinceLastFrameSec);
+        {
+            const FrameEventData* data = static_cast<const FrameEventData*>(event->data);
+            this->frameHandler(data->timeSinceLastFrameSec);
             break;
+        }
     }
 }
 
