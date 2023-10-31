@@ -4,25 +4,14 @@
 
 #include <vector>
 
+#include "Subject.h"
 #include "Rotation.h"
 
-#include "Interfaces/ICursorCallbackObserver.h"
-#include "Interfaces/IKeyCallbackObserver.h"
-#include "Interfaces/IViewPortChangedObserver.h"
-#include "Interfaces/IMouseButtonObserver.h"
-#include "Interfaces/IFrameObserver.h"
-
-#include "Interfaces/IViewMatrixChangedObserver.h"
-#include "Interfaces/IProjectionMatrixChangedObserver.h"
 
 
-
-class Camera : public ICursorCallbackObserver, public IKeyCallbackObserver, public IMouseButtonObserver, public IViewPortChangedObserver, public IFrameObserver
+class Camera : public Subject, public IObserver
 {
 private:
-	std::vector<IViewMatrixChangedObserver*> viewMatrixChangedObservers;
-	std::vector<IProjectionMatrixChangedObserver*> projectionMatrixChangedObservers;
-
 	glm::vec3 eyePosition;
 
 	glm::vec3 target;
@@ -61,6 +50,12 @@ private:
 
 	glm::vec3 getActualMotionVector();
 
+	void cursorMovedHandler(double x, double y);
+	void keyHandler(int key, int scancode, int action, int mods);
+	void mouseButtonHandler(int button, int action, int mode);
+	void viewPortChangedHandler(int width, int height);
+	void frameHandler(double timeSinceLastFrameSec);
+
 
 public:
 	Camera();
@@ -79,15 +74,5 @@ public:
 	bool setFlying(bool flying);
 	bool getFlying();
 
-	bool registerViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
-	bool registerProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);
-
-	bool unregisterViewMatrixChangedObserver(IViewMatrixChangedObserver* observer);
-	bool unregisterProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer);
-
-	virtual void cursorMovedHandler(GLFWwindow* window, double x, double y) override;
-	virtual void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods) override;
-	virtual void mouseButtonPressedHandler(GLFWwindow* window, int button, int action, int mode) override;
-	virtual void viewPortChangedHandler(int width, int height) override;
-	virtual void frameHandler(double timeSinceLastFrameSec) override;
+	virtual void notify(const Event* event) override;
 };

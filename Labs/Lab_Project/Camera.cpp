@@ -3,7 +3,13 @@
 #include <stdio.h>
 
 #include "Application.h"
-#include "ObservedSubjectHelper.h"
+
+#include "Events/CursorEventData.h"
+#include "Events/MouseButtonEventData.h"
+#include "Events/KeyEventData.h"
+#include "Events/CameraEventData.h"
+#include "Events/ViewPortChangedEventData.h"
+#include "Events/FrameEventData.h"
 
 
 
@@ -22,26 +28,26 @@ void Camera::calculateTarget(float alpha, float phi)
 	this->target.y = cos(alphaRad);
 }
 
+
+
 void Camera::calculateViewMatrix()
 {
 	this->calculateTarget();
 
 	this->viewMatrix = glm::lookAt(eyePosition, eyePosition + target, up);
 
-	for (auto obs : this->viewMatrixChangedObservers)
-	{
-		obs->viewMatrixChangedHandler(this->viewMatrix, this->eyePosition);
-	}
+	const CameraEventData eventData(this->viewMatrix, this->getPosition());
+	const Event event(EVENT_CAMERA, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 void Camera::calculateProjectionMatrix()
 {
 	this->projectionMatrix = glm::perspective(glm::radians(this->fov), this->viewRatio, this->displayRangeMin, this->displayRangeMax);
 
-	for (auto obs : this->projectionMatrixChangedObservers)
-	{
-		obs->projectionMatrixChangedHandler(this->projectionMatrix);
-	}
+	const MatrixEventData data(this->projectionMatrix);
+	const Event event(EVENT_PROJECTION_MATRIX, (EventData*)&data);
+	this->notifyAll(&event);
 }
 
 
@@ -132,44 +138,12 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	this->calculateViewMatrix();
 	this->calculateProjectionMatrix();
 
-	Application* app = Application::getInstance();
-	app->registerCursorObserver(this);
-	app->registerKeyObserver(this);
-	app->registerButtonObserver(this);
-	app->registerViewPortChangedObserver(this);
-	app->registerFrameObserver(this);
+	Application::getInstance()->registerObserver(this);
 }
 
 Camera::~Camera()
 {
-	Application* app = Application::getInstance();
-	app->unregisterCursorObserver(this);
-	app->unregisterKeyObserver(this);
-	app->unregisterButtonObserver(this);
-	app->unregisterViewPortChangedObserver(this);
-	app->unregisterFrameObserver(this);
-}
-
-
-
-bool Camera::registerViewMatrixChangedObserver(IViewMatrixChangedObserver* observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->viewMatrixChangedObservers, observer);
-}
-
-bool Camera::registerProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver* observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->projectionMatrixChangedObservers, observer);
-}
-
-bool Camera::unregisterViewMatrixChangedObserver(IViewMatrixChangedObserver *observer)
-{
-	return ObservedSubjectHelper::unregisterObserver(this->viewMatrixChangedObservers, observer);
-}
-
-bool Camera::unregisterProjectionMatrixChangedObserver(IProjectionMatrixChangedObserver *observer)
-{
-	return ObservedSubjectHelper::unregisterObserver(this->projectionMatrixChangedObservers, observer);
+	Application::getInstance()->unregisterObserver(this);
 }
 
 
@@ -230,7 +204,40 @@ bool Camera::getFlying()
 
 
 
-void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
+void Camera::notify(const Event *event)
+{
+	const MouseButtonEventData* mouseButtonData;
+	const CursorEventData* cursorData;
+	const KeyEventData* keyEventData;
+	const FrameEventData* frameData;
+	const ViewPortChangedEventData* viewPortData;
+
+	switch(event->eventType)
+	{
+		case EVENT_MOUSE_BUTTON:
+			mouseButtonData = static_cast<const MouseButtonEventData*>(event->data);
+			this->mouseButtonHandler(mouseButtonData->button, mouseButtonData->action, mouseButtonData->mode);
+			break;
+		case EVENT_CURSOR:
+			cursorData = static_cast<const CursorEventData*>(event->data);
+			this->cursorMovedHandler(cursorData->x, cursorData->y);
+			break;
+		case EVENT_KEY:
+			keyEventData = static_cast<const KeyEventData*>(event->data);
+			this->keyHandler(keyEventData->key, keyEventData->scanCode, keyEventData->action, keyEventData->mods);
+			break;
+		case EVENT_FRAME:
+			frameData = static_cast<const FrameEventData*>(event->data);
+			this->frameHandler(frameData->timeSinceLastFrameSec);
+			break;
+		case EVENT_VIEWPORT:
+			viewPortData = static_cast<const ViewPortChangedEventData*>(event->data);
+			this->viewPortChangedHandler(viewPortData->newWidth, viewPortData->newHeight);
+			break;
+	}
+}
+
+void Camera::cursorMovedHandler(double x, double y)
 {
 	if(this->cameraRotationEnabled)
 	{
@@ -250,7 +257,7 @@ void Camera::cursorMovedHandler(GLFWwindow* window, double x, double y)
 	}
 }
 
-void Camera::keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods)
+void Camera::keyHandler(int key, int scancode, int action, int mods)
 {
 	switch (key)
 	{
@@ -310,7 +317,7 @@ void Camera::keyHandler(GLFWwindow* window, int key, int scancode, int action, i
 	}
 }
 
-void Camera::mouseButtonPressedHandler(GLFWwindow* window, int button, int action, int mode)
+void Camera::mouseButtonHandler(int button, int action, int mode)
 {
 	if(button == GLFW_MOUSE_BUTTON_RIGHT)
 	{

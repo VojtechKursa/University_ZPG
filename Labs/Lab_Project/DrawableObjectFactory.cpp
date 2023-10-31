@@ -147,7 +147,7 @@ DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 
 		for(auto light : lights)
 		{
-			light->registerLightObserver(program);
+			light->registerObserver(program);
 		}
 	}
 

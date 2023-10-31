@@ -20,6 +20,7 @@ file(GLOB SRC_FILES
   "${PROJECT_SOURCE_DIR}/Interfaces/*.h"
   "${PROJECT_SOURCE_DIR}/Models/*.h"
   "${PROJECT_SOURCE_DIR}/Transforms/*.h" "${PROJECT_SOURCE_DIR}/Transforms/*.cpp"
+  "${PROJECT_SOURCE_DIR}/Events/*.h" "${PROJECT_SOURCE_DIR}/Events/*.cpp"
   )
 
 add_executable (main

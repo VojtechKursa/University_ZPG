@@ -2,12 +2,11 @@
 
 #include "DrawableObject.h"
 #include "Transforms/TransformRotateAround.h"
-#include "Interfaces/IKeyCallbackObserver.h"
-#include "Interfaces/IFrameObserver.h"
 #include "Rotation.h"
+#include "Interfaces/IObserver.h"
 
 
-class OrbittingObject : public DrawableObject, public IFrameObserver
+class OrbittingObject : public DrawableObject, public IObserver
 {
 private:
     void setCurrentTransform(float timeSinceLastFrameSec);
@@ -23,6 +22,8 @@ protected:
     glm::vec3 pivotPosition;
     OrbittingObject* pivotObject;
 
+    void frameHandler(double timeSinceLastFrameSec);
+
 public:
     float rotationRate;
 
@@ -32,5 +33,5 @@ public:
 
     glm::vec4 getPosition();
 
-    virtual void frameHandler(double timeSinceLastFrameSec) override;
+    virtual void notify(const Event* event) override;
 };

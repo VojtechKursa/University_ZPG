@@ -2,6 +2,8 @@
 
 #include "Application.h"
 
+#include "Events/FrameEventData.h"
+
 
 
 OrbittingObject::OrbittingObject(Model *model, ShaderProgram *shaderProgram, Transform* transform, glm::vec3 pivotAxis, float rotationRate, glm::vec3 pivotPosition, glm::vec3 startingRelativePosition, Material material)
@@ -23,8 +25,7 @@ OrbittingObject::OrbittingObject(Model *model, ShaderProgram *shaderProgram, Tra
 
     this->transformation = composite;
 
-    Application* app = Application::getInstance();
-    app->registerFrameObserver(this);
+    Application::getInstance()->registerObserver(this);
 }
 
 OrbittingObject::OrbittingObject(Model *model, ShaderProgram *shaderProgram, Transform* transform, glm::vec3 pivotAxis, float rotationRate, OrbittingObject *pivotObject, glm::vec3 startingRelativePosition, Material material)
@@ -35,8 +36,7 @@ OrbittingObject::OrbittingObject(Model *model, ShaderProgram *shaderProgram, Tra
 
 OrbittingObject::~OrbittingObject()
 {
-    Application* app = Application::getInstance();
-    app->unregisterFrameObserver(this);
+    Application::getInstance()->registerObserver(this);
 }
 
 
@@ -63,6 +63,17 @@ glm::vec4 OrbittingObject::getPosition()
 }
 
 
+
+void OrbittingObject::notify(const Event * event)
+{
+    switch(event->eventType)
+    {
+        case EVENT_FRAME:
+            const FrameEventData* frameEvent = static_cast<const FrameEventData*>(event->data);
+            this->frameHandler(frameEvent->timeSinceLastFrameSec);
+            break;
+    }
+}
 
 void OrbittingObject::frameHandler(double timeSinceLastFrameSec)
 {

@@ -1,18 +1,11 @@
 #include "Light.h"
 
-#include "ObservedSubjectHelper.h"
 #include "Transforms/TransformModel.h"
 #include "Application.h"
 
-
-
-void Light::notifyObservers()
-{
-    for (auto observer : this->observers)
-    {
-        observer->lightChangedHandler(this);
-    }
-}
+#include "Events/FrameEventData.h"
+#include "Events/KeyEventData.h"
+#include "Events/LightEventData.h"
 
 
 
@@ -26,10 +19,7 @@ Light::Light(glm::vec3 position, glm::vec3 lightColor, Transform* transformation
 
     if(movable)
     {
-        Application* application = Application::getInstance();
-
-        application->registerKeyObserver(this);
-        application->registerFrameObserver(this);
+        Application::getInstance()->registerObserver(this);
     }
 }
 
@@ -66,7 +56,9 @@ bool Light::setPosition(glm::vec3 position)
         }
     }
 
-    this->notifyObservers();
+    const LightEventData eventData(this);
+    const Event event(EVENT_LIGHT, (EventData*)&eventData);
+    this->notifyAll(&event);
 
     return true;
 }
@@ -75,29 +67,32 @@ bool Light::setLightColor(glm::vec3 lightColor)
 {
     this->lightColor = glm::normalize(lightColor);
 
-    this->notifyObservers();
+    const LightEventData eventData(this);
+    const Event event(EVENT_LIGHT, (EventData*)&eventData);
+    this->notifyAll(&event);
 
     return true;
 }
 
 
 
-bool Light::registerLightObserver(ILightObserver* observer)
+void Light::notify(const Event *event)
 {
-    bool result = ObservedSubjectHelper::registerObserver(this->observers, observer);
+    const FrameEventData* frameData;
+    const KeyEventData* keyData;
 
-    if(result)
-        this->notifyObservers();
-
-    return result;
+    switch(event->eventType)
+    {
+        case EVENT_FRAME:
+            frameData = static_cast<const FrameEventData*>(event->data);
+            this->frameHandler(frameData->timeSinceLastFrameSec);
+            break;
+        case EVENT_KEY:
+            keyData = static_cast<const KeyEventData*>(event->data);
+            this->keyHandler(keyData->key, keyData->scanCode, keyData->action, keyData->mods);
+            break;
+    }
 }
-
-bool Light::unregisterLightObserver(ILightObserver* observer)
-{
-    return ObservedSubjectHelper::unregisterObserver(this->observers, observer);
-}
-
-
 
 void Light::frameHandler(double timeSinceLastFrameSec)
 {
@@ -107,7 +102,7 @@ void Light::frameHandler(double timeSinceLastFrameSec)
     }
 }
 
-void Light::keyHandler(GLFWwindow *window, int key, int scancode, int action, int mods)
+void Light::keyHandler(int key, int scancode, int action, int mods)
 {
     switch(key)
     {

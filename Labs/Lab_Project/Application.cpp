@@ -9,7 +9,12 @@
 #endif
 
 #include "SceneLoader.h"
-#include "ObservedSubjectHelper.h"
+
+#include "Events/KeyEventData.h"
+#include "Events/ViewPortChangedEventData.h"
+#include "Events/CursorEventData.h"
+#include "Events/MouseButtonEventData.h"
+#include "Events/FrameEventData.h"
 
 
 
@@ -61,10 +66,9 @@ void Application::key_callback(GLFWwindow *window, int key, int scancode, int ac
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
-	for(auto observer : this->keyObservers)
-	{
-		observer->keyHandler(window, key, scancode, action, mods);
-	}
+	const KeyEventData eventData(key, scancode, action, mods);
+	const Event event(EVENT_KEY, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 void Application::window_focus_callback(GLFWwindow *window, int focused)
@@ -82,40 +86,36 @@ void Application::window_size_callback(GLFWwindow *window, int width, int height
 	//printf("resize %d, %d \n", width, height);
 	glViewport(0, 0, width, height);
 
-	for (auto observer : this->windowSizeObservers)
-	{
-		observer->viewPortChangedHandler(width, height);
-	}
+	const ViewPortChangedEventData eventData(width, height);
+	const Event event(EVENT_VIEWPORT, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 void Application::cursor_callback(GLFWwindow *window, double x, double y)
 {
 	//printf("cursor_callback \n");
 
-	for(auto observer : this->cursorObservers)
-	{
-		observer->cursorMovedHandler(window, x, y);
-	}
+	const CursorEventData eventData(x, y);
+	const Event event(EVENT_CURSOR, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 void Application::button_callback(GLFWwindow *window, int button, int action, int mode)
 {
 	//printf("button_callback [%d,%d,%d]\n", button, action, mode);
 
-	for(auto observer : this->buttonCallbackObservers)
-	{
-		observer->mouseButtonPressedHandler(window, button, action, mode);
-	}
+	const MouseButtonEventData eventData(button, action, mode);
+	const Event event(EVENT_MOUSE_BUTTON, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 
 
 void Application::notifyFrameObservers(double timeSinceLastFrameSec)
 {
-	for(auto observer : this->frameObservers)
-	{
-		observer->frameHandler(timeSinceLastFrameSec);
-	}
+	const FrameEventData eventData(timeSinceLastFrameSec);
+	const Event event(EVENT_FRAME, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 
@@ -169,13 +169,6 @@ void Application::init()
 	*/
 
 	this->renderer = new Renderer();
-
-	/*
-	glLightf(GL_LIGHT0, GL_CONSTANT_ATTENUATION, 1.f);
-	glLightf(GL_LIGHT0, GL_LINEAR_ATTENUATION, 0.1f);
-	glLightf(GL_LIGHT0, GL_QUADRATIC_ATTENUATION, 0.01f);
-	glEnable(GL_LIGHTING);
-	*/
 }
 
 void Application::terminate()
@@ -292,58 +285,4 @@ void Application::run()
 
 		glfwPollEvents();
 	}
-}
-
-
-
-bool Application::registerKeyObserver(IKeyCallbackObserver *observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->keyObservers, observer);
-}
-
-bool Application::registerCursorObserver(ICursorCallbackObserver *observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->cursorObservers, observer);
-}
-
-bool Application::registerViewPortChangedObserver(IViewPortChangedObserver* observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->windowSizeObservers, observer);
-}
-
-bool Application::registerButtonObserver(IMouseButtonObserver *observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->buttonCallbackObservers, observer);
-}
-
-bool Application::registerFrameObserver(IFrameObserver *observer)
-{
-	return ObservedSubjectHelper::registerObserver(this->frameObservers, observer);
-}
-
-
-
-bool Application::unregisterKeyObserver(IKeyCallbackObserver *observer)
-{
-	return ObservedSubjectHelper::unregisterObserver(this->keyObservers, observer);
-}
-
-bool Application::unregisterCursorObserver(ICursorCallbackObserver *observer)
-{
-	return ObservedSubjectHelper::unregisterObserver(this->cursorObservers, observer);
-}
-
-bool Application::unregisterViewPortChangedObserver(IViewPortChangedObserver* observer)
-{
-	return ObservedSubjectHelper::unregisterObserver(this->windowSizeObservers, observer);
-}
-
-bool Application::unregisterButtonObserver(IMouseButtonObserver *observer)
-{
-	return ObservedSubjectHelper::unregisterObserver(this->buttonCallbackObservers, observer);
-}
-
-bool Application::unregisterFrameObserver(IFrameObserver *observer)
-{
-    return ObservedSubjectHelper::unregisterObserver(this->frameObservers, observer);
 }

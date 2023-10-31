@@ -1,13 +1,13 @@
 #pragma once
 
-#include "../Interfaces/IKeyCallbackObserver.h"
-#include "../Interfaces/IFrameObserver.h"
 #include "../Interfaces/ITransformContinuousable.h"
 #include "Transform.h"
 
+#include "../Interfaces/IObserver.h"
 
 
-class TransformContinuous : public Transform, public IKeyCallbackObserver, public IFrameObserver
+
+class TransformContinuous : public Transform, public IObserver
 {
 private:
     char pauseKey;
@@ -20,6 +20,9 @@ private:
 
     void setCurrentTransform(float timeSinceLastFrameSec);
 
+    void keyHandler(int key, int scancode, int action, int mods);
+    void frameHandler(double timeSinceLastFrameSec);
+
 public:
     TransformContinuous(ITransformContinuousable* transform, glm::vec3 rate, char pauseKey = 0);
     virtual ~TransformContinuous() override;
@@ -30,7 +33,6 @@ public:
     void setPauseKey(char pauseKey);
     void unsetPauseKey();
 
-    virtual void keyHandler(GLFWwindow* window, int key, int scancode, int action, int mods) override;
-    virtual void frameHandler(double timeSinceLastFrameSec) override;
+    virtual void notify(const Event* event) override;
 };
 

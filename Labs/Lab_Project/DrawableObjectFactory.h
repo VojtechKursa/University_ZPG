@@ -3,7 +3,6 @@
 #include <string>
 
 #include "DrawableObject.h"
-#include "MovingObject.h"
 #include "ObjectProperties.h"
 
 

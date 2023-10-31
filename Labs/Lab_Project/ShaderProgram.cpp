@@ -6,6 +6,10 @@
 #include "Application.h"
 #include "Light.h"
 
+#include "Events/CameraEventData.h"
+#include "Events/MatrixEventData.h"
+#include "Events/LightEventData.h"
+
 
 
 ShaderProgram::ShaderProgram()
@@ -14,8 +18,7 @@ ShaderProgram::ShaderProgram()
 
 	this->camera = Application::getInstance()->getRenderer()->getCamera();
 
-	this->camera->registerViewMatrixChangedObserver(this);
-	this->camera->registerProjectionMatrixChangedObserver(this);
+	this->camera->registerObserver(this);
 }
 
 ShaderProgram::~ShaderProgram()
@@ -27,8 +30,7 @@ ShaderProgram::~ShaderProgram()
 
 	glDeleteProgram(this->programId);
 
-	this->camera->unregisterViewMatrixChangedObserver(this);
-	this->camera->unregisterProjectionMatrixChangedObserver(this);
+	this->camera->unregisterObserver(this);
 }
 
 void ShaderProgram::addShader(Shader* shader)
@@ -187,6 +189,31 @@ bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
 	this->unuse();
 
 	return uniformId != -1;
+}
+
+
+
+void ShaderProgram::notify(const Event *event)
+{
+	const CameraEventData* cameraData; 
+	const MatrixEventData* matrixData;
+	const LightEventData* lightData;
+
+	switch(event->eventType)
+	{
+		case EVENT_CAMERA:
+			cameraData = static_cast<const CameraEventData*>(event->data);
+			this->viewMatrixChangedHandler(cameraData->matrix, cameraData->cameraPosition);
+			break;
+		case EVENT_PROJECTION_MATRIX:
+			matrixData = static_cast<const MatrixEventData*>(event->data);
+			this->projectionMatrixChangedHandler(matrixData->matrix);
+			break;
+		case EVENT_LIGHT:
+			lightData = static_cast<const LightEventData*>(event->data);
+			this->lightChangedHandler(lightData->light);
+			break;
+	}
 }
 
 

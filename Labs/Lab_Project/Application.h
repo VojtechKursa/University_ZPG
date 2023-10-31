@@ -6,15 +6,11 @@
 #include <vector>
 
 #include "Renderer.h"
-#include "Interfaces/IKeyCallbackObserver.h"
-#include "Interfaces/ICursorCallbackObserver.h"
-#include "Interfaces/IViewPortChangedObserver.h"
-#include "Interfaces/IMouseButtonObserver.h"
-#include "Interfaces/IFrameObserver.h"
+#include "Subject.h"
 
 
 
-class Application
+class Application : public Subject
 {
 private:
 	static Application instance;
@@ -31,12 +27,6 @@ private:
 	static void button_callback_static(GLFWwindow* window, int button, int action, int mode);
 
 	void bindCallbacks();
-
-	std::vector<IKeyCallbackObserver*> keyObservers;
-	std::vector<ICursorCallbackObserver*> cursorObservers;
-	std::vector<IViewPortChangedObserver*> windowSizeObservers;
-	std::vector<IMouseButtonObserver*> buttonCallbackObservers;
-	std::vector<IFrameObserver*> frameObservers;
 
 	void notifyFrameObservers(double timeSinceLastFrameSec);
 
@@ -67,17 +57,5 @@ public:
 	void loadDefaultScene(const char* scene = nullptr);
 
 	void run();
-
-	bool registerKeyObserver(IKeyCallbackObserver* observer);
-	bool registerCursorObserver(ICursorCallbackObserver* observer);
-	bool registerViewPortChangedObserver(IViewPortChangedObserver* observer);
-	bool registerButtonObserver(IMouseButtonObserver* observer);
-	bool registerFrameObserver(IFrameObserver* observer);
-
-	bool unregisterKeyObserver(IKeyCallbackObserver* observer);
-	bool unregisterCursorObserver(ICursorCallbackObserver* observer);
-	bool unregisterViewPortChangedObserver(IViewPortChangedObserver* observer);
-	bool unregisterButtonObserver(IMouseButtonObserver* observer);
-	bool unregisterFrameObserver(IFrameObserver* observer);
 };
 

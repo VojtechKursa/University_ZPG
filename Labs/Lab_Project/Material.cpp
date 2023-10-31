@@ -45,7 +45,7 @@ int Material::setToShader(ShaderProgram *program)
     if (program->bindUniform("specularCoeficient", this->specular))
         result |= COEF_SPECULAR;
 
-    if (program->bindUniform("shininessConstant", this->shininessConstant));
+    if (program->bindUniform("shininessConstant", this->shininessConstant))
         result |= SHININESS_CONST;
 
     if (program->bindUniform("objColor", this->color))

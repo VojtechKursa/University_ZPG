@@ -10,6 +10,7 @@
 #include "ShaderManager.h"
 #include "Transforms/TransformContinuous.h"
 #include "Transforms/TransformTranslate.h"
+#include "Transforms/TransformScale.h"
 
 
 

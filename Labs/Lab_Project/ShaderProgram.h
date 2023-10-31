@@ -4,22 +4,24 @@
 
 #include <vector>
 
+#include "Subject.h"
 #include "Shader.h"
 #include "Camera.h"
-#include "Interfaces/IViewMatrixChangedObserver.h"
-#include "Interfaces/IProjectionMatrixChangedObserver.h"
-#include "Interfaces/ILightObserver.h"
 
 class Light;
 
 
 
-class ShaderProgram : public IViewMatrixChangedObserver, public IProjectionMatrixChangedObserver, public ILightObserver
+class ShaderProgram : public Subject, public IObserver
 {
 private:
 	GLuint programId;
 	std::vector<Shader*> shaders;
 	Camera* camera;
+
+	void viewMatrixChangedHandler(glm::mat4 newMatrix, glm::vec3 newPosition);
+	void projectionMatrixChangedHandler(glm::mat4 newMatrix);
+	void lightChangedHandler(Light* light);
 
 public:
 	ShaderProgram();
@@ -41,8 +43,6 @@ public:
 	bool bindUniform(const char* uniformName, glm::mat3 matrix);
 	bool bindUniform(const char* uniformName, glm::mat4 matrix);
 
-	virtual void viewMatrixChangedHandler(glm::mat4 newMatrix, glm::vec3 newPosition) override;
-	virtual void projectionMatrixChangedHandler(glm::mat4 newMatrix) override;
-	virtual void lightChangedHandler(Light* light) override;
+	virtual void notify(const Event* event) override;
 };
 

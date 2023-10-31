@@ -2,6 +2,9 @@
 
 #include "../Application.h"
 
+#include "../Events/KeyEventData.h"
+#include "../Events/FrameEventData.h"
+
 
 
 TransformContinuous::TransformContinuous(ITransformContinuousable* transform, glm::vec3 rate, char pauseKey)
@@ -22,16 +25,12 @@ TransformContinuous::TransformContinuous(ITransformContinuousable* transform, gl
 
     this->paused = false;
 
-    Application* app = Application::getInstance();
-    app->registerKeyObserver(this);
-    app->registerFrameObserver(this);
+    Application::getInstance()->registerObserver(this);
 }
 
 TransformContinuous::~TransformContinuous()
 {
-    Application* app = Application::getInstance();
-    app->unregisterKeyObserver(this);
-    app->unregisterFrameObserver(this);
+    Application::getInstance()->unregisterObserver(this);
 
     if(this->transform != nullptr)
     {
@@ -74,7 +73,25 @@ glm::mat4 TransformContinuous::getMatrix()
 
 
 
-void TransformContinuous::keyHandler(GLFWwindow *window, int key, int scancode, int action, int mods)
+void TransformContinuous::notify(const Event *event)
+{
+    const KeyEventData* keyEvent;
+    const FrameEventData* framesEvent;
+
+    switch(event->eventType)
+    {
+        case EVENT_KEY:
+            keyEvent = static_cast<const KeyEventData*>(event->data);
+            this->keyHandler(keyEvent->key, keyEvent->scanCode, keyEvent->action, keyEvent->mods);
+            break;
+        case EVENT_FRAME:
+            framesEvent = static_cast<const FrameEventData*>(event->data);
+            this->frameHandler(framesEvent->timeSinceLastFrameSec);
+            break;
+    }
+}
+
+void TransformContinuous::keyHandler(int key, int scancode, int action, int mods)
 {
     if(action == 1 && key == pauseKey)
     {
