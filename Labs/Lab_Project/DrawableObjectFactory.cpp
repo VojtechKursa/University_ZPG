@@ -136,20 +136,10 @@ DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 {
     Model* model = ModelManager::getInstance()->get(properties.modelName);
 
-	ShaderProgram* program = new ShaderProgram();
+	ShaderProgram* program = new ShaderProgram(properties.bindToCamera, properties.bindToLights);
 	program->addShader(ShaderManager::getInstance()->get(properties.vertexShaderName));
 	program->addShader(ShaderManager::getInstance()->get(properties.fragmentShaderName));
 	program->link();
-
-	if(properties.bindToLights)
-	{
-		std::vector<Light*> lights = Application::getInstance()->getRenderer()->getLights();
-
-		for(auto light : lights)
-		{
-			light->registerObserver(program);
-		}
-	}
 
 	TransformModel* transform = new TransformModel();
 	transform->setPosition(properties.position);

@@ -17,6 +17,7 @@ struct ObjectProperties
     std::string modelName = "sphere";
     std::string vertexShaderName = "vert_default_colorPass4";
     std::string fragmentShaderName = "frag_colorFromIn4";
+    bool bindToCamera = true;
     bool bindToLights = false;
     Material material = Material();
 };

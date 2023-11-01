@@ -9,28 +9,44 @@
 #include "Events/CameraEventData.h"
 #include "Events/MatrixEventData.h"
 #include "Events/LightEventData.h"
+#include "Events/LightCountEventData.h"
 
 
 
-ShaderProgram::ShaderProgram()
+ShaderProgram::ShaderProgram(bool registerToCamera, bool registerToLights)
 {
 	this->programId = glCreateProgram();
 
-	this->camera = Application::getInstance()->getRenderer()->getCamera();
+	this->registeredToCamera = registerToCamera;
+	this->registeredToLights = registerToLights;
 
-	this->camera->registerObserver(this);
+	this->camera = Application::getInstance()->getRenderer()->getCamera();
 }
 
 ShaderProgram::~ShaderProgram()
 {
+	if(this->registeredToCamera)
+		this->camera->unregisterObserver(this);
+
+	if(this->registeredToLights)
+	{
+		Renderer* renderer = Application::getInstance()->getRenderer();
+
+		for (auto light : renderer->getLights())
+		{
+			light->unregisterObserver(this);
+		}
+
+		renderer->unregisterObserver(this);
+	}
+
+
 	for (auto shader : this->shaders)
 	{
 		shader->detachFromProgram(this->programId);
 	}
 
 	glDeleteProgram(this->programId);
-
-	this->camera->unregisterObserver(this);
 }
 
 void ShaderProgram::addShader(Shader* shader)
@@ -76,6 +92,31 @@ void ShaderProgram::link()
 
 	this->bindUniform("viewMatrix", this->camera->getViewMatrix());
 	this->bindUniform("projectionMatrix", this->camera->getProjectionMatrix());
+
+	if(this->registeredToCamera)
+	{
+		this->camera = Application::getInstance()->getRenderer()->getCamera();
+		this->camera->registerObserver(this);
+	}
+
+	if(this->registeredToLights)
+	{
+		Renderer* renderer = Application::getInstance()->getRenderer();
+		std::vector<Light*> lights = renderer->getLights();
+		Light* light;
+
+		for (int i = 0; i < lights.size(); i++)
+		{
+			light = lights[i];
+
+			light->registerObserver(this);
+			this->bindUniform("lights", light->getLightStruct(), i);
+		}
+
+		this->bindUniform("lightCount", static_cast<int>(lights.size()));
+
+		renderer->registerObserver(this);
+	}
 }
 
 bool ShaderProgram::checkStatus()
@@ -120,6 +161,22 @@ bool ShaderProgram::bindUniform(const char *uniformName, float value)
 	if (uniformId != -1)
 	{
 		glUniform1f(uniformId, value);
+	}
+
+	this->unuse();
+
+	return uniformId != -1;
+}
+
+bool ShaderProgram::bindUniform(const char *uniformName, int value)
+{
+    this->use();
+
+	GLint uniformId = glGetUniformLocation(this->programId, uniformName);
+
+	if (uniformId != -1)
+	{
+		glUniform1i(uniformId, value);
 	}
 
 	this->unuse();
@@ -191,7 +248,51 @@ bool ShaderProgram::bindUniform(const char *uniformName, glm::mat4 matrix)
 	return uniformId != -1;
 }
 
+bool ShaderProgram::bindUniform(const char *uniformName, Light *light)
+{
+	int index = light->getLightIndex();
+	LightStruct_t lightStruct = light->getLightStruct();
 
+	return this->bindUniform(uniformName, lightStruct, index);
+}
+
+bool ShaderProgram::bindUniform(const char *uniformName, LightStruct_t light, int index)
+{
+	if(index < 0)
+		return false;
+
+	this->use();
+
+	
+	char nameBuffer[256];
+
+	sprintf(nameBuffer, "%s[%d].type", uniformName, index);
+	GLint uniformId = glGetUniformLocation(this->programId, nameBuffer);
+	glUniform1i(glGetUniformLocation(this->programId, nameBuffer), light.type);
+
+	sprintf(nameBuffer, "%s[%d].position", uniformName, index);
+	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.position[0]);
+	sprintf(nameBuffer, "%s[%d].direction", uniformName, index);
+	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.direction[0]);
+
+	sprintf(nameBuffer, "%s[%d].lightColor", uniformName, index);
+	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.lightColor[0]);
+
+	sprintf(nameBuffer, "%s[%d].lightStrength", uniformName, index);
+	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.lightStrength);
+	
+	sprintf(nameBuffer, "%s[%d].constantAttCoeficient", uniformName, index);
+	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.constantAttCoeficient);
+	sprintf(nameBuffer, "%s[%d].linearAttCoeficient", uniformName, index);
+	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.linearAttCoeficient);
+	sprintf(nameBuffer, "%s[%d].quadraticAttCoeficient", uniformName, index);
+	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.quadraticAttCoeficient);
+	
+
+	this->unuse();
+
+	return uniformId != -1;
+}
 
 void ShaderProgram::notify(const Event *event)
 {
@@ -215,6 +316,12 @@ void ShaderProgram::notify(const Event *event)
 			this->lightChangedHandler(data->light);
 			break;
 		}
+		case EVENT_LIGHT_COUNT:
+		{
+			const LightCountEventData* data = static_cast<const LightCountEventData*>(event->data);
+			this->lightCountChangedHandler(data->added, data->index, data->light, data->lightStruct);
+			break;
+		}
 	}
 }
 
@@ -233,6 +340,16 @@ void ShaderProgram::projectionMatrixChangedHandler(glm::mat4 newMatrix)
 
 void ShaderProgram::lightChangedHandler(Light* light)
 {
-	this->bindUniform("lightPosition", light->getPosition());
-	this->bindUniform("lightColor", light->getLightColor());
+	this->bindUniform("lights", light);
+}
+
+void ShaderProgram::lightCountChangedHandler(bool added, int index, Light* light, LightStruct_t lightStruct)
+{
+	if(added)
+	{
+		this->bindUniform("lights", lightStruct, index);
+		this->bindUniform("lightCount", index + 1);
+
+		light->registerObserver(this);
+	}
 }

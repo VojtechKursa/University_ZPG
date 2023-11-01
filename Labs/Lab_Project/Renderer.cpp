@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "Events/LightCountEventData.h"
+
 
 
 Renderer::Renderer()
@@ -36,14 +38,32 @@ void Renderer::addObject(DrawableObject* object)
 void Renderer::addLight(Light *light)
 {
 	if(light != nullptr)
+	{
 		this->lights.push_back(light);
+
+		LightCountEventData data(light, true, this->lights.size() - 1, light->getLightStruct());
+		const Event event(EVENT_LIGHT_COUNT, &data);
+		this->notifyAll(&event);
+	}
 }
+
 
 
 
 std::vector<Light *> Renderer::getLights()
 {
     return lights;
+}
+
+int Renderer::getLightIndex(Light *light)
+{
+	for(int i = 0; i < this->lights.size(); i++)
+	{
+		if(this->lights[i] == light)
+			return i;
+	}
+
+	return -1;
 }
 
 

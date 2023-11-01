@@ -7,6 +7,7 @@
 #include "Subject.h"
 #include "Shader.h"
 #include "Camera.h"
+#include "LightStruct.h"
 
 class Light;
 
@@ -19,12 +20,15 @@ private:
 	std::vector<Shader*> shaders;
 	Camera* camera;
 
+	bool registeredToCamera, registeredToLights;
+
 	void viewMatrixChangedHandler(glm::mat4 newMatrix, glm::vec3 newPosition);
 	void projectionMatrixChangedHandler(glm::mat4 newMatrix);
 	void lightChangedHandler(Light* light);
+	void lightCountChangedHandler(bool added, int index, Light* light, LightStruct_t lightStruct);
 
 public:
-	ShaderProgram();
+	ShaderProgram(bool registerToCamera = true, bool registerToLights = true);
 	~ShaderProgram();
 
 	void addShader(Shader* shader);
@@ -38,10 +42,13 @@ public:
 	static void unuse();
 
 	bool bindUniform(const char* uniformName, float value);
+	bool bindUniform(const char* uniformName, int value);
 	bool bindUniform(const char* uniformName, glm::vec3 vec);
 	bool bindUniform(const char* uniformName, glm::vec4 vec);
 	bool bindUniform(const char* uniformName, glm::mat3 matrix);
 	bool bindUniform(const char* uniformName, glm::mat4 matrix);
+	bool bindUniform(const char* uniformName, Light* light);
+	bool bindUniform(const char* uniformName, LightStruct_t light, int index);
 
 	virtual void notify(const Event* event) override;
 };

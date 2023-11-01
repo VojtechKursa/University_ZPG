@@ -8,10 +8,11 @@
 #include "DrawableObject.h"
 #include "Camera.h"
 #include "Light.h"
+#include "Subject.h"
 
 
 
-class Renderer
+class Renderer : public Subject
 {
 private:
 	std::vector<DrawableObject*> objects;
@@ -26,6 +27,7 @@ public:
 	void addLight(Light* light);
 
 	std::vector<Light*> getLights();
+	int getLightIndex(Light* light);
 
 	void renderNextFrame(GLFWwindow* window);
 
