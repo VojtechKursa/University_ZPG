@@ -1,7 +1,7 @@
 #pragma once
 
 #include "LightEventData.h"
-#include "../LightStruct.h"
+#include "../Lights/LightStruct.h"
 
 
 

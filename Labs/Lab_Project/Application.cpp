@@ -260,6 +260,8 @@ void Application::loadDefaultScene(const char* scene)
 		SceneLoader::loadLightsDemoScene(this->renderer);
 	else if(!strcasecmp(scene, "forest"))
 		SceneLoader::loadForest(this->renderer);
+	else if(!strcasecmp(scene, "spotlight"))
+		SceneLoader::loadSpotlightTest(this->renderer);
 	else
 		SceneLoader::loadForest(this->renderer);
 }

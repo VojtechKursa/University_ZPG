@@ -4,15 +4,15 @@
 
 #include <vector>
 
-#include "Subject.h"
-#include "DrawableObject.h"
+#include "../Subject.h"
+#include "../DrawableObject.h"
 #include "LightStruct.h"
 
 
 
 class Light : public DrawableObject, public Subject, public IObserver
 {
-private:
+protected:
 	enum LightType { POINT_LIGHT, DIRECTIONAL_LIGHT, SPOT_LIGHT, LIGHT_TYPE_UNDEFINED };
 
 	glm::vec3 motionVector;
@@ -20,9 +20,15 @@ private:
 	glm::vec3 position;
 	glm::vec3 direction;
 
+	float foi;
+
 	LightType lightType;
 
 	glm::vec3 lightColor;
+
+	bool movable;
+
+	bool enabled;
 	
 	float lightStrength = 1;
     float constantAttCoeficient = 1;
@@ -36,11 +42,11 @@ private:
 	void frameHandler(double timeSinceLastFrameSec);
 	void keyHandler(int key, int scancode, int action, int mods);
 
-public:
-	Light(glm::vec3 position = glm::vec3(0, 0, 0), glm::vec3 lightColor = glm::vec3(1, 1, 1), Transform* transformation = nullptr, ShaderProgram* shaderProgram = nullptr, Model* model = nullptr, bool movable = false);
-	Light(glm::vec3 direction, glm::vec3 lightColor = glm::vec3(1, 1, 1), bool movable = false);
-	Light(glm::vec3 position, glm::vec3 direction, glm::vec3 lightColor = glm::vec3(1, 1, 1), Transform* transformation = nullptr, ShaderProgram* shaderProgram = nullptr, Model* model = nullptr, bool movable = false);
+	Light(Light::LightType type, glm::vec3 position, glm::vec3 direction, float foi, glm::vec3 lightColor, Transform* transformation, ShaderProgram* shaderProgram, Model* model, bool movable);
+	Light(Light::LightType type, glm::vec3 position, glm::vec3 direction, float foi, glm::vec3 lightColor, Transform* transformation, ShaderProgram* shaderProgram, Model* model, bool movable, Material material);
+	virtual ~Light();
 
+public:
 	glm::vec3 getPosition();
 	glm::vec3 getLightColor();
 	bool hasModel();
@@ -51,6 +57,10 @@ public:
 
 	int getLightIndex();
 	LightStruct_t getLightStruct();
+
+	void toggleEnabled();
+	bool getEnabled();
+	void setEnabled(bool enabled);
 
 
 	virtual void notify(const Event* event) override;

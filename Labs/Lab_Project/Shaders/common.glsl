@@ -39,10 +39,38 @@ float getAttenuation(float lightDistance, Light light)
     return light.lightStrength / (light.constantAttCoeficient + light.linearAttCoeficient * lightDistance + light.quadraticAttCoeficient * lightDistance * lightDistance);
 }
 
-vec4 lambert(vec3 lightVector, vec3 worldNor, vec4 lightColor4, float diffusionCoeficient)
+vec4 lambert(vec3 lightVectorNorm, vec3 worldNorNorm, vec4 lightColor4, float diffusionCoeficient)
 {
-    float dotProduct = max(dot(normalize(lightVector), normalize(worldNor)), 0.0);
+    float dotProduct = max(dot(lightVectorNorm, worldNorNorm), 0.0);
     return dotProduct * lightColor4 * diffusionCoeficient;
+}
+
+vec4 phong(vec3 lightVectorNorm, vec3 worldNorNorm, vec3 viewDir, vec4 lightColor4, float specularCoeficient, float shininessConstant)
+{
+    if (dot(worldNorNorm, lightVectorNorm) < 0.0)
+    {
+        return vec4 (0.0 , 0.0 , 0.0 , 0.0);
+    }
+    else
+    {
+        float spec = pow(max(dot(viewDir, reflect(-lightVectorNorm, worldNorNorm)), 0.0), shininessConstant);
+        return specularCoeficient * spec * lightColor4;
+    }
+}
+
+vec4 blinn(vec3 lightVectorNorm, vec3 worldNorNorm, vec3 viewDir, vec4 lightColor4, float specularCoeficient, float shininessConstant)
+{
+    vec3 halfwayDir = normalize(lightVectorNorm + viewDir);
+    
+    if (dot(worldNorNorm, lightVectorNorm) < 0.0)
+    {
+        return vec4 (0.0 , 0.0 , 0.0 , 0.0);
+    }
+    else
+    {
+        float spec = pow(max(dot(worldNorNorm, halfwayDir), 0.0), shininessConstant);
+        return specularCoeficient * spec * lightColor4;
+    }
 }
 
 float spotlightDropoffLinear(Light light, vec3 lightVectorNorm)
@@ -70,51 +98,4 @@ float spotlightDropoffSharp(Light light, vec3 lightVectorNorm)
     {
         return 1.0;
     }
-}
-
-
-
-
-
-in vec4 worldPos;
-in vec3 worldNor;
-
-uniform Light lights[10];
-uniform int lightCount = 0;
-
-uniform float ambientCoeficient = 1;
-uniform float diffusionCoeficient = 1;
-
-uniform vec4 objColor = vec4(0.385, 0.647, 0.812, 1.0);
-
-out vec4 fragColor;
-
-
-
-void main (void)
-{
-    fragColor = vec4(0,0,0,1);
-    Light light;
-    
-    for(int i = 0; i < lightCount; i++)
-    {
-        light = lights[i];
-
-        if(light.disabled)
-            continue;
-
-        vec4 lightColor4 = vec4(light.lightColor, 1.0);
-
-        vec3 lightVector = getLightVector(light, (worldPos.xyz / worldPos.w));
-
-        vec4 diffuse = lambert(lightVector, worldNor, lightColor4, diffusionCoeficient);
-        
-        float attenuation = getAttenuation(length(lightVector), light);
-        float spotlightDropoff = spotlightDropoffSharp(light, normalize(lightVector));
-
-        fragColor += diffuse * attenuation * spotlightDropoff * objColor;
-    }
-
-    vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0) * ambientCoeficient;
-    fragColor += ambient * objColor;
 }

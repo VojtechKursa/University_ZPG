@@ -17,6 +17,8 @@
 
 #include "Application.h"
 
+#include "Lights/LightPoint.h"
+
 
 
 DrawableObject *DrawableObjectFactory::createRotatingSquare()
@@ -164,10 +166,10 @@ Light *DrawableObjectFactory::createLight(glm::vec3 position, bool movable, std:
 		transform->setScale(scale);
 		transform->setPosition(position);
 
-		return new Light(position, color, transform, program, ModelManager::getInstance()->get(modelName), movable);
+		return new LightPoint(position, color, movable, ModelManager::getInstance()->get(modelName), program, transform);
 	}
 	else
 	{
-		return new Light(position, color, nullptr, nullptr, nullptr, movable);
+		return new LightPoint(position, color, movable);
 	}
 }

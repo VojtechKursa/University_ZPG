@@ -11,6 +11,8 @@
 #include "Transforms/TransformContinuous.h"
 #include "Transforms/TransformTranslate.h"
 #include "Transforms/TransformScale.h"
+#include "Lights/LightSpot.h"
+#include "Lights/LightPoint.h"
 
 
 
@@ -183,7 +185,7 @@ void SceneLoader::loadSphereWithLight(Renderer* renderer, LightModel lightModel)
 void SceneLoader::loadSpheresWithLight(Renderer* renderer, LightModel lightModel)
 {
     renderer->addLight(DrawableObjectFactory::createLight());
-
+    
 	const int pos[8] = {
 		0,	2,
 		2,	0,
@@ -192,6 +194,7 @@ void SceneLoader::loadSpheresWithLight(Renderer* renderer, LightModel lightModel
 	};
 
     LightModel lightModels[4] = { lightModel, lightModel, lightModel, lightModel };
+    glm::vec3 colors[4] = {glm::vec3(0.5f, 0.5f, 0.5f), glm::vec3(1.f,0,0), glm::vec3(0,1.f,0), glm::vec3(0,0,1.f)};
 
     ObjectProperties properties;
     properties.modelName = "sphere";
@@ -203,6 +206,7 @@ void SceneLoader::loadSpheresWithLight(Renderer* renderer, LightModel lightModel
 	{
         properties.fragmentShaderName = getFragmentShaderName(lightModels[i / 2]);
         properties.position = glm::vec3(pos[i], 0, pos[i+1]);
+        //properties.material = Material(colors[i]);
 
 		renderer->addObject(DrawableObjectFactory::createObject(properties));
 	}
@@ -210,6 +214,49 @@ void SceneLoader::loadSpheresWithLight(Renderer* renderer, LightModel lightModel
     Camera* camera = renderer->getCamera();
 	camera->setPosition(glm::vec3(0,8,0));
 	camera->setRotation(Rotation(90,179.9f,0));
+}
+
+void SceneLoader::loadSpotlightTest(Renderer* renderer)
+{
+    LightModel lightModels[4] = { CONST, LAMBERT, PHONG, BLINN };
+
+    float plainScale = 4;
+    float spaceBetween = 1;
+    float lightDistance = 1;
+    float lightFoi = 60;
+
+    ObjectProperties properties;
+    properties.modelName = "sphere";
+    properties.vertexShaderName = "vert_light";
+    properties.rotation = Rotation(0, 90, 0);
+    properties.material = Material(glm::vec3(0.385, 0.647, 0.812));
+    properties.bindToLights = true;
+
+	for(int i = 0; i < 4; i++)
+	{
+        properties.fragmentShaderName = getFragmentShaderName(lightModels[i]);
+        properties.position = glm::vec3(i * (2*plainScale + spaceBetween), 0, 8);
+        properties.scale = glm::vec3(plainScale,0.01f,plainScale);
+
+		renderer->addObject(DrawableObjectFactory::createObject(properties));
+
+        ShaderProgram* program = new ShaderProgram(true, false);
+        program->addShader(ShaderManager::getInstance()->get("vert_default_colorPass3"));
+        program->addShader(ShaderManager::getInstance()->get("frag_colorConst"));
+        program->link();
+
+        TransformModel* transform = new TransformModel();
+        transform->setScale(glm::vec3(0.25f));
+
+        properties.position.z -= lightDistance;
+
+        //renderer->addLight(new LightPoint(properties.position, glm::vec3(1,1,1), false, ModelManager::getInstance()->get("sphere"), program, transform));
+        Light* light = new LightSpot(properties.position, glm::vec3(0,0,1), lightFoi, glm::vec3(1,1,1), false, ModelManager::getInstance()->get("sphere"), program, transform);
+        //light->setEnabled(true);
+        renderer->addLight(light);
+	}
+
+    renderer->addLight(DrawableObjectFactory::createLight());
 }
 
 void SceneLoader::loadForest(Renderer* renderer)
@@ -239,10 +286,9 @@ void SceneLoader::loadForest(Renderer* renderer)
     ObjectProperties plainProperties;
     plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
     plainProperties.modelName = "plain";
-    //plainProperties.vertexShaderName = "vert_light";
-    //plainProperties.fragmentShaderName = "frag_light_blinn";
-    //plainProperties.bindToLights = true;
-    plainProperties.fragmentShaderName = "frag_colorConst";
+    plainProperties.vertexShaderName = "vert_light";
+    plainProperties.fragmentShaderName = "frag_light_lambert";
+    plainProperties.bindToLights = true;
     plainProperties.material = Material(glm::vec3(0, 0.3f, 0));
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));

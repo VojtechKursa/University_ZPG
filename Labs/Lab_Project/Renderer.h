@@ -7,7 +7,7 @@
 
 #include "DrawableObject.h"
 #include "Camera.h"
-#include "Light.h"
+#include "Lights/Light.h"
 #include "Subject.h"
 
 

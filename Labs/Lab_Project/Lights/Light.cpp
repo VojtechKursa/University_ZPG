@@ -1,26 +1,43 @@
 #include "Light.h"
 
-#include "Transforms/TransformModel.h"
-#include "Application.h"
+#include "../Transforms/TransformModel.h"
+#include "../Application.h"
 
-#include "Events/FrameEventData.h"
-#include "Events/KeyEventData.h"
-#include "Events/LightEventData.h"
+#include "../Events/FrameEventData.h"
+#include "../Events/KeyEventData.h"
+#include "../Events/LightEventData.h"
 
 
 
-Light::Light(glm::vec3 position, glm::vec3 lightColor, Transform* transformation, ShaderProgram* shaderProgram, Model* model, bool movable)
-    : DrawableObject(model, shaderProgram, transformation, Material(lightColor))
+Light::Light(Light::LightType type, glm::vec3 position, glm::vec3 direction, float foi, glm::vec3 lightColor, Transform *transformation, ShaderProgram *shaderProgram, Model *model, bool movable)
+    : Light(type, position, direction, foi, lightColor, transformation, shaderProgram, model, movable, Material(lightColor))
+{ }
+
+Light::Light(Light::LightType type, glm::vec3 position, glm::vec3 direction, float foi, glm::vec3 lightColor, Transform *transformation, ShaderProgram *shaderProgram, Model *model, bool movable, Material material)
+    : DrawableObject(model, shaderProgram, transformation, material)
 {
-    this->position = position;
-    this->direction = glm::vec3(0.f);
+    this->lightType = type;
 
-    this->lightType = POINT_LIGHT;
+    this->position = position;
+    this->direction = direction;
+
+    this->foi = foi;
 
     this->lightColor = lightColor;
 
     this->motionVector = glm::vec3(0.f);
+    this->movable = movable;
 
+    this->enabled = true;
+
+    try
+    {
+        ((TransformModel*)transformation)->setPosition(position);
+        ((TransformTranslate*)transformation)->translationVector = position;
+    }
+    catch(const std::exception&)
+    { }
+    
 
     if(movable)
     {
@@ -28,18 +45,12 @@ Light::Light(glm::vec3 position, glm::vec3 lightColor, Transform* transformation
     }
 }
 
-Light::Light(glm::vec3 direction, glm::vec3 lightColor, bool movable)
-    : Light(glm::vec3(0), lightColor, nullptr, nullptr, nullptr, movable)
+Light::~Light()
 {
-    this->direction = direction;
-    this->lightType = DIRECTIONAL_LIGHT;
-}
-
-Light::Light(glm::vec3 position, glm::vec3 direction, glm::vec3 lightColor, Transform *transformation, ShaderProgram *shaderProgram, Model *model, bool movable)
-    : Light(position, lightColor, transformation, shaderProgram, model, movable)
-{
-    this->direction = direction;
-    this->lightType = SPOT_LIGHT;
+    if(this->movable)
+    {
+        Application::getInstance()->unregisterObserver(this);
+    }
 }
 
 
@@ -51,8 +62,31 @@ int Light::getLightIndex()
 
 LightStruct_t Light::getLightStruct()
 {
-    return LightStruct_t(this->convertLightType(this->lightType), this->position, this->direction, this->lightColor, this->lightStrength, this->constantAttCoeficient, this->linearAttCoeficient, this->quadraticAttCoeficient);
+    return LightStruct_t(this->convertLightType(this->lightType), this->position, this->direction, this->foi, this->lightColor, this->lightStrength, this->constantAttCoeficient, this->linearAttCoeficient, this->quadraticAttCoeficient, !this->enabled);
 }
+
+
+
+void Light::toggleEnabled()
+{
+    this->setEnabled(!this->enabled);
+}
+
+bool Light::getEnabled()
+{
+    return this->enabled;
+}
+
+void Light::setEnabled(bool enabled)
+{
+    this->enabled = enabled;
+
+    LightEventData data(this);
+    const Event event(EVENT_LIGHT, &data);
+    this->notifyAll(&event);
+}
+
+
 
 int Light::convertLightType(Light::LightType lightType)
 {

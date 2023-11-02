@@ -4,7 +4,7 @@
 #include <stdlib.h>
 
 #include "Application.h"
-#include "Light.h"
+#include "Lights/Light.h"
 
 #include "Events/CameraEventData.h"
 #include "Events/MatrixEventData.h"
@@ -274,6 +274,8 @@ bool ShaderProgram::bindUniform(const char *uniformName, LightStruct_t light, in
 	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.position[0]);
 	sprintf(nameBuffer, "%s[%d].direction", uniformName, index);
 	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.direction[0]);
+	sprintf(nameBuffer, "%s[%d].foi", uniformName, index);
+	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.foi);
 
 	sprintf(nameBuffer, "%s[%d].lightColor", uniformName, index);
 	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.lightColor[0]);
@@ -287,6 +289,9 @@ bool ShaderProgram::bindUniform(const char *uniformName, LightStruct_t light, in
 	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.linearAttCoeficient);
 	sprintf(nameBuffer, "%s[%d].quadraticAttCoeficient", uniformName, index);
 	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.quadraticAttCoeficient);
+
+	sprintf(nameBuffer, "%s[%d].disabled", uniformName, index);
+	glUniform1i(glGetUniformLocation(this->programId, nameBuffer), light.disabled);
 	
 
 	this->unuse();

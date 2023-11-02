@@ -7,7 +7,7 @@
 #include "Subject.h"
 #include "Shader.h"
 #include "Camera.h"
-#include "LightStruct.h"
+#include "Lights/LightStruct.h"
 
 class Light;
 
