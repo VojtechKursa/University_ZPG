@@ -3,6 +3,8 @@
 #include <stdio.h>
 
 #include "Application.h"
+#include "Helper.h"
+#include "Lights/LightSpot.h"
 
 #include "Events/CursorEventData.h"
 #include "Events/MouseButtonEventData.h"
@@ -20,12 +22,7 @@ void Camera::calculateTarget()
 
 void Camera::calculateTarget(float alpha, float phi)
 {
-	float alphaRad = glm::radians(alpha);
-	float phiRad = glm::radians(phi);
-
-	this->target.x = sin(alphaRad) * cos(phiRad);
-	this->target.z = sin(alphaRad) * sin(phiRad);
-	this->target.y = cos(alphaRad);
+	this->target = Helper::convertRotation(alpha, phi);
 }
 
 
@@ -135,6 +132,8 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 
 	this->flying = true;
 
+	this->flashlight = nullptr;
+
 	this->calculateViewMatrix();
 	this->calculateProjectionMatrix();
 
@@ -171,6 +170,8 @@ bool Camera::setPosition(glm::vec3 position)
 
 	this->calculateViewMatrix();
 
+	this->updateFlashlightPosition();
+
 	return true;
 }
 
@@ -185,6 +186,47 @@ bool Camera::setRotation(Rotation rotation)
 	this->alpha = rotation.pitch;
 
 	this->calculateViewMatrix();
+
+	this->updateFlashlightRotation();
+
+	return true;
+}
+
+LightSpot *Camera::getFlashlight()
+{
+	return this->flashlight;
+}
+
+void Camera::updateFlashlightRotation()
+{
+	if(this->flashlight != nullptr)
+	{
+		this->flashlight->setRotation(this->target);
+		//this->flashlight->setPosition(this->eyePosition + this->target);	// uncomment for offset (otherwise light rotates on the spot it was left in after last move (also nice))
+	}
+}
+
+void Camera::updateFlashlightPosition()
+{
+	if(this->flashlight != nullptr)
+	{
+		this->flashlight->setPosition(this->eyePosition);
+		//this->flashlight->setPosition(this->eyePosition + this->target);	// uncomment for offset
+	}
+}
+
+bool Camera::addFlashlight(float foi, glm::vec3 lightColor)
+{
+	if(flashlight != nullptr)
+		return false;
+	
+	if(foi < 0)
+		foi = this->fov / 2;	// integer division is intentional
+
+	this->flashlight = new LightSpot(this->eyePosition, this->target, foi, lightColor, false, nullptr, nullptr, nullptr);
+	this->flashlight->setAttCoeficients(2);
+	
+	Application::getInstance()->getRenderer()->addLight(this->flashlight);
 
 	return true;
 }
@@ -251,6 +293,8 @@ void Camera::cursorMovedHandler(double x, double y)
 			this->addAlpha((float)(y - this->lastCursorPoint[1]) * this->mouseSensitivity[1]);
 
 			this->calculateViewMatrix();
+
+			this->updateFlashlightRotation();
 		}
 
 		this->lastCursorPoint[0] = (int)x;
@@ -318,6 +362,29 @@ void Camera::keyHandler(int key, int scancode, int action, int mods)
 			if (action == GLFW_PRESS)
 				this->setFlying(!this->getFlying());
 			break;
+		case GLFW_KEY_L:
+			if (action == GLFW_PRESS)
+				if(this->flashlight != nullptr)
+					this->flashlight->toggleEnabled();
+			break;
+		/*
+		case GLFW_KEY_KP_ADD:
+			if (action == GLFW_PRESS)
+				if(this->flashlight != nullptr)
+				{
+					this->flashlight->setFoi(this->flashlight->getFoi() + 1);
+					printf("New FOI: %f\n", this->flashlight->getFoi());
+				}
+			break;
+		case GLFW_KEY_KP_SUBTRACT:
+			if (action == GLFW_PRESS)
+				if(this->flashlight != nullptr)
+				{
+					this->flashlight->setFoi(this->flashlight->getFoi() - 1);
+					printf("New FOI: %f\n", this->flashlight->getFoi());
+				}
+			break;
+		*/
 	}
 }
 

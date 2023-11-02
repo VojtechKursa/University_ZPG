@@ -9,6 +9,10 @@
 
 
 
+class LightSpot;
+
+
+
 class Camera : public Subject, public IObserver
 {
 private:
@@ -39,6 +43,8 @@ private:
 
 	bool flying;
 
+	LightSpot* flashlight;
+
 	void calculateTarget();
 	void calculateTarget(float alpha, float phi);
 
@@ -56,6 +62,11 @@ private:
 	void viewPortChangedHandler(int width, int height);
 	void frameHandler(double timeSinceLastFrameSec);
 
+	// Call only after recalculating target (which is also part of calculateViewMatrix())
+	void updateFlashlightRotation();
+	// Call only after recalculating target (which is also part of calculateViewMatrix())
+	void updateFlashlightPosition();
+
 
 public:
 	Camera();
@@ -70,6 +81,9 @@ public:
 	bool setPosition(glm::vec3 position);
 	Rotation getRotation();
 	bool setRotation(Rotation rotation);
+
+	LightSpot* getFlashlight();
+	bool addFlashlight(float foi = -1, glm::vec3 lightColor = glm::vec3(1,1,1));
 
 	bool setFlying(bool flying);
 	bool getFlying();

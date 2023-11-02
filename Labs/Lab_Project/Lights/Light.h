@@ -48,12 +48,17 @@ protected:
 
 public:
 	glm::vec3 getPosition();
+	glm::vec3 getRotation();
 	glm::vec3 getLightColor();
+	float getFoi();
 	bool hasModel();
 
 	bool setPosition(glm::vec3 position);
 	bool setLightColor(glm::vec3 lightColor);
-	void setAttCoeficients(float lightStrength, float constantAttCoeficient, float linearAttCoeficient, float quadraticAttCoeficient);
+	bool setRotation(glm::vec3 rotation);
+	bool setRotation(Rotation rotation);
+	bool setFoi(float foi);
+	void setAttCoeficients(float lightStrength = 1, float constantAttCoeficient = 1, float linearAttCoeficient = 0.1f, float quadraticAttCoeficient = 0.01f);
 
 	int getLightIndex();
 	LightStruct_t getLightStruct();

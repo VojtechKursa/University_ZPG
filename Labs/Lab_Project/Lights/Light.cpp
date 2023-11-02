@@ -2,6 +2,7 @@
 
 #include "../Transforms/TransformModel.h"
 #include "../Application.h"
+#include "../Helper.h"
 
 #include "../Events/FrameEventData.h"
 #include "../Events/KeyEventData.h"
@@ -30,13 +31,16 @@ Light::Light(Light::LightType type, glm::vec3 position, glm::vec3 direction, flo
 
     this->enabled = true;
 
-    try
+    if(transformation != nullptr)
     {
-        ((TransformModel*)transformation)->setPosition(position);
-        ((TransformTranslate*)transformation)->translationVector = position;
+        try
+        {
+            ((TransformModel*)transformation)->setPosition(position);
+            ((TransformTranslate*)transformation)->translationVector = position;
+        }
+        catch(const std::exception&)
+        { }
     }
-    catch(const std::exception&)
-    { }
     
 
     if(movable)
@@ -125,9 +129,19 @@ glm::vec3 Light::getPosition()
     return this->position;
 }
 
+glm::vec3 Light::getRotation()
+{
+    return this->direction;
+}
+
 glm::vec3 Light::getLightColor()
 {
     return this->lightColor;
+}
+
+float Light::getFoi()
+{
+    return this->foi;
 }
 
 bool Light::hasModel()
@@ -161,6 +175,33 @@ bool Light::setPosition(glm::vec3 position)
 bool Light::setLightColor(glm::vec3 lightColor)
 {
     this->lightColor = glm::normalize(lightColor);
+
+    const LightEventData eventData(this);
+    const Event event(EVENT_LIGHT, (EventData*)&eventData);
+    this->notifyAll(&event);
+
+    return true;
+}
+
+bool Light::setRotation(glm::vec3 rotation)
+{
+    this->direction = glm::normalize(rotation);
+
+    const LightEventData eventData(this);
+    const Event event(EVENT_LIGHT, (EventData*)&eventData);
+    this->notifyAll(&event);
+
+    return true;
+}
+
+bool Light::setRotation(Rotation rotation)
+{
+    return setRotation(Helper::convertRotation(rotation));
+}
+
+bool Light::setFoi(float foi)
+{
+    this->foi = foi;
 
     const LightEventData eventData(this);
     const Event event(EVENT_LIGHT, (EventData*)&eventData);

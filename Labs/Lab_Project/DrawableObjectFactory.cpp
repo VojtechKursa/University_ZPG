@@ -153,7 +153,7 @@ DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 
 
 
-Light *DrawableObjectFactory::createLight(glm::vec3 position, bool movable, std::string modelName, glm::vec3 scale, glm::vec3 color, std::string vertexShaderName, std::string fragmentShaderName)
+Light *DrawableObjectFactory::createLight(glm::vec3 position, bool movable,  glm::vec3 color, std::string modelName, glm::vec3 scale, std::string vertexShaderName, std::string fragmentShaderName)
 {
 	if(modelName != "")
 	{

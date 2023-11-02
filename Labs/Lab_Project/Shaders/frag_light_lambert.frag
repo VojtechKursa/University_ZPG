@@ -30,7 +30,7 @@ vec3 getLightVector(Light light, vec3 worldPos)
     }
     else
     {
-        return light.direction;
+        return -light.direction;
     }
 }
 

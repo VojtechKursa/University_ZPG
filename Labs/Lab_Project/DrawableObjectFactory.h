@@ -19,5 +19,5 @@ public:
 	
 	static DrawableObject* createObject(ObjectProperties properties);
 
-	static Light* createLight(glm::vec3 position = glm::vec3(0,0,0), bool movable = true, std::string modelName = "sphere", glm::vec3 scale = glm::vec3(0.2f), glm::vec3 color = glm::vec3(1.f), std::string vertexShaderName = "vert_default_colorPass3", std::string fragmentShaderName = "frag_colorConst");
+	static Light* createLight(glm::vec3 position = glm::vec3(0,0,0), bool movable = true, glm::vec3 color = glm::vec3(1.f), std::string modelName = "sphere", glm::vec3 scale = glm::vec3(0.2f), std::string vertexShaderName = "vert_default_colorPass3", std::string fragmentShaderName = "frag_colorConst");
 };

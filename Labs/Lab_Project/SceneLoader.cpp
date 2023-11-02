@@ -13,6 +13,7 @@
 #include "Transforms/TransformScale.h"
 #include "Lights/LightSpot.h"
 #include "Lights/LightPoint.h"
+#include "Lights/LightDirectional.h"
 
 
 
@@ -256,7 +257,9 @@ void SceneLoader::loadSpotlightTest(Renderer* renderer)
         renderer->addLight(light);
 	}
 
-    renderer->addLight(DrawableObjectFactory::createLight());
+    renderer->addLight(DrawableObjectFactory::createLight(glm::vec3(0,-2,-2)));
+
+    renderer->getCamera()->addFlashlight();
 }
 
 void SceneLoader::loadForest(Renderer* renderer)
@@ -281,7 +284,10 @@ void SceneLoader::loadForest(Renderer* renderer)
 
 
 
-    renderer->addLight(DrawableObjectFactory::createLight());
+    renderer->addLight(DrawableObjectFactory::createLight(glm::vec3(0,1,0), true, glm::vec3(1,0,0)));
+    LightDirectional* sun = new LightDirectional(glm::normalize(glm::vec3(1,-1,1)), glm::vec3(1,1,1));
+    sun->setAttCoeficients(0.8f);
+    renderer->addLight(sun);
 
     ObjectProperties plainProperties;
     plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
@@ -347,10 +353,11 @@ void SceneLoader::loadForest(Renderer* renderer)
         renderer->addObject(DrawableObjectFactory::createObject(properties));
     }
 
-    ;
+
 
     Camera* camera = renderer->getCamera();
     camera->setPosition(glm::vec3(0, 2, 0));
     camera->setRotation(Rotation(90, 90, 0));
     camera->setFlying(false);
+    camera->addFlashlight();
 }
