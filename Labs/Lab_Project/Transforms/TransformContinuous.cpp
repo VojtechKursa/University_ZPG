@@ -102,5 +102,5 @@ void TransformContinuous::keyHandler(int key, int scancode, int action, int mods
 
 void TransformContinuous::frameHandler(double timeSinceLastFrameSec)
 {
-    this->setCurrentTransform(timeSinceLastFrameSec);
+    this->setCurrentTransform(static_cast<float>(timeSinceLastFrameSec));
 }

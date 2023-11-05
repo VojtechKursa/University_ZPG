@@ -41,7 +41,7 @@ void Renderer::addLight(Light *light)
 	{
 		this->lights.push_back(light);
 
-		LightCountEventData data(light, true, this->lights.size() - 1, light->getLightStruct());
+		LightCountEventData data(light, true, static_cast<int>(this->lights.size() - 1), light->getLightStruct());
 		const Event event(EVENT_LIGHT_COUNT, &data);
 		this->notifyAll(&event);
 	}

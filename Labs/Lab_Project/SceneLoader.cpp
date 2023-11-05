@@ -270,7 +270,7 @@ void SceneLoader::loadForest(Renderer* renderer)
         int count;
         int maxTilt;
         bool randomizeShaders = false;
-        int yOffset = 0;
+        float yOffset = 0;
         float scale = 1;
     };
 
@@ -307,9 +307,6 @@ void SceneLoader::loadForest(Renderer* renderer)
     properties.bindToLights = true;
     properties.vertexShaderName = "vert_light";
 
-    int x, z, yaw, roll, pitch;
-    bool randomizeShader;
-
     for (auto& param : generatorParameters)
     {
         properties.modelName = param.name;
@@ -321,11 +318,11 @@ void SceneLoader::loadForest(Renderer* renderer)
 
         for (int i = 0; i < param.count; i++)
         {
-            properties.position.x = Helper::random(-plainSize, plainSize + 1);
-            properties.position.z = Helper::random(-plainSize, plainSize + 1);
-            properties.rotation.yaw = Helper::random(0, 360);
-            properties.rotation.roll = Helper::random(-param.maxTilt, param.maxTilt + 1);
-            properties.rotation.pitch = Helper::random(-param.maxTilt, param.maxTilt + 1);
+            properties.position.x = static_cast<float>(Helper::random(-plainSize, plainSize + 1));
+            properties.position.z = static_cast<float>(Helper::random(-plainSize, plainSize + 1));
+            properties.rotation.yaw = static_cast<float>(Helper::random(0, 360));
+            properties.rotation.roll = static_cast<float>(Helper::random(-param.maxTilt, param.maxTilt + 1));
+            properties.rotation.pitch = static_cast<float>(Helper::random(-param.maxTilt, param.maxTilt + 1));
 
             if(param.randomizeShaders)
                 properties.fragmentShaderName = getFragmentShaderName(lightModels[Helper::random(0, 2) * 2 + 1]);
@@ -334,7 +331,7 @@ void SceneLoader::loadForest(Renderer* renderer)
         }
     }
     
-    
+
 
     properties = ObjectProperties();
     properties.modelName = "suzi_smooth";

@@ -31,7 +31,7 @@ bool Shader::checkStatus()
 		GLint infoLogLength;
 		glGetProgramiv(this->shaderId, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-		GLchar* strInfoLog = new GLchar[infoLogLength + 1];
+		GLchar* strInfoLog = new GLchar[static_cast<size_t>(infoLogLength) + 1];
 		glGetProgramInfoLog(this->shaderId, infoLogLength, NULL, strInfoLog);
 
 		fprintf(stderr, "Shader compiler failure: %s\n", strInfoLog);

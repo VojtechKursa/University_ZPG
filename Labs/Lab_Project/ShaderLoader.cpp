@@ -68,7 +68,7 @@ Shader *ShaderLoader::addShaderFromFile(std::string name, std::string extension)
     FILE* file;
     if((file = fopen((this->directory + name + "." + extension).c_str(), "rb")) != NULL)
     {
-        char* buffer = new char[length + 1];
+        char* buffer = new char[static_cast<size_t>(length) + 1];
         fread(buffer, length, 1, file);
         buffer[length] = 0;
 

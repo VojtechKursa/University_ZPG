@@ -11,6 +11,7 @@ OrbittingObject::OrbittingObject(Model *model, ShaderProgram *shaderProgram, Tra
 {
     this->rotationRate = rotationRate;
     this->startingRelativePosition = glm::vec4(startingRelativePosition, 1.0);
+    this->paused = false;
 
     this->pivotPosition = pivotPosition;
     this->pivotObject = nullptr;
@@ -41,9 +42,9 @@ OrbittingObject::~OrbittingObject()
 
 
 
-void OrbittingObject::setCurrentTransform(float timeSinceLastFrameSec)
+void OrbittingObject::setCurrentTransform(double timeSinceLastFrameSec)
 {
-    this->rotate->setRotationAngle(this->rotate->getRotationAngle() + this->rotationRate * timeSinceLastFrameSec);
+    this->rotate->setRotationAngle(static_cast<float>(this->rotate->getRotationAngle() + this->rotationRate * timeSinceLastFrameSec));
     
     if(this->pivotObject != nullptr)
     {

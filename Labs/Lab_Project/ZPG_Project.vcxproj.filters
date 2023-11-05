@@ -15,15 +15,10 @@
     </Filter>
     <Filter Include="Shaders">
       <UniqueIdentifier>{57cb0a42-ae8f-4354-bf5b-86c1bf57724e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Transforms">
-      <UniqueIdentifier>{b6bcf45b-991e-4fda-b3e3-b21e5312d426}</UniqueIdentifier>
+      <Extensions>frag;vert;glsl</Extensions>
     </Filter>
     <Filter Include="Models">
       <UniqueIdentifier>{0aecb4e0-cb7c-4364-b2e0-c4d6d79f392a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Interfaces">
-      <UniqueIdentifier>{d7a04009-2731-4223-8468-73e10127ea5a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -42,9 +37,6 @@
     <ClCompile Include="Helper.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Light.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -58,9 +50,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ModelManager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MovingObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="OrbittingObject.cpp">
@@ -93,38 +82,53 @@
     <ClCompile Include="VBO.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Subject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\Light.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\LightDirectional.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\LightPoint.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Lights\LightSpot.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Transforms\Transform.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformComposite.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformContinuous.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformGeneric.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformModel.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotate.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotateAround.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformRotateSimple.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformScale.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Transforms\TransformTranslate.cpp">
-      <Filter>Transforms</Filter>
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -146,9 +150,6 @@
     <ClInclude Include="Helper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Light.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -167,13 +168,7 @@
     <ClInclude Include="ModelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="MovingObject.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ObjectProperties.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ObservedSubjectHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="OrbittingObject.h">
@@ -209,69 +204,6 @@
     <ClInclude Include="VertexShader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transforms\Transform.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformComposite.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformCompositeContinuousable.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformContinuous.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformGeneric.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformModel.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformRotate.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformRotateAround.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformRotateSimple.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformScale.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Transforms\TransformTranslate.h">
-      <Filter>Transforms</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\ICursorCallbackObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IFrameObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IKeyCallbackObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\ILightObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IMouseButtonObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IProjectionMatrixChangedObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\ITransform.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\ITransformContinuousable.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IViewMatrixChangedObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
-    <ClInclude Include="Interfaces\IViewPortChangedObserver.h">
-      <Filter>Interfaces</Filter>
-    </ClInclude>
     <ClInclude Include="Models\bushes.h">
       <Filter>Models</Filter>
     </ClInclude>
@@ -295,6 +227,102 @@
     </ClInclude>
     <ClInclude Include="Models\tree.h">
       <Filter>Models</Filter>
+    </ClInclude>
+    <ClInclude Include="Subject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\Light.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\LightDirectional.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\LightPoint.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\LightSpot.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Lights\LightStruct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\IObserver.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\ITransform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\ITransformContinuousable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CameraEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\CursorEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\Event.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\EventType.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\FrameEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\KeyEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LightCountEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\LightEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\MatrixEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\MouseButtonEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Events\ViewPortChangedEventData.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\Transform.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformComposite.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformCompositeContinuousable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformContinuous.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformGeneric.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformModel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformRotate.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformRotateAround.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformRotateSimple.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformScale.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformTranslate.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -332,6 +360,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="Shaders\vert_light.vert">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="Shaders\common.glsl">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

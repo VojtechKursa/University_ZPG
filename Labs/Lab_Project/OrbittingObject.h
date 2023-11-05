@@ -9,7 +9,7 @@
 class OrbittingObject : public DrawableObject, public IObserver
 {
 private:
-    void setCurrentTransform(float timeSinceLastFrameSec);
+    void setCurrentTransform(double timeSinceLastFrameSec);
 
 protected:
     bool paused;

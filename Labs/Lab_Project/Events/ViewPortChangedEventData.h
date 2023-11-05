@@ -5,10 +5,10 @@
 class ViewPortChangedEventData : public EventData
 {
 public:
-    const double newWidth;
-    const double newHeight;
+    const int newWidth;
+    const int newHeight;
 
-    ViewPortChangedEventData(double newWidth, double newHeight)
+    ViewPortChangedEventData(int newWidth, int newHeight)
         : newWidth(newWidth), newHeight(newHeight)
     { }
 };

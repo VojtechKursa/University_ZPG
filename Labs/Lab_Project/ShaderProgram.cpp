@@ -129,7 +129,7 @@ bool ShaderProgram::checkStatus()
 		GLint infoLogLength;
 		glGetProgramiv(this->programId, GL_INFO_LOG_LENGTH, &infoLogLength);
 
-		GLchar* strInfoLog = new GLchar[infoLogLength + 1];
+		GLchar* strInfoLog = new GLchar[static_cast<size_t>(infoLogLength) + 1];
 		glGetProgramInfoLog(this->programId, infoLogLength, NULL, strInfoLog);
 
 		fprintf(stderr, "Shader program linker failure: %s\n", strInfoLog);
