@@ -72,3 +72,12 @@ target_include_directories(main PUBLIC ../../Libraries-src/glew/include)
 
 target_link_directories(main PUBLIC ../../Libraries-src/glew/lib)
 target_link_libraries(main GLEW)
+
+
+# OpenCV
+add_subdirectory(../../Libraries-src/opencv ../../Libraries-src/opencv)
+add_dependencies(main opencv)
+
+target_include_directories(main PUBLIC ../../Libraries-src/opencv/include)
+
+target_link_libraries(main opencv)

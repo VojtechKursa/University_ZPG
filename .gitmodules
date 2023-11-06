@@ -10,3 +10,6 @@
 [submodule "assimp"]
 	path = Libraries-src/assimp
 	url = git@github.com:assimp/assimp
+[submodule "opencv"]
+	path = Libraries-src/opencv
+	url = git@github.com:opencv/opencv
