@@ -35,6 +35,17 @@ endif()
 
 
 
+# Copy assets if necessary
+
+add_custom_target(copy_assets
+  COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_LIST_DIR}/copy-assets.cmake
+)
+
+add_dependencies(main copy_assets)
+
+
+
+
 # Libraries
 
 # GLM
@@ -61,9 +72,9 @@ target_link_libraries(main ${OPENGL_LIBRARIES})
 
 # GLU
 # find_package(GLU REQUIRED)
-
+#
 # target_include_directories(main PUBLIC ${GLU_INCLUDE_DIRS})
-
+#
 # target_link_libraries(main ${GLU_LIBRARY})
 
 
@@ -75,15 +86,19 @@ target_link_libraries(main GLEW)
 
 
 # OpenCV
-add_subdirectory(../../Libraries-src/opencv ../../Libraries-src/opencv)
-add_dependencies(main opencv)
+find_package(OpenCV REQUIRED)
 
-target_include_directories(main PUBLIC ../../Libraries-src/opencv/include)
+target_include_directories(main PUBLIC ${OpenCV_INCLUDE_DIRS})
 
-target_link_libraries(main opencv)
+target_link_libraries(main ${OpenCV_LIBS})
 
 
 # AssImp
+set(ASSIMP_BUILD_TESTS OFF)
+set(ASSIMP_BUILD_ZLIB OFF)
+set(ASSIMP_INSTALL OFF)
+set(ASSIMP_INJECT_DEBUG_POSTFIX OFF)
+
 add_subdirectory(../../Libraries-src/assimp ../../Libraries-src/assimp)
 add_dependencies(main assimp)
 

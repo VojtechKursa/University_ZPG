@@ -7,7 +7,8 @@
                 "${workspaceFolder}/../../Libraries-src/glew/include",
                 "${workspaceFolder}/../../Libraries-src/glfw/include",
                 "${workspaceFolder}/../../Libraries-src/glm",
-                "${workspaceFolder}/../../Libraries-src/assimp/include"
+                "${workspaceFolder}/../../Libraries-src/assimp/include",
+                "/usr/local/include/opencv4"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",

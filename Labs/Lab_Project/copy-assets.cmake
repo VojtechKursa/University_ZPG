@@ -1,0 +1,5 @@
+if( NOT ( ${CMAKE_CURRENT_LIST_DIR} STREQUAL ${CMAKE_CURRENT_BINARY_DIR} ) )
+  message(STATUS "Copying assets...")
+  file(COPY ${CMAKE_CURRENT_LIST_DIR}/Shaders DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+  message(STATUS "Copying assets done.")
+endif()
