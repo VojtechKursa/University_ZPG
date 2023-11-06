@@ -8,3 +8,5 @@
 #include "bushes.h"
 #include "gift.h"
 #include "tree.h"
+
+#include "skycube.h"

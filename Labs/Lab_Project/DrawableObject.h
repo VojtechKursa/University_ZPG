@@ -15,6 +15,8 @@ protected:
 	Transform* transformation;
 	Material material;
 
+	DrawableObject();
+
 public:
 	DrawableObject(Model* model, ShaderProgram* shaderProgram, Material material = Material());
 	DrawableObject(Model* model, ShaderProgram* shaderProgram, Transform* transformation, Material material = Material());

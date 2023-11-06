@@ -9,6 +9,7 @@
 #include "Camera.h"
 #include "Lights/Light.h"
 #include "Subject.h"
+#include "SkyBox.h"
 
 
 
@@ -18,6 +19,7 @@ private:
 	std::vector<DrawableObject*> objects;
 	std::vector<Light*> lights;
 	Camera* camera;
+	SkyBox* skybox = nullptr;
 
 public:
 	Renderer();
@@ -25,6 +27,7 @@ public:
 
 	void addObject(DrawableObject* shape);
 	void addLight(Light* light);
+	void setSkyBox(SkyBox* skybox);
 
 	std::vector<Light*> getLights();
 	int getLightIndex(Light* light);

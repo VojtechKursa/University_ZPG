@@ -15,6 +15,8 @@
 #include "Lights/LightPoint.h"
 #include "Lights/LightDirectional.h"
 
+#include "Texture.h"
+
 
 
 const LightModel SceneLoader::lightModels[] = {CONST, LAMBERT, PHONG, BLINN};
@@ -261,6 +263,31 @@ void SceneLoader::loadSpotlightTest(Renderer* renderer)
 
     renderer->getCamera()->addFlashlight();
 }
+
+void SceneLoader::loadTextureTest(Renderer* renderer)
+{
+    Model* model = ModelManager::getInstance()->get("plainTextured");
+
+    TransformModel* transform = new TransformModel(glm::vec3(0,0,4), Rotation(0, 90, 0), glm::vec3(1));
+
+    ShaderProgram* program = new ShaderProgram();
+    program->addShader(ShaderManager::getInstance()->get("vert_light_texture"));
+    program->addShader(ShaderManager::getInstance()->get("frag_texture"));
+    program->link();
+
+    DrawableObject* plain = new DrawableObject(model, program, transform);
+
+    renderer->addObject(plain);
+
+    Texture* texture = new Texture(GL_TEXTURE_2D);
+    texture->loadFile("Assets/Textures/wooden_fence.png");
+
+    texture->bind();
+    texture->bindToProgram(program);
+
+    renderer->getCamera()->addFlashlight();
+}
+
 
 void SceneLoader::loadForest(Renderer* renderer)
 {

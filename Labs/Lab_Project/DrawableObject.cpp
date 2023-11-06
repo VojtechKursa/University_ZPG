@@ -4,8 +4,16 @@
 
 
 
+DrawableObject::DrawableObject()
+{
+	this->model = nullptr;
+	this->shaderProgram = nullptr;
+	this->transformation = nullptr;
+	this->material = Material();
+}
+
 DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Material material)
-	: DrawableObject(model, shaderProgram, new TransformTranslate(), material)
+    : DrawableObject(model, shaderProgram, new TransformTranslate(), material)
 { }
 
 DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Transform *transformation, Material material)
@@ -25,9 +33,14 @@ DrawableObject::~DrawableObject()
 
 void DrawableObject::draw()
 {
-	if(this->model != nullptr && this->shaderProgram != nullptr && this->transformation != nullptr)
+	if(this->model != nullptr && this->shaderProgram != nullptr)
 	{
-		glm::mat4 modelMatrix = this->transformation->getMatrix();
+		glm::mat4 modelMatrix;
+		if(this->transformation != nullptr)
+			modelMatrix = this->transformation->getMatrix();
+		else
+			modelMatrix = glm::identity<glm::mat4>();
+		
 		glm::mat3 normalMatrix = glm::mat3(glm::transpose(glm::inverse(modelMatrix)));
 
 		this->shaderProgram->bindUniform("modelMatrix", modelMatrix);

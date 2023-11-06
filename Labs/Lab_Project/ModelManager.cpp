@@ -15,9 +15,12 @@
 
 
 
-std::string ModelManager::names[] = {"plain", "sphere", "suzi_flat", "suzi_smooth", "gift", "bushes", "tree"};
-const float* ModelManager::data[] = {plain, sphere, suziFlat, suziSmooth, gift, bushes, tree};
-unsigned long ModelManager::sizes[] = {sizeof(plain), sizeof(sphere), sizeof(suziFlat), sizeof(suziSmooth), sizeof(gift), sizeof(bushes), sizeof(tree)};
+enum ModelFormat {POS3_NORM3, POS3_NORM3_TEX2};
+
+std::string ModelManager::names[] = {"plain", "plainTextured", "sphere", "suzi_flat", "suzi_smooth", "gift", "bushes", "tree", "skycube"};
+const float* ModelManager::data[] = {plain, plainTextured, sphere, suziFlat, suziSmooth, gift, bushes, tree, skycube};
+const ModelFormat formats[] = {POS3_NORM3, POS3_NORM3_TEX2, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3_TEX2};
+unsigned long ModelManager::sizes[] = {sizeof(plain), sizeof(sphere), sizeof(suziFlat), sizeof(suziSmooth), sizeof(gift), sizeof(bushes), sizeof(tree), sizeof(skycube)};
 
 ModelManager* ModelManager::instance = new ModelManager();
 
@@ -37,14 +40,21 @@ void ModelManager::loadDefaultModels()
     {
         if(this->get(this->names[i]) == nullptr)
         {
-            ModelFactory::createFrom3Pos3Norm(names[i], data[i], sizes[i]);
+            loadDefaultModel(i);
         }
     }
 }
 
 Model* ModelManager::loadDefaultModel(int index)
 {
-    return ModelFactory::createFrom3Pos3Norm(names[index], data[index], sizes[index]);
+    switch(formats[index])
+    {
+        case POS3_NORM3_TEX2:
+            return ModelFactory::createFrom3Pos3Norm2Tex(names[index], data[index], sizes[index]);
+        case POS3_NORM3:
+        default:
+            return ModelFactory::createFrom3Pos3Norm(names[index], data[index], sizes[index]);
+    }
 }
 
 

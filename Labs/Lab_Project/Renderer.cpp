@@ -47,6 +47,11 @@ void Renderer::addLight(Light *light)
 	}
 }
 
+void Renderer::setSkyBox(SkyBox* skybox)
+{
+	this->skybox = skybox;
+}
+
 
 
 
@@ -72,6 +77,13 @@ void Renderer::renderNextFrame(GLFWwindow* window)
 {
 	// clear color and depth buffer
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+
+	if(this->skybox != nullptr)
+	{
+		this->skybox->draw();
+
+		glClear(GL_DEPTH_BUFFER_BIT);
+	}
 
 	for (auto light : lights)
 	{

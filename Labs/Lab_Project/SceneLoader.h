@@ -37,5 +37,7 @@ public:
 
     static void loadSpotlightTest(Renderer* renderer);
 
+    static void loadTextureTest(Renderer* renderer);
+
     static void loadForest(Renderer* renderer);
 };
