@@ -81,3 +81,12 @@ add_dependencies(main opencv)
 target_include_directories(main PUBLIC ../../Libraries-src/opencv/include)
 
 target_link_libraries(main opencv)
+
+
+# AssImp
+add_subdirectory(../../Libraries-src/assimp ../../Libraries-src/assimp)
+add_dependencies(main assimp)
+
+target_include_directories(main PUBLIC ../../Libraries-src/assimp/include)
+
+target_link_libraries(main assimp)
