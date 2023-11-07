@@ -8,7 +8,7 @@
                 "${workspaceFolder}/../../Libraries-src/glfw/include",
                 "${workspaceFolder}/../../Libraries-src/glm",
                 "${workspaceFolder}/../../Libraries-src/assimp/include",
-                "/usr/local/include/opencv4"
+                "${workspaceFolder}/../../Libraries-src/soil"
             ],
             "defines": [],
             "compilerPath": "/usr/bin/g++",

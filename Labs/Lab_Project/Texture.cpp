@@ -1,6 +1,6 @@
 #include "Texture.h"
 
-#include <SOIL.h>
+#include "SOIL.h"
 
 
 

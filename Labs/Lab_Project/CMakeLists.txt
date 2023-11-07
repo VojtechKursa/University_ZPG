@@ -22,11 +22,15 @@ file(GLOB SRC_FILES
   "${PROJECT_SOURCE_DIR}/Transforms/*.h" "${PROJECT_SOURCE_DIR}/Transforms/*.cpp"
   "${PROJECT_SOURCE_DIR}/Events/*.h" "${PROJECT_SOURCE_DIR}/Events/*.cpp"
   "${PROJECT_SOURCE_DIR}/Lights/*.h" "${PROJECT_SOURCE_DIR}/Lights/*.cpp"
+  "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/*.h" "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/*.c"
   )
 
 add_executable (main
     ${SRC_FILES}
-  )
+)
+
+# Add include directory of SOIL
+target_include_directories(main PUBLIC ../../Libraries-src/soil)
 
 
 if (CMAKE_VERSION VERSION_GREATER 3.12)
@@ -83,14 +87,6 @@ target_include_directories(main PUBLIC ../../Libraries-src/glew/include)
 
 target_link_directories(main PUBLIC ../../Libraries-src/glew/lib)
 target_link_libraries(main GLEW)
-
-
-# OpenCV
-find_package(OpenCV REQUIRED)
-
-target_include_directories(main PUBLIC ${OpenCV_INCLUDE_DIRS})
-
-target_link_libraries(main ${OpenCV_LIBS})
 
 
 # AssImp
