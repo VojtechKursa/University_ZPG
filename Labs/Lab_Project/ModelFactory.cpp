@@ -37,7 +37,7 @@ Model *ModelFactory::createFrom3Pos3Norm2Tex(const float *data, unsigned long le
     vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 8, sizeof(float) * 3);
     vao->enableVertexAttributes(vbo, 2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 8, sizeof(float) * 6);
 
-    return new Model(vao, length / 6);
+    return new Model(vao, length / 8);
 }
 
 Model *ModelFactory::createFrom3Pos3Norm2Tex(std::string name, const float *data, unsigned long length)

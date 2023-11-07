@@ -1,5 +1,7 @@
 #include "Texture.h"
 
+#include <SOIL.h>
+
 
 
 GLuint Texture::textureUnitsCreated = 0;
@@ -32,49 +34,21 @@ void Texture::setActive()
 
 
 
-bool Texture::loadFile(const char *filename)
+Texture* Texture::fromFile(const char *filename, int textureUnit, GLenum type)
 {
-    cv::Mat image = cv::imread(filename, cv::IMREAD_COLOR);
+    setActiveTextureUnit(textureUnit == -1 ? Texture::textureUnitsCreated : textureUnit);
 
-    if(!image.data)
-        return false;
-    
-    cv::Mat imageFlipped;
-    cv::flip(image, imageFlipped, 0);
+    GLuint image = SOIL_load_OGL_texture(filename, SOIL_LOAD_RGBA, SOIL_CREATE_NEW_ID, SOIL_FLAG_INVERT_Y);
 
-    this->importTexture(image);
-
-    return true;
+    if (image != 0)
+        return new Texture(image, type);
+    else
+        return nullptr;
 }
 
 void Texture::bindToProgram(ShaderProgram *program)
 {
     program->bindUniform("textureUnitId", static_cast<int>(this->textureId));
-}
-
-void Texture::importTexture(GLint format, GLsizei rows, GLsizei cols, GLenum type, const void* data)
-{
-    this->setActive();
-
-    glTexImage2D(this->type, 0, format, rows, cols, 0, format, type, data);
-}
-
-void Texture::importTexture(cv::Mat& texture)
-{
-    GLint format;
-
-    switch(texture.channels())
-    {
-        case 4:
-            format = GL_RGBA;
-            break;
-        case 3:
-        default:
-            format = GL_RGB;
-            break;
-    }
-
-    this->importTexture(format, texture.rows, texture.cols, GL_BYTE, texture.data);
 }
 
 void Texture::setActiveTextureUnit(GLuint unit)

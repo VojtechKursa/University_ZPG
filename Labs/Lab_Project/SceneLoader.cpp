@@ -280,7 +280,7 @@ void SceneLoader::loadTextureTest(Renderer* renderer)
     renderer->addObject(plain);
 
     Texture* texture = new Texture(GL_TEXTURE_2D);
-    texture->loadFile("Assets/Textures/wooden_fence.png");
+    texture->fromFile("Assets/Textures/wooden_fence.png");
 
     texture->bind();
     texture->bindToProgram(program);

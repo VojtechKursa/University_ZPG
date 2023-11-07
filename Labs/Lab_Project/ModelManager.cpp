@@ -20,7 +20,7 @@ enum ModelFormat {POS3_NORM3, POS3_NORM3_TEX2};
 std::string ModelManager::names[] = {"plain", "plainTextured", "sphere", "suzi_flat", "suzi_smooth", "gift", "bushes", "tree", "skycube"};
 const float* ModelManager::data[] = {plain, plainTextured, sphere, suziFlat, suziSmooth, gift, bushes, tree, skycube};
 const ModelFormat formats[] = {POS3_NORM3, POS3_NORM3_TEX2, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3_TEX2};
-unsigned long ModelManager::sizes[] = {sizeof(plain), sizeof(sphere), sizeof(suziFlat), sizeof(suziSmooth), sizeof(gift), sizeof(bushes), sizeof(tree), sizeof(skycube)};
+unsigned long ModelManager::sizes[] = {sizeof(plain), sizeof(plainTextured), sizeof(sphere), sizeof(suziFlat), sizeof(suziSmooth), sizeof(gift), sizeof(bushes), sizeof(tree), sizeof(skycube)};
 
 ModelManager* ModelManager::instance = new ModelManager();
 

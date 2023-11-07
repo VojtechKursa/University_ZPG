@@ -55,6 +55,7 @@
     <ClInclude Include="Models\gift.h" />
     <ClInclude Include="Models\models.h" />
     <ClInclude Include="Models\plain.h" />
+    <ClInclude Include="Models\skycube.h" />
     <ClInclude Include="Models\sphere.h" />
     <ClInclude Include="Models\suzi_flat.h" />
     <ClInclude Include="Models\suzi_smooth.h" />
@@ -68,7 +69,9 @@
     <ClInclude Include="ShaderLoader.h" />
     <ClInclude Include="ShaderManager.h" />
     <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Subject.h" />
+    <ClInclude Include="Texture.h" />
     <ClInclude Include="Transforms\Transform.h" />
     <ClInclude Include="Transforms\TransformComposite.h" />
     <ClInclude Include="Transforms\TransformCompositeContinuousable.h" />
@@ -107,7 +110,9 @@
     <ClCompile Include="ShaderLoader.cpp" />
     <ClCompile Include="ShaderManager.cpp" />
     <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Subject.cpp" />
+    <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Transforms\Transform.cpp" />
     <ClCompile Include="Transforms\TransformComposite.cpp" />
     <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp" />
@@ -135,9 +140,14 @@
     <None Include="Shaders\frag_light_const.frag" />
     <None Include="Shaders\frag_light_lambert.frag" />
     <None Include="Shaders\frag_light_phong.frag" />
+    <None Include="Shaders\frag_skybox.frag" />
+    <None Include="Shaders\frag_texture.frag" />
     <None Include="Shaders\vert_default_colorPass3.vert" />
     <None Include="Shaders\vert_default_colorPass4.vert" />
     <None Include="Shaders\vert_light.vert" />
+    <None Include="Shaders\vert_light_texture.vert" />
+    <None Include="Shaders\vert_skybox.vert" />
+    <None Include="Shaders\vert_texture.vert" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
@@ -225,13 +235,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>..\..\Libraries\glew\include;..\..\Libraries\glfw\include;..\..\Libraries\glm;..\..\Libraries\opencv\build\include;..\..\Libraries\assimp\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\..\Libraries\glew\include;..\..\Libraries\glfw\include;..\..\Libraries\glm;..\..\Libraries\assimp\include;..\..\Libraries\soil\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>..\..\Libraries\glew\lib\Release\x64;..\..\Libraries\glfw\lib-vc2022;..\..\Libraries\opencv\build\x64\vc16\lib;..\..\Libraries\assimp\lib\x64;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;opencv_world481.lib;assimp-vc143-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>..\..\Libraries\glew\lib\Release\x64;..\..\Libraries\glfw\lib-vc2022;..\..\Libraries\soil\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glu32.lib;glfw3.lib;glew32.lib;SOIL.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <IgnoreSpecificDefaultLibraries>MSVCRT</IgnoreSpecificDefaultLibraries>
     </Link>
   </ItemDefinitionGroup>
