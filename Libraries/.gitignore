@@ -1,0 +1,8 @@
+# Build results
+!**/[Bb]in/
+!**/[Li]ib/
+!**/x64/
+!**/x86/
+!**/[Rr]elease/
+!**/[Dd]ebug
+!**/[Ww]in32/
