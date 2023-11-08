@@ -22,7 +22,7 @@ file(GLOB SRC_FILES
   "${PROJECT_SOURCE_DIR}/Transforms/*.h" "${PROJECT_SOURCE_DIR}/Transforms/*.cpp"
   "${PROJECT_SOURCE_DIR}/Events/*.h" "${PROJECT_SOURCE_DIR}/Events/*.cpp"
   "${PROJECT_SOURCE_DIR}/Lights/*.h" "${PROJECT_SOURCE_DIR}/Lights/*.cpp"
-  "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/*.h" "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/*.c"
+  "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/SOIL/*.h" "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/SOIL/*.c"
   )
 
 add_executable (main
