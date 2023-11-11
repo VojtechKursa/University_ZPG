@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Manager.h"
+#include "../Manager.h"
 #include "Shader.h"
 #include "ShaderLoader.h"
 

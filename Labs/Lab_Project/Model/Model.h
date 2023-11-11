@@ -1,6 +1,6 @@
 #pragma once
 
-#include "VAO.h"
+#include "../VAO.h"
 
 class Model
 {

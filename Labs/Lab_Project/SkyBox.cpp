@@ -1,7 +1,7 @@
 #include "SkyBox.h"
 
-#include "ModelManager.h"
-#include "ShaderManager.h"
+#include "Model/ModelManager.h"
+#include "Shader/ShaderManager.h"
 
 #include "Application.h"
 #include "Transforms/TransformCameraFollow.h"

@@ -2,8 +2,8 @@
 
 #include <glm/vec4.hpp>
 
-#include "ShaderProgram.h"
-#include "Texture.h"
+#include "Shader/ShaderProgram.h"
+#include "Texture/Texture.h"
 
 
 

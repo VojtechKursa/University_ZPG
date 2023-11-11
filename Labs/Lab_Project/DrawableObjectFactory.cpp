@@ -4,16 +4,16 @@
 
 #include "DrawableObjectFactory.h"
 
-#include "VertexShader.h"
-#include "FragmentShader.h"
+#include "Shader/VertexShader.h"
+#include "Shader/FragmentShader.h"
 
 #include "Transforms/TransformModel.h"
 #include "Transforms/TransformContinuous.h"
 
-#include "ModelFactory.h"
+#include "Model/ModelFactory.h"
 
-#include "ModelManager.h"
-#include "ShaderManager.h"
+#include "Model/ModelManager.h"
+#include "Shader/ShaderManager.h"
 
 #include "Application.h"
 

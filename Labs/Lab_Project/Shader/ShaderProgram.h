@@ -4,10 +4,10 @@
 
 #include <vector>
 
-#include "Subject.h"
+#include "../Subject.h"
 #include "Shader.h"
-#include "Camera.h"
-#include "Lights/LightStruct.h"
+#include "../Camera.h"
+#include "../Lights/LightStruct.h"
 
 class Light;
 

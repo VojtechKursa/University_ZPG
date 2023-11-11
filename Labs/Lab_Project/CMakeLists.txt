@@ -18,10 +18,13 @@ set(CMAKE_BUILD_TYPE Debug)
 file(GLOB SRC_FILES
   "${PROJECT_SOURCE_DIR}/*.h" "${PROJECT_SOURCE_DIR}/*.cpp"
   "${PROJECT_SOURCE_DIR}/Interfaces/*.h"
-  "${PROJECT_SOURCE_DIR}/Models/*.h"
+  "${PROJECT_SOURCE_DIR}/Model/*.h" "${PROJECT_SOURCE_DIR}/Model/*.cpp"
+  "${PROJECT_SOURCE_DIR}/Model/Models/*.h"
   "${PROJECT_SOURCE_DIR}/Transforms/*.h" "${PROJECT_SOURCE_DIR}/Transforms/*.cpp"
   "${PROJECT_SOURCE_DIR}/Events/*.h" "${PROJECT_SOURCE_DIR}/Events/*.cpp"
   "${PROJECT_SOURCE_DIR}/Lights/*.h" "${PROJECT_SOURCE_DIR}/Lights/*.cpp"
+  "${PROJECT_SOURCE_DIR}/Shader/*.h" "${PROJECT_SOURCE_DIR}/Shader/*.cpp"
+  "${PROJECT_SOURCE_DIR}/Texture/*.h" "${PROJECT_SOURCE_DIR}/Texture/*.cpp"
   "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/SOIL/*.h" "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/SOIL/*.c"
   )
 

@@ -1,8 +1,8 @@
 #include "ModelFactory.h"
 
 #include "ModelManager.h"
-#include "VAO.h"
-#include "VBO.h"
+#include "../VAO.h"
+#include "../VBO.h"
 
 
 

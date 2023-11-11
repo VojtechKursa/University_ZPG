@@ -1,7 +1,7 @@
 #pragma once
 
 #include "DrawableObject.h"
-#include "CubeMapTexture.h"
+#include "Texture/CubeMapTexture.h"
 
 
 

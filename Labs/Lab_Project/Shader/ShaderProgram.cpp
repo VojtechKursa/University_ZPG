@@ -3,13 +3,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "Application.h"
-#include "Lights/Light.h"
+#include "../Application.h"
+#include "../Lights/Light.h"
 
-#include "Events/CameraEventData.h"
-#include "Events/MatrixEventData.h"
-#include "Events/LightEventData.h"
-#include "Events/LightCountEventData.h"
+#include "../Events/CameraEventData.h"
+#include "../Events/MatrixEventData.h"
+#include "../Events/LightEventData.h"
+#include "../Events/LightCountEventData.h"
 
 
 

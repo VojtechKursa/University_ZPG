@@ -1,5 +1,7 @@
 #include "CubeMapImageMap.h"
 
+
+
 CubeMapImageMap::CubeMapImageMap()
 {
     map.reserve(6);

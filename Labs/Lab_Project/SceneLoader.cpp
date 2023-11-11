@@ -6,8 +6,8 @@
 #include "Material.h"
 #include "Helper.h"
 
-#include "ModelManager.h"
-#include "ShaderManager.h"
+#include "Model/ModelManager.h"
+#include "Shader/ShaderManager.h"
 #include "Transforms/TransformContinuous.h"
 #include "Transforms/TransformTranslate.h"
 #include "Transforms/TransformScale.h"
@@ -15,7 +15,7 @@
 #include "Lights/LightPoint.h"
 #include "Lights/LightDirectional.h"
 
-#include "Texture.h"
+#include "Texture/Texture.h"
 
 
 
