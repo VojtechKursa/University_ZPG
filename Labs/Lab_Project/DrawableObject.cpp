@@ -35,6 +35,8 @@ void DrawableObject::draw()
 {
 	if(this->model != nullptr && this->shaderProgram != nullptr)
 	{
+		this->material.activateTexture();
+
 		glm::mat4 modelMatrix;
 		if(this->transformation != nullptr)
 			modelMatrix = this->transformation->getMatrix();

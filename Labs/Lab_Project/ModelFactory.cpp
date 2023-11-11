@@ -42,7 +42,27 @@ Model *ModelFactory::createFrom3Pos3Norm2Tex(const float *data, unsigned long le
 
 Model *ModelFactory::createFrom3Pos3Norm2Tex(std::string name, const float *data, unsigned long length)
 {
-    Model* model = ModelFactory::createFrom3Pos3Norm(data, length);
+    Model* model = ModelFactory::createFrom3Pos3Norm2Tex(data, length);
+    
+    ModelManager::getInstance()->add(name, model);
+    
+    return model;
+}
+
+Model *ModelFactory::createFrom3Pos(const float *data, unsigned long length)
+{
+    VBO* vbo = new VBO();
+    vbo->buffer(data, length);
+
+    VAO* vao = new VAO();
+    vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
+
+    return new Model(vao, length / 3);
+}
+
+Model *ModelFactory::createFrom3Pos(std::string name, const float *data, unsigned long length)
+{
+    Model* model = ModelFactory::createFrom3Pos(data, length);
     
     ModelManager::getInstance()->add(name, model);
     

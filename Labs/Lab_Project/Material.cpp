@@ -25,6 +25,24 @@ Material::Material(glm::vec4 color, float ambient, float diffuse, float specular
     this->specular = specular;
 
     this->shininessConstant = shininessConstant;
+    this->texture = nullptr;
+}
+
+Material::Material(Texture *texture)
+    : Material(texture, 1, 1, 2)
+{ }
+
+Material::Material(Texture *texture, float ambient, float diffuse, float specular, float shininessConstant)
+{
+    this->color = glm::vec4(0);
+
+    this->ambient = ambient;
+    this->diffuse = diffuse;
+    this->specular = specular;
+
+    this->shininessConstant = shininessConstant;
+
+    this->texture = texture;
 }
 
 
@@ -48,10 +66,36 @@ int Material::setToShader(ShaderProgram *program)
     if (program->bindUniform("shininessConstant", this->shininessConstant))
         result |= SHININESS_CONST;
 
-    if (program->bindUniform("objColor", this->color))
-        result |= COLOR;
-    else if (program->bindUniform("objColor3", glm::vec3(this->color / this->color.w)))
-        result |= COLOR;
+    if(texture != nullptr)
+    {
+        if(texture->bindToProgram(program))
+            result |= TEXTURE;
+    }
+    else
+    {
+        if (program->bindUniform("objColor", this->color))
+            result |= COLOR;
+        else if (program->bindUniform("objColor3", glm::vec3(this->color / this->color.w)))
+            result |= COLOR;
+    }
+
+
 
     return result;
+}
+
+Texture *Material::getTexture()
+{
+    return this->texture;
+}
+
+bool Material::activateTexture()
+{
+    if(this->texture != nullptr)
+    {
+        this->texture->activate();
+        return true;
+    }
+    else
+        return false;
 }

@@ -8,16 +8,23 @@ GLuint Texture::textureUnitsCreated = 0;
 
 
 
-Texture::Texture(GLenum type)
-    : Texture(textureUnitsCreated, type)
-{ }
 
 Texture::Texture(GLuint textureId, GLenum type)
 {
     this->textureId = textureId;
     this->type = type;
+    this->textureUnit = textureUnitsCreated;
 
     textureUnitsCreated++;
+}
+
+Texture::Texture(GLuint textureId, GLuint textureUnit, GLenum type)
+{
+    this->textureId = textureId;
+    this->type = type;
+    this->textureUnit = textureUnit;
+
+    Texture::textureUnitsCreated = this->textureUnit + 1;
 }
 
 
@@ -27,9 +34,15 @@ void Texture::bind()
     glBindTexture(this->type, this->textureId);
 }
 
-void Texture::setActive()
+void Texture::activate()
 {
-    glActiveTexture(GL_TEXTURE0 + textureId);;
+    Texture::setActiveTextureUnit(this->textureUnit);
+    this->bind();
+}
+
+bool Texture::bindToProgram(ShaderProgram* program)
+{
+    return program->bindUniform("textureUnitId", static_cast<int>(this->textureUnit));
 }
 
 
@@ -46,10 +59,7 @@ Texture* Texture::fromFile(const char *filename, int textureUnit, GLenum type)
         return nullptr;
 }
 
-void Texture::bindToProgram(ShaderProgram *program)
-{
-    program->bindUniform("textureUnitId", static_cast<int>(this->textureId));
-}
+
 
 void Texture::setActiveTextureUnit(GLuint unit)
 {

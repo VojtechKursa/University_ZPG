@@ -9,22 +9,22 @@
 
 class Texture
 {
-private:
+protected:
     static GLuint textureUnitsCreated;
 
     static void setActiveTextureUnit(GLuint unit);
 
     GLuint textureId;
+    GLuint textureUnit;
     GLenum type;
 
 public:
-    Texture(GLenum type);
     Texture(GLuint textureId, GLenum type);
+    Texture(GLuint textureId, GLuint textureUnit, GLenum type);
 
-    void setActive();
     void bind();
-
-    void bindToProgram(ShaderProgram* program);
+    void activate();
+    bool bindToProgram(ShaderProgram* program);
 
     static Texture* fromFile(const char* filename, int textureUnit = -1, GLenum type = GL_TEXTURE_2D);
 };

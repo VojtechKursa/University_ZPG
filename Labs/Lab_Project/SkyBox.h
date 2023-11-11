@@ -1,14 +1,17 @@
 #pragma once
 
 #include "DrawableObject.h"
-#include "Texture.h"
+#include "CubeMapTexture.h"
 
 
 
 class SkyBox : public DrawableObject
 {
+private:
+    CubeMapTexture* texture;
+
 public:
-    SkyBox(Texture* texture);
+    SkyBox(CubeMapTexture* texture, Camera* camera);
 
     virtual void draw() override;
 };

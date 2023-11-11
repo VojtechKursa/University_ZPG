@@ -264,29 +264,6 @@ void SceneLoader::loadSpotlightTest(Renderer* renderer)
     renderer->getCamera()->addFlashlight();
 }
 
-void SceneLoader::loadTextureTest(Renderer* renderer)
-{
-    Model* model = ModelManager::getInstance()->get("plainTextured");
-
-    TransformModel* transform = new TransformModel(glm::vec3(0,0,4), Rotation(0, 90, 0), glm::vec3(1));
-
-    ShaderProgram* program = new ShaderProgram();
-    program->addShader(ShaderManager::getInstance()->get("vert_light_texture"));
-    program->addShader(ShaderManager::getInstance()->get("frag_texture"));
-    program->link();
-
-    DrawableObject* plain = new DrawableObject(model, program, transform);
-
-    renderer->addObject(plain);
-
-    Texture* texture = new Texture(GL_TEXTURE_2D);
-    texture->fromFile("Assets/Textures/wooden_fence.png");
-
-    texture->bind();
-    texture->bindToProgram(program);
-
-    renderer->getCamera()->addFlashlight();
-}
 
 
 void SceneLoader::loadForest(Renderer* renderer)
@@ -318,11 +295,11 @@ void SceneLoader::loadForest(Renderer* renderer)
 
     ObjectProperties plainProperties;
     plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
-    plainProperties.modelName = "plain";
-    plainProperties.vertexShaderName = "vert_light";
-    plainProperties.fragmentShaderName = "frag_light_lambert";
+    plainProperties.modelName = "plainTextured";
+    plainProperties.vertexShaderName = "vert_texture_light";
+    plainProperties.fragmentShaderName = "frag_texture_lambert";
     plainProperties.bindToLights = true;
-    plainProperties.material = Material(glm::vec3(0, 0.3f, 0));
+    plainProperties.material = Material(Texture::fromFile("Assets/Textures/grass.jpg"));
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));
 
@@ -377,11 +354,14 @@ void SceneLoader::loadForest(Renderer* renderer)
         renderer->addObject(DrawableObjectFactory::createObject(properties));
     }
 
-
-
     Camera* camera = renderer->getCamera();
     camera->setPosition(glm::vec3(0, 2, 0));
     camera->setRotation(Rotation(90, 90, 0));
     camera->setFlying(false);
     camera->addFlashlight();
+
+    std::string prefix = "Assets/Textures/Skybox/";
+    CubeMapImageMap map(prefix+"posx.jpg", prefix+"posy.jpg", prefix+"posz.jpg", prefix+"negx.jpg", prefix+"negy.jpg", prefix+"negz.jpg");
+    CubeMapTexture* cubeMapTexture = CubeMapTexture::fromFile(map);
+    renderer->setSkyBox(new SkyBox(cubeMapTexture, camera));
 }

@@ -3,10 +3,16 @@
 #include "ModelManager.h"
 #include "ShaderManager.h"
 
+#include "Application.h"
+#include "Transforms/TransformCameraFollow.h"
 
 
-SkyBox::SkyBox(Texture *texture)
+
+SkyBox::SkyBox(CubeMapTexture *texture, Camera* camera)
 {
+    this->texture = texture;
+    this->transformation = new TransformCameraFollow(camera);
+
     this->model = ModelManager::getInstance()->get("skycube");
 
     ShaderProgram* program = new ShaderProgram(true, false);
@@ -14,14 +20,18 @@ SkyBox::SkyBox(Texture *texture)
     program->addShader(ShaderManager::getInstance()->get("frag_skybox"));
     program->link();
 
-    texture->bindToProgram(program);
-
     this->shaderProgram = program;
+
+    this->texture->bindToProgram(this->shaderProgram);
 }
+
+
 
 void SkyBox::draw()
 {
-    this->shaderProgram->bindUniform("modelMatrix", glm::identity<glm::mat4>());
+    this->texture->activate();
+
+    this->shaderProgram->bindUniform("modelMatrix", this->transformation->getMatrix());
     this->shaderProgram->use();
     
     this->model->draw();

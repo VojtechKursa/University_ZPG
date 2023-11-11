@@ -6,5 +6,6 @@ enum MaterialSetFlag
     COEF_DIFFUSE = 2,
     COEF_SPECULAR = 4,
     SHININESS_CONST = 8,
-    COLOR = 16
+    COLOR = 16,
+    TEXTURE = 32
 };

@@ -262,8 +262,6 @@ void Application::loadDefaultScene(const char* scene)
 		SceneLoader::loadForest(this->renderer);
 	else if(!strcasecmp(scene, "spotlight"))
 		SceneLoader::loadSpotlightTest(this->renderer);
-	else if(!strcasecmp(scene, "texture"))
-		SceneLoader::loadTextureTest(this->renderer);
 	else
 		SceneLoader::loadForest(this->renderer);
 }
@@ -273,6 +271,7 @@ void Application::loadDefaultScene(const char* scene)
 void Application::run()
 {
 	glEnable(GL_DEPTH_TEST);
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	
 	double lastFrameTime = glfwGetTime();
 	double currentTime, elapsedTime;
