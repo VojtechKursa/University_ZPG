@@ -35,7 +35,6 @@
     <ClInclude Include="Events\MatrixEventData.h" />
     <ClInclude Include="Events\MouseButtonEventData.h" />
     <ClInclude Include="Events\ViewPortChangedEventData.h" />
-    <ClInclude Include="FragmentShader.h" />
     <ClInclude Include="Helper.h" />
     <ClInclude Include="Interfaces\IObserver.h" />
     <ClInclude Include="Interfaces\ITransform.h" />
@@ -48,9 +47,6 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSetFlag.h" />
-    <ClInclude Include="Model.h" />
-    <ClInclude Include="ModelFactory.h" />
-    <ClInclude Include="ModelManager.h" />
     <ClInclude Include="Models\bushes.h" />
     <ClInclude Include="Models\gift.h" />
     <ClInclude Include="Models\models.h" />
@@ -60,19 +56,37 @@
     <ClInclude Include="Models\suzi_flat.h" />
     <ClInclude Include="Models\suzi_smooth.h" />
     <ClInclude Include="Models\tree.h" />
+    <ClInclude Include="Model\Model.h" />
+    <ClInclude Include="Model\ModelFactory.h" />
+    <ClInclude Include="Model\ModelManager.h" />
+    <ClInclude Include="Model\Models\bushes.h" />
+    <ClInclude Include="Model\Models\gift.h" />
+    <ClInclude Include="Model\Models\models.h" />
+    <ClInclude Include="Model\Models\plain.h" />
+    <ClInclude Include="Model\Models\skycube.h" />
+    <ClInclude Include="Model\Models\sphere.h" />
+    <ClInclude Include="Model\Models\suzi_flat.h" />
+    <ClInclude Include="Model\Models\suzi_smooth.h" />
+    <ClInclude Include="Model\Models\tree.h" />
     <ClInclude Include="ObjectProperties.h" />
     <ClInclude Include="OrbittingObject.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Rotation.h" />
     <ClInclude Include="SceneLoader.h" />
-    <ClInclude Include="Shader.h" />
-    <ClInclude Include="ShaderLoader.h" />
-    <ClInclude Include="ShaderManager.h" />
-    <ClInclude Include="ShaderProgram.h" />
+    <ClInclude Include="Shader\FragmentShader.h" />
+    <ClInclude Include="Shader\Shader.h" />
+    <ClInclude Include="Shader\ShaderLoader.h" />
+    <ClInclude Include="Shader\ShaderManager.h" />
+    <ClInclude Include="Shader\ShaderProgram.h" />
+    <ClInclude Include="Shader\VertexShader.h" />
     <ClInclude Include="SkyBox.h" />
     <ClInclude Include="Subject.h" />
-    <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texture\CubeMapImageMap.h" />
+    <ClInclude Include="Texture\CubeMapPos.h" />
+    <ClInclude Include="Texture\CubeMapTexture.h" />
+    <ClInclude Include="Texture\Texture.h" />
     <ClInclude Include="Transforms\Transform.h" />
+    <ClInclude Include="Transforms\TransformCameraFollow.h" />
     <ClInclude Include="Transforms\TransformComposite.h" />
     <ClInclude Include="Transforms\TransformCompositeContinuousable.h" />
     <ClInclude Include="Transforms\TransformContinuous.h" />
@@ -85,7 +99,6 @@
     <ClInclude Include="Transforms\TransformTranslate.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
-    <ClInclude Include="VertexShader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -99,21 +112,24 @@
     <ClCompile Include="Lights\LightSpot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
-    <ClCompile Include="Model.cpp" />
-    <ClCompile Include="ModelFactory.cpp" />
-    <ClCompile Include="ModelManager.cpp" />
+    <ClCompile Include="Model\Model.cpp" />
+    <ClCompile Include="Model\ModelFactory.cpp" />
+    <ClCompile Include="Model\ModelManager.cpp" />
     <ClCompile Include="OrbittingObject.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Rotation.cpp" />
     <ClCompile Include="SceneLoader.cpp" />
-    <ClCompile Include="Shader.cpp" />
-    <ClCompile Include="ShaderLoader.cpp" />
-    <ClCompile Include="ShaderManager.cpp" />
-    <ClCompile Include="ShaderProgram.cpp" />
+    <ClCompile Include="Shader\Shader.cpp" />
+    <ClCompile Include="Shader\ShaderLoader.cpp" />
+    <ClCompile Include="Shader\ShaderManager.cpp" />
+    <ClCompile Include="Shader\ShaderProgram.cpp" />
     <ClCompile Include="SkyBox.cpp" />
     <ClCompile Include="Subject.cpp" />
-    <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture\CubeMapImageMap.cpp" />
+    <ClCompile Include="Texture\CubeMapTexture.cpp" />
+    <ClCompile Include="Texture\Texture.cpp" />
     <ClCompile Include="Transforms\Transform.cpp" />
+    <ClCompile Include="Transforms\TransformCameraFollow.cpp" />
     <ClCompile Include="Transforms\TransformComposite.cpp" />
     <ClCompile Include="Transforms\TransformCompositeContinuousable.cpp" />
     <ClCompile Include="Transforms\TransformContinuous.cpp" />
@@ -131,6 +147,7 @@
     <CopyFileToFolders Include="glew32.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
+    <None Include="ClassDiagram.cd" />
     <None Include="Shaders\common.glsl" />
     <None Include="Shaders\frag_colorConst.frag" />
     <None Include="Shaders\frag_colorFromIn3.frag" />
@@ -142,12 +159,24 @@
     <None Include="Shaders\frag_light_phong.frag" />
     <None Include="Shaders\frag_skybox.frag" />
     <None Include="Shaders\frag_texture.frag" />
+    <None Include="Shaders\frag_texture_lambert.frag" />
     <None Include="Shaders\vert_default_colorPass3.vert" />
     <None Include="Shaders\vert_default_colorPass4.vert" />
     <None Include="Shaders\vert_light.vert" />
     <None Include="Shaders\vert_light_texture.vert" />
     <None Include="Shaders\vert_skybox.vert" />
     <None Include="Shaders\vert_texture.vert" />
+    <None Include="Shaders\vert_texture_light.vert" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Assets\Textures\grass.jpg" />
+    <Image Include="Assets\Textures\Skybox\negx.jpg" />
+    <Image Include="Assets\Textures\Skybox\negy.jpg" />
+    <Image Include="Assets\Textures\Skybox\negz.jpg" />
+    <Image Include="Assets\Textures\Skybox\posx.jpg" />
+    <Image Include="Assets\Textures\Skybox\posy.jpg" />
+    <Image Include="Assets\Textures\Skybox\posz.jpg" />
+    <Image Include="Assets\Textures\wooden_fence.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
