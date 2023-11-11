@@ -274,8 +274,8 @@ bool ShaderProgram::bindUniform(const char *uniformName, LightStruct_t light, in
 	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.position[0]);
 	sprintf(nameBuffer, "%s[%d].direction", uniformName, index);
 	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.direction[0]);
-	sprintf(nameBuffer, "%s[%d].foi", uniformName, index);
-	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.foi);
+	sprintf(nameBuffer, "%s[%d].edge_cos", uniformName, index);
+	glUniform1f(glGetUniformLocation(this->programId, nameBuffer), light.edge_cos);
 
 	sprintf(nameBuffer, "%s[%d].lightColor", uniformName, index);
 	glUniform3fv(glGetUniformLocation(this->programId, nameBuffer), 1, &light.lightColor[0]);

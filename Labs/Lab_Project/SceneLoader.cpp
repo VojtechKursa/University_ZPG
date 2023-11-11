@@ -225,8 +225,8 @@ void SceneLoader::loadSpotlightTest(Renderer* renderer)
 
     float plainScale = 4;
     float spaceBetween = 1;
-    float lightDistance = 1;
-    float lightFoi = 60;
+    float lightDistance = 2;
+    float lightFoi = 90;
 
     ObjectProperties properties;
     properties.modelName = "sphere";

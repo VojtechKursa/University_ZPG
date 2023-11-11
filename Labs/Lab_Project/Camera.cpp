@@ -221,7 +221,7 @@ bool Camera::addFlashlight(float foi, glm::vec3 lightColor)
 		return false;
 	
 	if(foi < 0)
-		foi = this->fov / 2;	// integer division is intentional
+		foi = this->fov;
 
 	this->flashlight = new LightSpot(this->eyePosition, this->target, foi, lightColor, false, nullptr, nullptr, nullptr);
 	this->flashlight->setAttCoeficients(2);

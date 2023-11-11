@@ -13,7 +13,7 @@ struct Light
 
     vec3 position;
     vec3 direction;
-    float foi;
+    float edge_cos;
 
     vec3 lightColor;
 
@@ -58,26 +58,13 @@ vec4 phong(vec3 lightVectorNorm, vec3 worldNorNorm, vec3 viewDir, vec4 lightColo
     }
 }
 
-float spotlightDropoffLinear(Light light, vec3 lightVectorNorm)
-{
-    if(light.type == 2) // spotlight
-    {
-        float offset = max(dot(-lightVectorNorm, light.direction), 0.0);
-        return offset * (light.foi / 180.0);
-    }
-    else
-    {
-        return 1.0;
-    }
-}
-
 float spotlightDropoffSharp(Light light, vec3 lightVectorNorm)
 {
     if(light.type == 2) // spotlight
     {
         float offset = max(dot(-lightVectorNorm, light.direction), 0.0);
 
-        return offset > cos(radians(light.foi)) ? 1.0 : 0.0;
+        return offset > light.edge_cos ? 1.0 : 0.0;
     }
     else
     {
