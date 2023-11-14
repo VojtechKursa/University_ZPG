@@ -1,2 +1,5 @@
 # Executable
 main
+
+# Unignore .obj files in models
+!Assets/Models/*.obj
