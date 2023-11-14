@@ -7,12 +7,12 @@ class Model
 private:
 	VAO* vao;
 
-	int firstVertex;
-	int vertexCount;
+	GLint firstVertex;
+	GLsizei vertexCount;
 	GLenum drawingMode;
 
 public:
-	Model(VAO* vao, int vertexCount, int firstVertex = 0, GLenum drawingMode = GL_TRIANGLES);
+	Model(VAO* vao, GLsizei vertexCount, GLint firstVertex = 0, GLenum drawingMode = GL_TRIANGLES);
 	~Model();
 
 	void bind();

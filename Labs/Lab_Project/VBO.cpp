@@ -26,7 +26,7 @@ void VBO::unbind()
 
 
 
-void VBO::buffer(const float* array, int length)
+void VBO::buffer(const float* array, GLsizeiptr length)
 {
 	this->bind();
 

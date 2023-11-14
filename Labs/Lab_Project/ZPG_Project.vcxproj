@@ -47,6 +47,7 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSetFlag.h" />
+    <ClInclude Include="Model\ModelLoader.h" />
     <ClInclude Include="Models\bushes.h" />
     <ClInclude Include="Models\gift.h" />
     <ClInclude Include="Models\models.h" />
@@ -99,6 +100,8 @@
     <ClInclude Include="Transforms\TransformTranslate.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
+    <ClInclude Include="Model\Vertex.h" />
+    <ClInclude Include="Model\VertexCollection.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
@@ -112,6 +115,7 @@
     <ClCompile Include="Lights\LightSpot.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Material.cpp" />
+    <ClCompile Include="Model\ModelLoader.cpp" />
     <ClCompile Include="Model\Model.cpp" />
     <ClCompile Include="Model\ModelFactory.cpp" />
     <ClCompile Include="Model\ModelManager.cpp" />
@@ -142,12 +146,15 @@
     <ClCompile Include="Transforms\TransformTranslate.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
+    <ClCompile Include="Model\VertexCollection.cpp" />
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="glew32.dll">
       <FileType>Document</FileType>
     </CopyFileToFolders>
-    <None Include="ClassDiagram.cd" />
+    <CopyFileToFolders Include="assimp-vc143-mt.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
     <None Include="Shaders\common.glsl" />
     <None Include="Shaders\frag_colorConst.frag" />
     <None Include="Shaders\frag_colorFromIn3.frag" />

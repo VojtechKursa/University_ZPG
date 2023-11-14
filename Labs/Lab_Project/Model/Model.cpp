@@ -1,6 +1,6 @@
 #include "Model.h"
 
-Model::Model(VAO *vao, int vertexCount, int firstVertex, GLenum drawingMode)
+Model::Model(VAO *vao, GLsizei vertexCount, GLint firstVertex, GLenum drawingMode)
 {
 	this->vao = vao;
 

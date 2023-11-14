@@ -109,9 +109,6 @@
     <ClCompile Include="SkyBox.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Transforms\TransformCameraFollow.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -143,6 +140,15 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Model\ModelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\ModelLoader.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Model\VertexCollection.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -387,9 +393,19 @@
     <ClInclude Include="Model\ModelManager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Model\Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\ModelLoader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\VertexCollection.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="glew32.dll" />
+    <CopyFileToFolders Include="assimp-vc143-mt.dll" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Shaders\frag_colorConst.frag">
@@ -449,7 +465,6 @@
     <None Include="Shaders\vert_texture_light.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\wooden_fence.png">
