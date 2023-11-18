@@ -280,9 +280,9 @@ void SceneLoader::loadForest(Renderer* renderer)
 
     const int plainSize = 50;
     const struct generatorParams generatorParameters[] = {
-        {"tree", 100, 10, true},
+        {"tree", 50, 10, true},
         {"gift", 10, 0},
-        {"bushes", 25, 20},
+        {"bushes", 15, 20},
         {"suzi_smooth", 5, 0, true, 1, 0.5f}
     };
 
@@ -295,11 +295,11 @@ void SceneLoader::loadForest(Renderer* renderer)
 
     ObjectProperties plainProperties;
     plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
-    plainProperties.modelName = "plainTextured";
+    plainProperties.modelName = "plane.obj";
     plainProperties.vertexShaderName = "vert_texture_light";
     plainProperties.fragmentShaderName = "frag_texture_lambert";
     plainProperties.bindToLights = true;
-    plainProperties.material = Material(Texture::fromFile("Assets/Textures/grass.jpg"));
+    plainProperties.material = Material(Texture::fromFile("grass.jpg"));
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));
 
@@ -360,7 +360,30 @@ void SceneLoader::loadForest(Renderer* renderer)
     camera->setFlying(false);
     camera->addFlashlight();
 
-    std::string prefix = "Assets/Textures/Skybox/";
+
+    ObjectProperties props;
+    props.bindToLights = true;
+    props.vertexShaderName = "vert_texture_light";
+    props.fragmentShaderName = "frag_texture_blinn";
+    props.position = glm::vec3(5,1,5);
+    props.scale = glm::vec3(0.125);
+    props.rotation = Rotation(0, 90, 180);
+    props.modelName = "Skull.obj";
+    props.material = Material(Texture::fromFile("Skull.jpg"));
+    
+    renderer->addObject(DrawableObjectFactory::createObject(props));
+
+    props.position = glm::vec3(30,0,10);
+    props.scale = glm::vec3(1);
+    props.rotation = Rotation();
+    props.modelName = "house.blend";
+    props.material = Material(Texture::fromFile("house.png"));
+    props.fragmentShaderName = "frag_texture_lambert";
+
+    renderer->addObject(DrawableObjectFactory::createObject(props));
+
+
+    std::string prefix = "Skybox/";
     CubeMapImageMap map(prefix+"posx.jpg", prefix+"posy.jpg", prefix+"posz.jpg", prefix+"negx.jpg", prefix+"negy.jpg", prefix+"negz.jpg");
     CubeMapTexture* cubeMapTexture = CubeMapTexture::fromFile(map);
     renderer->setSkyBox(new SkyBox(cubeMapTexture, camera));

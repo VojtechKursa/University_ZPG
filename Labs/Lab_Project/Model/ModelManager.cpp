@@ -1,6 +1,7 @@
 #include "ModelManager.h"
 
 #include "ModelFactory.h"
+#include "ModelLoader.h"
 
 #ifdef _MSC_VER
 #pragma warning( push )
@@ -78,5 +79,5 @@ Model *ModelManager::get(std::string name)
         }
     }
 
-    return result;
+    return ModelLoader::loadModel(name);;
 }

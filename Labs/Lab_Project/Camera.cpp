@@ -224,7 +224,7 @@ bool Camera::addFlashlight(float foi, glm::vec3 lightColor)
 		foi = this->fov;
 
 	this->flashlight = new LightSpot(this->eyePosition, this->target, foi, lightColor, false, nullptr, nullptr, nullptr);
-	this->flashlight->setAttCoeficients(2);
+	this->flashlight->setAttCoeficients(1);
 	
 	Application::getInstance()->getRenderer()->addLight(this->flashlight);
 

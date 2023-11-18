@@ -3,6 +3,7 @@
 #include "Vertex.h"
 
 #include <vector>
+#include <stdlib.h>
 
 
 
@@ -14,5 +15,5 @@ private:
 public:
 	void add(Vertex vertex);
 
-	float* toBufferArray(size_t& len);
+	float* toBufferArray(size_t& vertexSize, size_t& vertexCount);
 };

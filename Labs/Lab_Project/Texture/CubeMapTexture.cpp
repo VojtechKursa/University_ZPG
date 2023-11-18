@@ -19,12 +19,12 @@ CubeMapTexture *CubeMapTexture::fromFile(CubeMapImageMap &imageMap, int textureU
 
     GLuint image = SOIL_load_OGL_cubemap
     (
-        imageMap.get(CUBEMAP_POS_X).c_str(),
-        imageMap.get(CUBEMAP_NEG_X).c_str(),
-        imageMap.get(CUBEMAP_POS_Y).c_str(),
-        imageMap.get(CUBEMAP_NEG_Y).c_str(),
-        imageMap.get(CUBEMAP_POS_Z).c_str(),
-        imageMap.get(CUBEMAP_NEG_Z).c_str(),
+        (Texture::textureFolder + imageMap.get(CUBEMAP_POS_X)).c_str(),
+        (Texture::textureFolder + imageMap.get(CUBEMAP_NEG_X)).c_str(),
+        (Texture::textureFolder + imageMap.get(CUBEMAP_POS_Y)).c_str(),
+        (Texture::textureFolder + imageMap.get(CUBEMAP_NEG_Y)).c_str(),
+        (Texture::textureFolder + imageMap.get(CUBEMAP_POS_Z)).c_str(),
+        (Texture::textureFolder + imageMap.get(CUBEMAP_NEG_Z)).c_str(),
         SOIL_LOAD_RGB, SOIL_CREATE_NEW_ID, 0
     );
 

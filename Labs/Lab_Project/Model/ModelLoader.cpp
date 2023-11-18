@@ -18,8 +18,8 @@ const std::string ModelLoader::modelFolder = "Assets/Models/";
 Model* ModelLoader::loadModel(std::string filename)
 {
     Assimp::Importer importer;
-    unsigned int importOptions = aiProcess_Triangulate
-        | aiProcess_OptimizeMeshes              // sloučení malých plošek
+    unsigned int importOptions = 
+          aiProcess_OptimizeMeshes              // sloučení malých plošek
         | aiProcess_JoinIdenticalVertices       // NUTNÉ jinak hodně duplikuje
         | aiProcess_Triangulate                 // prevod vsech ploch na trojuhelniky
         | aiProcess_CalcTangentSpace;           // vypocet tangenty, nutny pro spravne pouziti normalove mapy
@@ -52,76 +52,67 @@ Model* ModelLoader::loadModel(std::string filename)
 
         VertexCollection col;
         Vertex vert;
+        aiFace face;
+        aiMesh* mesh;
+        int vert_id;
 
-        for (unsigned int i = 0; i < scene->mNumMeshes; i++)                      //Objects
+        for (unsigned int m = 0; m < scene->mNumMeshes; m++)                      //Objects
         {
-            aiMesh* mesh = scene->mMeshes[i];
+            mesh = scene->mMeshes[m];
 
-            for (unsigned int i = 0; i < mesh->mNumVertices; i++)
+            for (unsigned int f = 0; f < mesh->mNumFaces; f++)
             {
-                if (mesh->HasPositions())
+                face = mesh->mFaces[f];
+
+                for(unsigned int v = 0; v < 3; v++)
                 {
-                    vert.Position[0] = mesh->mVertices[i].x;
-                    vert.Position[1] = mesh->mVertices[i].y;
-                    vert.Position[2] = mesh->mVertices[i].z;
-                }
+                    vert_id = face.mIndices[v];
+                    
+                    if (mesh->HasPositions())
+                    {
+                        vert.Position[0] = mesh->mVertices[vert_id].x;
+                        vert.Position[1] = mesh->mVertices[vert_id].y;
+                        vert.Position[2] = mesh->mVertices[vert_id].z;
+                    }
 
-                if (mesh->HasNormals())
-                {
-                    vert.Normal[0] = mesh->mNormals[i].x;
-                    vert.Normal[1] = mesh->mNormals[i].y;
-                    vert.Normal[2] = mesh->mNormals[i].z;
-                }
+                    if (mesh->HasNormals())
+                    {
+                        vert.Normal[0] = mesh->mNormals[vert_id].x;
+                        vert.Normal[1] = mesh->mNormals[vert_id].y;
+                        vert.Normal[2] = mesh->mNormals[vert_id].z;
+                    }
 
-                if (mesh->HasTextureCoords(0))
-                {
-                    vert.Texture[0] = mesh->mTextureCoords[0][i].x;
-                    vert.Texture[1] = mesh->mTextureCoords[0][i].y;
-                }
+                    if (mesh->HasTextureCoords(0))
+                    {
+                        vert.Texture[0] = mesh->mTextureCoords[0][vert_id].x;
+                        vert.Texture[1] = mesh->mTextureCoords[0][vert_id].y;
+                    }
 
-                if (mesh->HasTangentsAndBitangents())
-                {
-                    vert.Tangent[0] = mesh->mTangents[i].x;
-                    vert.Tangent[1] = mesh->mTangents[i].y;
-                    vert.Tangent[2] = mesh->mTangents[i].z;
-                }
+                    if (mesh->HasTangentsAndBitangents())
+                    {
+                        vert.Tangent[0] = mesh->mTangents[vert_id].x;
+                        vert.Tangent[1] = mesh->mTangents[vert_id].y;
+                        vert.Tangent[2] = mesh->mTangents[vert_id].z;
+                    }
 
-                col.add(vert);
-            }
-
-            unsigned int* pIndices = nullptr;
-
-            if (mesh->HasFaces())
-            {
-                pIndices = new unsigned int[mesh->mNumFaces * 3];
-
-                for (unsigned int i = 0; i < mesh->mNumFaces; i++)
-                {
-                    pIndices[i * 3] = mesh->mFaces[i].mIndices[0];
-                    pIndices[i * 3 + 1] = mesh->mFaces[i].mIndices[1];
-                    pIndices[i * 3 + 2] = mesh->mFaces[i].mIndices[2];
+                    col.add(vert);
                 }
             }
-
-            delete[] pIndices;
         }
 
         VBO* vbo = new VBO();
-        size_t size;
-        float* arr = col.toBufferArray(size);
-        vbo->buffer(arr, size);
-
-        VAO* vao = new VAO();
-        vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, nullptr);
-        vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, sizeof(float) * 3);
-        vao->enableVertexAttributes(vbo, 2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 11, sizeof(float) * 6);
-        vao->enableVertexAttributes(vbo, 3, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 11, sizeof(float) * 8);
-
-        Model* model = new Model(vao, size / 11);
-
+        size_t vertexSize, vertexCount;
+        float* arr = col.toBufferArray(vertexSize, vertexCount);
+        vbo->buffer(arr, vertexSize * vertexCount * sizeof(float));
         delete[] arr;
 
-        return model;
+        VAO* vao = new VAO();
+        vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, nullptr);
+        vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, sizeof(float) * 3);
+        vao->enableVertexAttributes(vbo, 2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, sizeof(float) * 6);
+        vao->enableVertexAttributes(vbo, 3, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, sizeof(float) * 8);
+
+        return new Model(vao, vertexCount);
     }
 
 	return nullptr;
