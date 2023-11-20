@@ -107,12 +107,12 @@ Model* ModelLoader::loadModel(std::string filename)
         delete[] arr;
 
         VAO* vao = new VAO();
-        vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, nullptr);
-        vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, sizeof(float) * 3);
-        vao->enableVertexAttributes(vbo, 2, 2, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, sizeof(float) * 6);
-        vao->enableVertexAttributes(vbo, 3, 3, GL_FLOAT, GL_FALSE, sizeof(float) * vertexSize, sizeof(float) * 8);
+        vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(sizeof(float) * vertexSize), nullptr);
+        vao->enableVertexAttributes(vbo, 1, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(sizeof(float) * vertexSize), sizeof(float) * 3);
+        vao->enableVertexAttributes(vbo, 2, 2, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(sizeof(float) * vertexSize), sizeof(float) * 6);
+        vao->enableVertexAttributes(vbo, 3, 3, GL_FLOAT, GL_FALSE, static_cast<GLsizei>(sizeof(float) * vertexSize), sizeof(float) * 8);
 
-        return new Model(vao, vertexCount);
+        return new Model(vao, static_cast<GLsizei>(vertexCount));
     }
 
 	return nullptr;

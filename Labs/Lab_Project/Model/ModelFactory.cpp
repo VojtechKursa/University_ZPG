@@ -18,15 +18,6 @@ Model *ModelFactory::createFrom3Pos3Norm(const float *data, unsigned long length
     return new Model(vao, length / 6);
 }
 
-Model *ModelFactory::createFrom3Pos3Norm(std::string name, const float *data, unsigned long length)
-{
-    Model* model = ModelFactory::createFrom3Pos3Norm(data, length);
-    
-    ModelManager::getInstance()->add(name, model);
-    
-    return model;
-}
-
 Model *ModelFactory::createFrom3Pos3Norm2Tex(const float *data, unsigned long length)
 {
     VBO* vbo = new VBO();
@@ -40,15 +31,6 @@ Model *ModelFactory::createFrom3Pos3Norm2Tex(const float *data, unsigned long le
     return new Model(vao, length / 8);
 }
 
-Model *ModelFactory::createFrom3Pos3Norm2Tex(std::string name, const float *data, unsigned long length)
-{
-    Model* model = ModelFactory::createFrom3Pos3Norm2Tex(data, length);
-    
-    ModelManager::getInstance()->add(name, model);
-    
-    return model;
-}
-
 Model *ModelFactory::createFrom3Pos(const float *data, unsigned long length)
 {
     VBO* vbo = new VBO();
@@ -58,13 +40,4 @@ Model *ModelFactory::createFrom3Pos(const float *data, unsigned long length)
     vao->enableVertexAttributes(vbo, 0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, nullptr);
 
     return new Model(vao, length / 3);
-}
-
-Model *ModelFactory::createFrom3Pos(std::string name, const float *data, unsigned long length)
-{
-    Model* model = ModelFactory::createFrom3Pos(data, length);
-    
-    ModelManager::getInstance()->add(name, model);
-    
-    return model;
 }

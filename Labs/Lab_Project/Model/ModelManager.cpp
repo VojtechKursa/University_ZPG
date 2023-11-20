@@ -51,12 +51,12 @@ Model* ModelManager::loadDefaultModel(int index)
     switch(formats[index])
     {
         case POS3_NORM3_TEX2:
-            return ModelFactory::createFrom3Pos3Norm2Tex(names[index], data[index], sizes[index]);
+            return ModelFactory::createFrom3Pos3Norm2Tex(data[index], sizes[index]);
         case POS3:
-            return ModelFactory::createFrom3Pos(names[index], data[index], sizes[index]);
+            return ModelFactory::createFrom3Pos(data[index], sizes[index]);
         case POS3_NORM3:
         default:
-            return ModelFactory::createFrom3Pos3Norm(names[index], data[index], sizes[index]);
+            return ModelFactory::createFrom3Pos3Norm(data[index], sizes[index]);
     }
 }
 
@@ -74,10 +74,18 @@ Model *ModelManager::get(std::string name)
         {
             if(name == this->names[i])
             {
-                return this->loadDefaultModel(i);
+                result = this->loadDefaultModel(i);
+                if (result != nullptr)
+                    break;
             }
         }
     }
 
-    return ModelLoader::loadModel(name);;
+    if(result == nullptr)
+        result = ModelLoader::loadModel(name);
+
+    if (result != nullptr)
+        this->add(name, result);
+
+    return result;
 }
