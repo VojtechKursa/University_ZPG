@@ -45,6 +45,8 @@ private:
 
 	LightSpot* flashlight;
 
+	glm::vec2 viewPortSize;
+
 	void calculateTarget();
 	void calculateTarget(float alpha, float phi);
 
@@ -84,6 +86,8 @@ public:
 
 	LightSpot* getFlashlight();
 	bool addFlashlight(float foi = -1, glm::vec3 lightColor = glm::vec3(1,1,1));
+
+	glm::vec2 getViewPortSize();
 
 	bool setFlying(bool flying);
 	bool getFlying();

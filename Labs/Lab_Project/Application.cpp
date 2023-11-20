@@ -9,6 +9,8 @@
 #endif
 
 #include "SceneLoader.h"
+#include "DrawableObjectFactory.h"
+#include "Helper.h"
 
 #include "Events/KeyEventData.h"
 #include "Events/ViewPortChangedEventData.h"
@@ -84,16 +86,16 @@ void Application::window_iconify_callback(GLFWwindow *window, int iconified)
 void Application::window_size_callback(GLFWwindow *window, int width, int height)
 {
 	//printf("resize %d, %d \n", width, height);
-	glViewport(0, 0, width, height);
 
-	const ViewPortChangedEventData eventData(width, height);
-	const Event event(EVENT_VIEWPORT, (EventData*)&eventData);
-	this->notifyAll(&event);
+	this->setWindowSize(width, height);		// notification done in this method
 }
 
 void Application::cursor_callback(GLFWwindow *window, double x, double y)
 {
 	//printf("cursor_callback \n");
+
+	this->lastCursorPosition[0] = x;
+	this->lastCursorPosition[1] = y;
 
 	const CursorEventData eventData(x, y);
 	const Event event(EVENT_CURSOR, (EventData*)&eventData);
@@ -103,6 +105,61 @@ void Application::cursor_callback(GLFWwindow *window, double x, double y)
 void Application::button_callback(GLFWwindow *window, int button, int action, int mode)
 {
 	//printf("button_callback [%d,%d,%d]\n", button, action, mode);
+
+
+	double x = lastCursorPosition[0];
+	double y = lastCursorPosition[1];
+
+
+	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	{
+		Camera* camera = this->renderer->getCamera();
+		glm::vec2 viewPortSize = camera->getViewPortSize();
+
+		GLbyte color[4];
+		GLfloat depth;
+		GLuint index;
+
+		GLint xInt = static_cast<GLint>(x);
+		GLint yInt = static_cast<GLint>(y);
+
+		GLint yGl = static_cast<GLint>(glm::round(viewPortSize.y - y));
+
+		glReadPixels(xInt, yGl, 1, 1, GL_RGBA, GL_UNSIGNED_BYTE, color);
+		glReadPixels(xInt, yGl, 1, 1, GL_DEPTH_COMPONENT, GL_FLOAT, &depth);
+		glReadPixels(xInt, yGl, 1, 1, GL_STENCIL_INDEX, GL_UNSIGNED_INT, &index);
+
+		printf("Clicked on pixel [%d, %d] (GPU: [%d, %d])\n\tcolor %02hhx%02hhx%02hhx%02hhx, depth %f, stencil index %u\n", xInt, yInt, xInt, yGl, color[0], color[1], color[2], color[3], depth, index);
+		
+
+
+		DrawableObject* clickedObject = DrawableObject::getClickableObject(index);
+		if (clickedObject != nullptr)
+		{
+			printf("\tClicked object ID: %d\n", clickedObject->getClickableId());
+		}
+
+
+
+		// Calculate position in global coordinates (convert from screen-space to global) 
+		glm::vec3 screenPos = glm::vec3(xInt, yGl, depth);
+		glm::mat4 view = camera->getViewMatrix();
+		glm::mat4 projection = camera->getProjectionMatrix();
+		glm::vec4 viewPort = glm::vec4(0, 0, viewPortSize.x, viewPortSize.y);
+		glm::vec3 pos = glm::unProject(screenPos, view, projection, viewPort);
+
+		printf("\tunProject result: [%f,%f,%f]\n", pos.x, pos.y, pos.z);
+
+
+
+		if (!this->placeObjectPropertiesInitialized)
+			this->initPlaceObjectProperties();
+
+		this->placeObjectProperties.rotation = Rotation(static_cast<float>(Helper::random(0, 360)), 0, 0);
+		this->placeObjectProperties.position = pos;
+		renderer->addObject(DrawableObjectFactory::createObject(this->placeObjectProperties));
+	}
+
 
 	const MouseButtonEventData eventData(button, action, mode);
 	const Event event(EVENT_MOUSE_BUTTON, (EventData*)&eventData);
@@ -124,6 +181,9 @@ Application::Application()
 {
 	this->window = nullptr;
 	this->renderer = nullptr;
+
+	lastCursorPosition[0] = 0;
+	lastCursorPosition[1] = 0;
 }
 
 Application::~Application()
@@ -210,7 +270,7 @@ void Application::createWindow(int width, int height, const char* title, GLFWmon
 	glewInit();
 
 	glfwGetFramebufferSize(this->window, &width, &height);
-	glViewport(0, 0, width, height);
+	this->setWindowSize(width, height);
 }
 
 void Application::destroyWindow()
@@ -221,6 +281,15 @@ void Application::destroyWindow()
 
 		this->window = nullptr;
 	}
+}
+
+void Application::setWindowSize(int width, int height)
+{
+	glViewport(0, 0, width, height);
+
+	const ViewPortChangedEventData eventData(width, height);
+	const Event event(EVENT_VIEWPORT, (EventData*)&eventData);
+	this->notifyAll(&event);
 }
 
 
@@ -268,10 +337,36 @@ void Application::loadDefaultScene(const char* scene)
 
 
 
+void Application::initPlaceObjectProperties()
+{
+	this->placeObjectProperties = ObjectProperties();
+
+	this->placeObjectProperties.modelName = "tree.obj";
+	this->placeObjectProperties.material = Material(Texture::fromFile("tree.png"));
+
+	this->placeObjectProperties.vertexShaderName = "vert_texture_light";
+	this->placeObjectProperties.fragmentShaderName = "frag_texture_blinn";
+
+	this->placeObjectProperties.bindToCamera = true;
+	this->placeObjectProperties.bindToLights = true;
+
+	this->placeObjectProperties.scale = glm::vec3(1 / 5.f);
+
+	this->placeObjectProperties.clickable = false;
+
+	
+
+	this->placeObjectPropertiesInitialized = true;
+}
+
+
+
 void Application::run()
 {
 	glEnable(GL_DEPTH_TEST);
     glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	glEnable(GL_STENCIL_TEST);
+	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	
 	double lastFrameTime = glfwGetTime();
 	double currentTime, elapsedTime;

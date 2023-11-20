@@ -134,6 +134,8 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 
 	this->flashlight = nullptr;
 
+	this->viewPortSize = glm::vec2(0);
+
 	this->calculateViewMatrix();
 	this->calculateProjectionMatrix();
 
@@ -229,6 +231,13 @@ bool Camera::addFlashlight(float foi, glm::vec3 lightColor)
 	Application::getInstance()->getRenderer()->addLight(this->flashlight);
 
 	return true;
+}
+
+
+
+glm::vec2 Camera::getViewPortSize()
+{
+	return this->viewPortSize;
 }
 
 
@@ -409,6 +418,8 @@ void Camera::mouseButtonHandler(int button, int action, int mode)
 void Camera::viewPortChangedHandler(int width, int height)
 {
 	this->viewRatio = width / (float)height;
+
+	this->viewPortSize = glm::vec2(width, height);
 
 	this->calculateProjectionMatrix();
 }

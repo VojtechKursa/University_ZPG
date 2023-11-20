@@ -76,7 +76,7 @@ int Renderer::getLightIndex(Light *light)
 void Renderer::renderNextFrame(GLFWwindow* window)
 {
 	// clear color and depth buffer
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT | GL_STENCIL_BUFFER_BIT);
 
 	if(this->skybox != nullptr)
 	{

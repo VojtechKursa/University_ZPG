@@ -3,10 +3,10 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#include <vector>
-
 #include "Renderer.h"
 #include "Subject.h"
+
+#include "ObjectProperties.h"
 
 
 
@@ -17,6 +17,12 @@ private:
 
 	GLFWwindow* window;
 	Renderer* renderer;
+
+	double lastCursorPosition[2];
+
+	ObjectProperties placeObjectProperties;
+	bool placeObjectPropertiesInitialized = false;
+	void initPlaceObjectProperties();
 
 	static void error_callback(int error, const char* description);
 	static void key_callback_static(GLFWwindow* window, int key, int scancode, int action, int mods);
@@ -51,6 +57,7 @@ public:
 
 	void createWindow(int width = 800, int height = 600, const char* title = "ZPG", GLFWmonitor* monitor = nullptr, GLFWwindow* share = nullptr);
 	void destroyWindow();
+	void setWindowSize(int width, int height);
 
 	void printVersionInfo();
 

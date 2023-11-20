@@ -148,7 +148,7 @@ DrawableObject *DrawableObjectFactory::createObject(ObjectProperties properties)
 	transform->setRotation(properties.rotation);
 	transform->setScale(properties.scale);
 
-	return new DrawableObject(model, program, transform, properties.material);
+	return new DrawableObject(model, program, transform, properties.material, properties.clickable);
 }
 
 

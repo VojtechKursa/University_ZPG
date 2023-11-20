@@ -323,6 +323,7 @@ void SceneLoader::loadForest(Renderer* renderer)
     plainProperties.fragmentShaderName = "frag_texture_lambert";
     plainProperties.bindToLights = true;
     plainProperties.material = Material(Texture::fromFile("grass.jpg"));
+    plainProperties.clickable = true;
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));
 
@@ -415,6 +416,7 @@ void SceneLoader::loadForest(Renderer* renderer)
 
     ObjectProperties props;
     props.bindToLights = true;
+    props.clickable = true;
     props.vertexShaderName = "vert_texture_light";
     props.fragmentShaderName = "frag_texture_blinn";
     props.position = glm::vec3(5,0,5);

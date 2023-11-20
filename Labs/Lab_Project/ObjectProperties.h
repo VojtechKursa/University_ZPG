@@ -20,4 +20,5 @@ struct ObjectProperties
     bool bindToCamera = true;
     bool bindToLights = false;
     Material material = Material();
+    bool clickable = false;
 };
