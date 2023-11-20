@@ -166,6 +166,7 @@
     <None Include="Shaders\frag_light_phong.frag" />
     <None Include="Shaders\frag_skybox.frag" />
     <None Include="Shaders\frag_texture.frag" />
+    <None Include="Shaders\frag_texture_blinn.frag" />
     <None Include="Shaders\frag_texture_lambert.frag" />
     <None Include="Shaders\vert_default_colorPass3.vert" />
     <None Include="Shaders\vert_default_colorPass4.vert" />
@@ -177,13 +178,17 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\grass.jpg" />
+    <Image Include="Assets\Textures\house.png" />
+    <Image Include="Assets\Textures\Skull.jpg" />
     <Image Include="Assets\Textures\Skybox\negx.jpg" />
     <Image Include="Assets\Textures\Skybox\negy.jpg" />
     <Image Include="Assets\Textures\Skybox\negz.jpg" />
     <Image Include="Assets\Textures\Skybox\posx.jpg" />
     <Image Include="Assets\Textures\Skybox\posy.jpg" />
     <Image Include="Assets\Textures\Skybox\posz.jpg" />
+    <Image Include="Assets\Textures\tree.png" />
     <Image Include="Assets\Textures\wooden_fence.png" />
+    <Image Include="Assets\Textures\zombie.png" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>

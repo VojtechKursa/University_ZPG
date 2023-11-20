@@ -22,6 +22,9 @@
 const LightModel SceneLoader::lightModels[] = {CONST, LAMBERT, PHONG, BLINN};
 const int SceneLoader::lightModelsCount = sizeof(lightModels) / sizeof(LightModel);
 
+const TextureLightModel SceneLoader::textureLightModels[] = { CONST_T, LAMBERT_T, PHONG_T, BLINN_T };
+const int SceneLoader::textureLightModelsCount = sizeof(textureLightModels) / sizeof(LightModel);
+
 
 
 std::string SceneLoader::getFragmentShaderName(LightModel lightModel)
@@ -38,6 +41,23 @@ std::string SceneLoader::getFragmentShaderName(LightModel lightModel)
             return "frag_light_blinn";
         default:
             return "frag_light_const";
+    }
+}
+
+std::string SceneLoader::getFragmentShaderName(TextureLightModel textureLightModel)
+{
+    switch (textureLightModel)
+    {
+        case CONST_T:
+            return "frag_texture_const";
+        case LAMBERT_T:
+            return "frag_texture_lambert";
+        case PHONG_T:
+            return "frag_texture_phong";
+        case BLINN_T:
+            return "frag_texture_blinn";
+        default:
+            return "frag_texture_const";
     }
 }
 
@@ -276,11 +296,14 @@ void SceneLoader::loadForest(Renderer* renderer)
         bool randomizeShaders = false;
         float yOffset = 0;
         float scale = 1;
+        Texture* texture = nullptr;
+        std::string vertexShaderName = std::string();
+        std::string fragmentShaderName = std::string();
     };
 
     const int plainSize = 50;
     const struct generatorParams generatorParameters[] = {
-        {"tree", 50, 10, true},
+        {"tree.obj", 50, 10, true, 0, 1/5.f, Texture::fromFile("tree.png")},
         {"gift", 10, 0},
         {"bushes", 15, 20},
         {"suzi_smooth", 5, 0, true, 1, 0.5f}
@@ -306,6 +329,7 @@ void SceneLoader::loadForest(Renderer* renderer)
 
 
     LightModel defaultLightModel = BLINN;
+    TextureLightModel defaultTextureLightModel = BLINN_T;
 
     ObjectProperties properties;
     properties.bindToLights = true;
@@ -317,8 +341,30 @@ void SceneLoader::loadForest(Renderer* renderer)
         properties.scale = glm::vec3(param.scale);
         properties.position.y = param.yOffset;
 
-        if(!param.randomizeShaders)
-            properties.fragmentShaderName = getFragmentShaderName(defaultLightModel);
+        if (param.vertexShaderName.size() > 0)
+            properties.vertexShaderName = param.vertexShaderName;
+        else
+        {
+            if (param.texture == nullptr)
+                properties.vertexShaderName = "vert_light";
+            else
+                properties.vertexShaderName = "vert_texture_light";
+        }
+
+        if (param.fragmentShaderName.size() > 0)
+            properties.fragmentShaderName = param.fragmentShaderName;
+        else if (!param.randomizeShaders)
+        {
+            if(param.texture == nullptr)
+                properties.fragmentShaderName = getFragmentShaderName(defaultLightModel);
+            else
+                properties.fragmentShaderName = getFragmentShaderName(defaultTextureLightModel);
+        }
+
+        if (param.texture != nullptr)
+            properties.material = Material(param.texture);
+        else
+            properties.material = Material();
 
         for (int i = 0; i < param.count; i++)
         {
@@ -328,8 +374,13 @@ void SceneLoader::loadForest(Renderer* renderer)
             properties.rotation.roll = static_cast<float>(Helper::random(-param.maxTilt, param.maxTilt + 1));
             properties.rotation.pitch = static_cast<float>(Helper::random(-param.maxTilt, param.maxTilt + 1));
 
-            if(param.randomizeShaders)
-                properties.fragmentShaderName = getFragmentShaderName(lightModels[Helper::random(0, 2) * 2 + 1]);
+            if (param.randomizeShaders)
+            {
+                if(param.texture == nullptr)
+                    properties.fragmentShaderName = getFragmentShaderName(lightModels[Helper::random(0, 2) * 2 + 1]);
+                else
+                    properties.fragmentShaderName = getFragmentShaderName(textureLightModels[Helper::random(0, 2) * 2 + 1]);
+            }
 
             renderer->addObject(DrawableObjectFactory::createObject(properties));
         }
@@ -361,13 +412,14 @@ void SceneLoader::loadForest(Renderer* renderer)
     camera->addFlashlight();
 
 
+
     ObjectProperties props;
     props.bindToLights = true;
     props.vertexShaderName = "vert_texture_light";
     props.fragmentShaderName = "frag_texture_blinn";
-    props.position = glm::vec3(5,1,5);
-    props.scale = glm::vec3(0.125);
-    props.rotation = Rotation(0, 90, 180);
+    props.position = glm::vec3(5,0,5);
+    props.scale = glm::vec3(3);
+    props.rotation = Rotation(180, 0, 0);
     props.modelName = "Skull.obj";
     props.material = Material(Texture::fromFile("Skull.jpg"));
     

@@ -14,15 +14,27 @@ enum LightModel
     BLINN
 };
 
+enum TextureLightModel
+{
+    CONST_T,
+    LAMBERT_T,
+    PHONG_T,
+    BLINN_T
+};
+
 
 
 class SceneLoader
 {
 private:
     static std::string getFragmentShaderName(LightModel lightModel);
+    static std::string getFragmentShaderName(TextureLightModel textureLightModel);
 
     static const LightModel lightModels[];
     static const int lightModelsCount;
+
+    static const TextureLightModel textureLightModels[];
+    static const int textureLightModelsCount;
 
 public:
     static void loadRotatingSquare(Renderer* renderer);
