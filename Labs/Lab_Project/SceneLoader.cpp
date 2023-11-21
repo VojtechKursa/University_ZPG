@@ -317,12 +317,19 @@ void SceneLoader::loadForest(Renderer* renderer)
     renderer->addLight(sun);
 
     ObjectProperties plainProperties;
-    plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
+    
     plainProperties.modelName = "plane.obj";
+    plainProperties.material = Material(Texture::fromFile("grass.jpg"));
+    plainProperties.scale = glm::vec3(plainSize, 1, plainSize);
+    
+    /*
+    plainProperties.modelName = "teren.obj";
+    plainProperties.material = Material(Texture::fromFile("grass2.png"));
+    plainProperties.scale = glm::vec3(1);
+    */
     plainProperties.vertexShaderName = "vert_texture_light";
     plainProperties.fragmentShaderName = "frag_texture_lambert";
     plainProperties.bindToLights = true;
-    plainProperties.material = Material(Texture::fromFile("grass.jpg"));
     plainProperties.clickable = true;
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));

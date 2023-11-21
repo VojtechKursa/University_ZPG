@@ -178,6 +178,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Assets\Textures\grass.jpg" />
+    <Image Include="Assets\Textures\grass2.png" />
     <Image Include="Assets\Textures\house.png" />
     <Image Include="Assets\Textures\Skull.jpg" />
     <Image Include="Assets\Textures\Skybox\negx.jpg" />

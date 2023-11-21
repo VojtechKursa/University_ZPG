@@ -11,15 +11,22 @@
 #include "Subject.h"
 #include "SkyBox.h"
 
+#include "Interfaces/IObserver.h"
+#include "Events/KeyEventData.h"
 
 
-class Renderer : public Subject
+
+class Renderer : public Subject, public IObserver
 {
 private:
 	std::vector<DrawableObject*> objects;
 	std::vector<Light*> lights;
 	Camera* camera;
 	SkyBox* skybox = nullptr;
+
+	bool clearZBufferAfterSkybox = true;
+
+	void keyHandler(const KeyEventData* eventData);
 
 public:
 	Renderer();
@@ -35,4 +42,6 @@ public:
 	void renderNextFrame(GLFWwindow* window);
 
 	Camera* getCamera();
+
+	virtual void notify(const Event* event) override;
 };

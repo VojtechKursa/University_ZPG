@@ -39,7 +39,7 @@ DrawableObject::DrawableObject()
 }
 
 DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Material material, bool clickable)
-    : DrawableObject(model, shaderProgram, new TransformTranslate(), material, clickable)
+	: DrawableObject(model, shaderProgram, new TransformTranslate(), material, clickable)
 { }
 
 DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Transform *transformation, Material material, bool clickable)

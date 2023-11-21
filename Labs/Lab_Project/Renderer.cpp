@@ -1,5 +1,7 @@
 #include "Renderer.h"
 
+#include "Application.h"
+
 #include "Events/LightCountEventData.h"
 
 
@@ -7,6 +9,8 @@
 Renderer::Renderer()
 {
 	this->camera = new Camera();
+	
+	Application::getInstance()->registerObserver(this);
 }
 
 Renderer::~Renderer()
@@ -25,6 +29,8 @@ Renderer::~Renderer()
 		delete this->camera;
 		this->camera = nullptr;
 	}
+
+	Application::getInstance()->unregisterObserver(this);
 }
 
 
@@ -54,10 +60,9 @@ void Renderer::setSkyBox(SkyBox* skybox)
 
 
 
-
 std::vector<Light *> Renderer::getLights()
 {
-    return lights;
+	return lights;
 }
 
 int Renderer::getLightIndex(Light *light)
@@ -82,7 +87,8 @@ void Renderer::renderNextFrame(GLFWwindow* window)
 	{
 		this->skybox->draw();
 
-		glClear(GL_DEPTH_BUFFER_BIT);
+		if(this->clearZBufferAfterSkybox)
+			glClear(GL_DEPTH_BUFFER_BIT);
 	}
 
 	for (auto light : lights)
@@ -101,4 +107,24 @@ void Renderer::renderNextFrame(GLFWwindow* window)
 Camera *Renderer::getCamera()
 {
 	return this->camera;
+}
+
+
+
+void Renderer::notify(const Event* event)
+{
+	switch (event->eventType)
+	{
+		case EVENT_KEY:
+			this->keyHandler(static_cast<const KeyEventData*>(event->data));
+			break;
+	}
+}
+
+
+
+void Renderer::keyHandler(const KeyEventData* eventData)
+{
+	if (eventData->key == GLFW_KEY_B && eventData->mods == (GLFW_MOD_ALT | GLFW_MOD_CONTROL) && eventData->action == GLFW_PRESS)
+		this->clearZBufferAfterSkybox = !this->clearZBufferAfterSkybox;
 }

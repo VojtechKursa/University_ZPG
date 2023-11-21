@@ -111,7 +111,7 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 	double y = lastCursorPosition[1];
 
 
-	if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
+	if ((button == GLFW_MOUSE_BUTTON_LEFT || button == GLFW_MOUSE_BUTTON_MIDDLE) && action == GLFW_PRESS)
 	{
 		Camera* camera = this->renderer->getCamera();
 		glm::vec2 viewPortSize = camera->getViewPortSize();
@@ -133,10 +133,13 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 		
 
 
-		DrawableObject* clickedObject = DrawableObject::getClickableObject(index);
-		if (clickedObject != nullptr)
+		if (button == GLFW_MOUSE_BUTTON_LEFT)
 		{
-			printf("\tClicked object ID: %d\n", clickedObject->getClickableId());
+			DrawableObject* clickedObject = DrawableObject::getClickableObject(index);
+			if (clickedObject != nullptr)
+			{
+				printf("\tClicked object ID: %d\n", clickedObject->getClickableId());
+			}
 		}
 
 
@@ -152,12 +155,15 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 
 
 
-		if (!this->placeObjectPropertiesInitialized)
-			this->initPlaceObjectProperties();
+		if (button == GLFW_MOUSE_BUTTON_MIDDLE)
+		{
+			if (!this->placeObjectPropertiesInitialized)
+				this->initPlaceObjectProperties();
 
-		this->placeObjectProperties.rotation = Rotation(static_cast<float>(Helper::random(0, 360)), 0, 0);
-		this->placeObjectProperties.position = pos;
-		renderer->addObject(DrawableObjectFactory::createObject(this->placeObjectProperties));
+			this->placeObjectProperties.rotation = Rotation(static_cast<float>(Helper::random(0, 360)), 0, 0);
+			this->placeObjectProperties.position = pos;
+			renderer->addObject(DrawableObjectFactory::createObject(this->placeObjectProperties));
+		}
 	}
 
 
@@ -354,7 +360,7 @@ void Application::initPlaceObjectProperties()
 
 	this->placeObjectProperties.clickable = false;
 
-	
+
 
 	this->placeObjectPropertiesInitialized = true;
 }
@@ -364,7 +370,7 @@ void Application::initPlaceObjectProperties()
 void Application::run()
 {
 	glEnable(GL_DEPTH_TEST);
-    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
+	glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
 	glEnable(GL_STENCIL_TEST);
 	glStencilOp(GL_KEEP, GL_KEEP, GL_REPLACE);
 	
