@@ -22,6 +22,8 @@ protected:
     GLuint textureUnit;
     GLenum type;
 
+    GLenum wrapping = GL_REPEAT;
+
 public:
     Texture(GLuint textureId, GLenum type);
     Texture(GLuint textureId, GLuint textureUnit, GLenum type);

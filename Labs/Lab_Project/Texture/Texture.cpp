@@ -33,6 +33,9 @@ Texture::Texture(GLuint textureId, GLuint textureUnit, GLenum type)
 void Texture::bind()
 {
     glBindTexture(this->type, this->textureId);
+
+    glTexParameteri(this->type, GL_TEXTURE_WRAP_S, this->wrapping);
+    glTexParameteri(this->type, GL_TEXTURE_WRAP_T, this->wrapping);
 }
 
 void Texture::activate()
