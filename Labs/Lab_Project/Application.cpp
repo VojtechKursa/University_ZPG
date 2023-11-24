@@ -68,6 +68,21 @@ void Application::key_callback(GLFWwindow *window, int key, int scancode, int ac
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
+	if(key == GLFW_KEY_DELETE && mods == 0 && action == GLFW_PRESS)
+	{
+		if(this->selectedObject != nullptr)
+		{
+			DrawableObject* removed = this->renderer->removeObject(selectedObject);
+
+			if(removed != nullptr)
+			{
+				this->selectedObject = nullptr;
+
+				delete removed;
+			}
+		}
+	}
+
 	const KeyEventData eventData(key, scancode, action, mods);
 	const Event event(EVENT_KEY, (EventData*)&eventData);
 	this->notifyAll(&event);
@@ -139,6 +154,20 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 			if (clickedObject != nullptr)
 			{
 				printf("\tClicked object ID: %d\n", clickedObject->getClickableId());
+
+				if(this->selectedObject != clickedObject)
+				{
+					if(this->selectedObject != nullptr)
+						this->selectedObject->unselect();
+					
+					this->selectedObject = clickedObject;
+					clickedObject->select();
+				}
+				else
+				{
+					this->selectedObject = nullptr;
+					clickedObject->unselect();
+				}
 			}
 		}
 
@@ -358,7 +387,7 @@ void Application::initPlaceObjectProperties()
 
 	this->placeObjectProperties.scale = glm::vec3(1 / 5.f);
 
-	this->placeObjectProperties.clickable = false;
+	this->placeObjectProperties.clickable = true;
 
 
 

@@ -60,6 +60,33 @@ void Renderer::setSkyBox(SkyBox* skybox)
 
 
 
+DrawableObject* Renderer::removeObject(DrawableObject* object)
+{
+	int pos = -1;
+
+	for(size_t i = 0; i < this->objects.size(); i++)
+	{
+		if(this->objects[i] == object)
+		{
+			pos = static_cast<int>(i);
+			break;
+		}
+	}
+
+	if(pos != -1)
+	{
+		DrawableObject* selectedObject = this->objects[pos];
+
+		this->objects.erase(this->objects.begin() + pos);
+
+		return selectedObject;
+	}
+	else
+		return nullptr;
+}
+
+
+
 std::vector<Light *> Renderer::getLights()
 {
 	return lights;

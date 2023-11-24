@@ -37,6 +37,9 @@ public:
 	int getClickableId();
 	static DrawableObject* getClickableObject(int clickableObjectId);
 
+	void select();
+	void unselect();
+
 	virtual void draw();
 };
 

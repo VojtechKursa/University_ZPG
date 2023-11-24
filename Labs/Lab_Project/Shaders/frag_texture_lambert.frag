@@ -73,6 +73,8 @@ uniform int lightCount = 0;
 uniform float ambientCoeficient = 1;
 uniform float diffusionCoeficient = 1;
 
+uniform vec3 highlightColor = vec3(0,0,0);
+
 uniform sampler2D textureUnitId;
 
 out vec4 fragColor;
@@ -106,5 +108,5 @@ void main (void)
     }
 
     vec4 ambient = vec4(0.1, 0.1, 0.1, 1.0) * ambientCoeficient;
-    fragColor += ambient * objColor;
+    fragColor += ambient * objColor + vec4(highlightColor, 0);
 }

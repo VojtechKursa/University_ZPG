@@ -36,6 +36,8 @@ public:
 	void addLight(Light* light);
 	void setSkyBox(SkyBox* skybox);
 
+	DrawableObject* removeObject(DrawableObject* object);
+
 	std::vector<Light*> getLights();
 	int getLightIndex(Light* light);
 

@@ -296,6 +296,7 @@ void SceneLoader::loadForest(Renderer* renderer)
         bool randomizeShaders = false;
         float yOffset = 0;
         float scale = 1;
+        bool clickable = false;
         Texture* texture = nullptr;
         std::string vertexShaderName = std::string();
         std::string fragmentShaderName = std::string();
@@ -303,10 +304,10 @@ void SceneLoader::loadForest(Renderer* renderer)
 
     const int plainSize = 50;
     const struct generatorParams generatorParameters[] = {
-        {"tree.obj", 50, 10, true, 0, 1/5.f, Texture::fromFile("tree.png")},
+        {"tree.obj", 50, 10, true, 0, 1/5.f, true, Texture::fromFile("tree.png")},
         {"gift", 10, 0},
         {"bushes", 15, 20},
-        {"suzi_smooth", 5, 0, true, 1, 0.5f}
+        {"suzi_smooth", 5, 0, true, 1, 0.5f, true}
     };
 
 
@@ -330,7 +331,7 @@ void SceneLoader::loadForest(Renderer* renderer)
     plainProperties.vertexShaderName = "vert_texture_light";
     plainProperties.fragmentShaderName = "frag_texture_lambert";
     plainProperties.bindToLights = true;
-    plainProperties.clickable = true;
+    plainProperties.clickable = false;
 
     renderer->addObject(DrawableObjectFactory::createObject(plainProperties));
 
@@ -348,6 +349,7 @@ void SceneLoader::loadForest(Renderer* renderer)
         properties.modelName = param.name;
         properties.scale = glm::vec3(param.scale);
         properties.position.y = param.yOffset;
+        properties.clickable = param.clickable;
 
         if (param.vertexShaderName.size() > 0)
             properties.vertexShaderName = param.vertexShaderName;
@@ -400,6 +402,7 @@ void SceneLoader::loadForest(Renderer* renderer)
     properties.modelName = "suzi_smooth";
     properties.vertexShaderName = "vert_light";
     properties.bindToLights = true;
+    properties.clickable = true;
     properties.scale = glm::vec3(0.5f);
     properties.rotation.yaw = 270;
     properties.position.z = 2;

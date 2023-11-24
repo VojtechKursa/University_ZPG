@@ -5,6 +5,7 @@
 
 #include "Renderer.h"
 #include "Subject.h"
+#include "DrawableObject.h"
 
 #include "ObjectProperties.h"
 
@@ -18,6 +19,7 @@ private:
 	GLFWwindow* window;
 	Renderer* renderer;
 
+	DrawableObject* selectedObject = nullptr;
 	double lastCursorPosition[2];
 
 	ObjectProperties placeObjectProperties;

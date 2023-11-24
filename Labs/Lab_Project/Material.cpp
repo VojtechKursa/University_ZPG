@@ -99,3 +99,15 @@ bool Material::activateTexture()
     else
         return false;
 }
+
+
+
+bool Material::activateHighlightColor(ShaderProgram* program)
+{
+    return program->bindUniform("highlightColor", this->highlightColor);
+}
+
+bool Material::deactivateHighlightColor(ShaderProgram* program)
+{
+    return program->bindUniform("highlightColor", glm::vec3(0,0,0));
+}

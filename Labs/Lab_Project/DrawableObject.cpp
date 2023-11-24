@@ -63,7 +63,19 @@ DrawableObject::DrawableObject(Model *model, ShaderProgram *shaderProgram, Trans
 }
 
 DrawableObject::~DrawableObject()
-{ }
+{
+	if(this->shaderProgram != nullptr)
+	{
+		delete this->shaderProgram;
+		this->shaderProgram = nullptr;
+	}
+
+	if(this->transformation != nullptr)
+	{
+		delete this->transformation;
+		this->transformation = nullptr;
+	}
+}
 
 
 
@@ -83,6 +95,18 @@ DrawableObject* DrawableObject::getClickableObject(int clickableObjectId)
 		return clickableObjects[clickableObjectId];
 	else
 		return nullptr;
+}
+
+
+
+void DrawableObject::select()
+{
+	this->material.activateHighlightColor(this->shaderProgram);
+}
+
+void DrawableObject::unselect()
+{
+	this->material.deactivateHighlightColor(this->shaderProgram);
 }
 
 

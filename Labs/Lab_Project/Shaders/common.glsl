@@ -22,6 +22,10 @@ struct Light
 
 
 
+uniform vec3 highlightColor = vec3(0,0,0);
+
+
+
 vec3 getLightVector(Light light, vec3 worldPos)
 {
     if(light.type == 0 || light.type == 2)   // point light or spot light

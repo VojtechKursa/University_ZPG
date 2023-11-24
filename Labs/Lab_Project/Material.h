@@ -11,6 +11,7 @@ class Material
 {
 private:
     glm::vec4 color;
+    glm::vec3 highlightColor = glm::vec3(0, 0.1f, 0);
 
     float ambient;
     float diffuse;
@@ -32,4 +33,7 @@ public:
 
     Texture* getTexture();
     bool activateTexture();
+
+    bool activateHighlightColor(ShaderProgram* program);
+    bool deactivateHighlightColor(ShaderProgram* program);
 };
