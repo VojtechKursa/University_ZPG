@@ -21,6 +21,9 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Curves\BezierCubic.h" />
+    <ClInclude Include="Curves\BezierCurve.h" />
+    <ClInclude Include="Curves\BezierOverflowBehaviour.h" />
     <ClInclude Include="DrawableObject.h" />
     <ClInclude Include="DrawableObjectFactory.h" />
     <ClInclude Include="Events\CameraEventData.h" />
@@ -98,6 +101,7 @@
     <ClInclude Include="Transforms\TransformRotateSimple.h" />
     <ClInclude Include="Transforms\TransformScale.h" />
     <ClInclude Include="Transforms\TransformTranslate.h" />
+    <ClInclude Include="Transforms\TransformTranslateBezier.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="Model\Vertex.h" />
@@ -106,6 +110,8 @@
   <ItemGroup>
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Curves\BezierCubic.cpp" />
+    <ClCompile Include="Curves\BezierCurve.cpp" />
     <ClCompile Include="DrawableObject.cpp" />
     <ClCompile Include="DrawableObjectFactory.cpp" />
     <ClCompile Include="Helper.cpp" />
@@ -144,6 +150,7 @@
     <ClCompile Include="Transforms\TransformRotateSimple.cpp" />
     <ClCompile Include="Transforms\TransformScale.cpp" />
     <ClCompile Include="Transforms\TransformTranslate.cpp" />
+    <ClCompile Include="Transforms\TransformTranslateBezier.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="Model\VertexCollection.cpp" />
@@ -188,6 +195,7 @@
     <Image Include="Assets\Textures\Skybox\posy.jpg" />
     <Image Include="Assets\Textures\Skybox\posz.jpg" />
     <Image Include="Assets\Textures\tree.png" />
+    <Image Include="Assets\Textures\wall.png" />
     <Image Include="Assets\Textures\wooden_fence.png" />
     <Image Include="Assets\Textures\zombie.png" />
   </ItemGroup>

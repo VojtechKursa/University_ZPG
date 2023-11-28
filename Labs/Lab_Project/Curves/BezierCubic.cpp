@@ -2,7 +2,7 @@
 
 
 
-const glm::mat4 BezierCubic::thingMatrix = glm::mat4
+const glm::mat4 BezierCubic::cubicMatrix = glm::mat4
 (
     glm::vec4(-1.0, 	3.0, 	-3.0, 	1.0),
     glm::vec4(3.0, 		-6.0, 	3.0, 	0),
@@ -13,7 +13,9 @@ const glm::mat4 BezierCubic::thingMatrix = glm::mat4
 
 
 BezierCubic::BezierCubic()
-{ }
+{
+    pointMatrix = glm::mat3x4(0);
+}
 
 BezierCubic::BezierCubic(glm::vec3 p1, glm::vec3 p2, glm::vec3 p3, glm::vec3 p4)
 {
@@ -26,5 +28,5 @@ glm::vec3 BezierCubic::getPoint(float t)
 {
     glm::vec4 parameters = glm::vec4(t*t*t, t*t, t, 1.f);
 
-    return parameters * BezierCubic::thingMatrix * this->pointMatrix;
+    return parameters * BezierCubic::cubicMatrix * this->pointMatrix;
 }

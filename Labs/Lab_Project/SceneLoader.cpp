@@ -11,6 +11,7 @@
 #include "Transforms/TransformContinuous.h"
 #include "Transforms/TransformTranslate.h"
 #include "Transforms/TransformScale.h"
+#include "Transforms/TransformTranslateBezier.h"
 #include "Lights/LightSpot.h"
 #include "Lights/LightPoint.h"
 #include "Lights/LightDirectional.h"
@@ -424,6 +425,28 @@ void SceneLoader::loadForest(Renderer* renderer)
 
 
 
+    // Bezier
+    Model* model = ModelManager::getInstance()->get("sphere");
+    ShaderProgram* program = new ShaderProgram();
+    program->addShader(ShaderManager::getInstance()->get("vert_light"));
+    program->addShader(ShaderManager::getInstance()->get("frag_light_blinn"));
+    program->link();
+    TransformComposite* transform = new TransformComposite();
+
+    std::vector<glm::vec3> bezierPoints;
+    bezierPoints.push_back(glm::vec3(-5, 1, -5));
+    bezierPoints.push_back(glm::vec3(-1, 5, -5));
+    bezierPoints.push_back(glm::vec3(1, 5, -5));
+    bezierPoints.push_back(glm::vec3(5, 1, -5));
+
+    transform->addTransform(new TransformScale(0.25f));
+    transform->addTransform(new TransformTranslateBezier(BezierCurve(bezierPoints)));
+
+    DrawableObject* obj = new DrawableObject(model, program, transform);
+    renderer->addObject(obj);
+
+
+
     ObjectProperties props;
     props.bindToLights = true;
     props.clickable = true;
@@ -445,6 +468,7 @@ void SceneLoader::loadForest(Renderer* renderer)
     props.fragmentShaderName = "frag_texture_lambert";
 
     renderer->addObject(DrawableObjectFactory::createObject(props));
+
 
 
     std::string prefix = "Skybox/";

@@ -119,7 +119,7 @@ Camera::Camera(glm::vec3 position, float alpha, float phi)
 	this->viewRatio = 4 / (float)3;
 
 	this->displayRangeMin = 0.1f;
-	this->displayRangeMax = 100.f;
+	this->displayRangeMax = 300.f;
 
 	this->firstCursorEvent = true;
 	this->cameraRotationEnabled = false;
@@ -163,7 +163,7 @@ glm::mat4 Camera::getProjectionMatrix()
 
 glm::vec3 Camera::getPosition()
 {
-    return this->eyePosition;
+	return this->eyePosition;
 }
 
 bool Camera::setPosition(glm::vec3 position)
@@ -179,7 +179,7 @@ bool Camera::setPosition(glm::vec3 position)
 
 Rotation Camera::getRotation()
 {
-    return Rotation(this->phi, this->alpha, 0);
+	return Rotation(this->phi, this->alpha, 0);
 }
 
 bool Camera::setRotation(Rotation rotation)

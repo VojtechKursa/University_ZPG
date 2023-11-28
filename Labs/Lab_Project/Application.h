@@ -26,6 +26,9 @@ private:
 	bool placeObjectPropertiesInitialized = false;
 	void initPlaceObjectProperties();
 
+	bool placingBezier = false;
+	std::vector<glm::vec3> bezierPositions;
+
 	static void error_callback(int error, const char* description);
 	static void key_callback_static(GLFWwindow* window, int key, int scancode, int action, int mods);
 	static void window_focus_callback_static(GLFWwindow* window, int focused);

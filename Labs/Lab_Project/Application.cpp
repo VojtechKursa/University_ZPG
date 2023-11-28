@@ -18,6 +18,12 @@
 #include "Events/MouseButtonEventData.h"
 #include "Events/FrameEventData.h"
 
+#include "Model/ModelManager.h"
+#include "Transforms/TransformComposite.h"
+#include "Transforms/TransformTranslateBezier.h"
+#include "Transforms/TransformScale.h"
+#include "Shader/ShaderManager.h"
+
 
 
 Application Application::instance = Application();
@@ -61,27 +67,65 @@ void Application::button_callback_static(GLFWwindow* window, int button, int act
 
 
 
-void Application::key_callback(GLFWwindow *window, int key, int scancode, int action, int mods)
+void Application::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
 {
 	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
 		glfwSetWindowShouldClose(window, GL_TRUE);
 
 	//printf("key_callback [%d,%d,%d,%d] \n", key, scancode, action, mods);
 
-	if(key == GLFW_KEY_DELETE && mods == 0 && action == GLFW_PRESS)
+	if (mods == 0 && action == GLFW_PRESS)
 	{
-		if(this->selectedObject != nullptr)
+		if (key == GLFW_KEY_DELETE)
 		{
-			DrawableObject* removed = this->renderer->removeObject(selectedObject);
-
-			if(removed != nullptr)
+			if (this->selectedObject != nullptr)
 			{
-				this->selectedObject = nullptr;
+				DrawableObject* removed = this->renderer->removeObject(selectedObject);
 
-				delete removed;
+				if (removed != nullptr)
+				{
+					this->selectedObject = nullptr;
+
+					delete removed;
+				}
 			}
 		}
+		else if (key == GLFW_KEY_K)
+		{
+			if (this->placingBezier)
+			{
+				printf("Creating model moving on bezier curve between %lld points:\n", this->bezierPositions.size());
+				for (auto& pos : this->bezierPositions)
+				{
+					printf("\t[ %f , %f , %f ]\n", pos.x, pos.y, pos.z);
+				}
+
+				Model* model = ModelManager::getInstance()->get("sphere");
+
+				ShaderProgram* program = new ShaderProgram();
+				program->addShader(ShaderManager::getInstance()->get("vert_light"));
+				program->addShader(ShaderManager::getInstance()->get("frag_light_blinn"));
+				program->link();
+
+				TransformComposite* transform = new TransformComposite();
+
+				const float scale = 0.25f;
+
+				transform->addTransform(new TransformScale(scale));
+				transform->addTransform(new TransformTranslateBezier(BezierCurve(this->bezierPositions)));
+				transform->addTransform(new TransformTranslate(glm::vec3(0, scale, 0)));
+
+				DrawableObject* obj = new DrawableObject(model, program, transform, Material(), true);
+				renderer->addObject(obj);
+
+				this->bezierPositions.clear();
+			}
+
+			this->placingBezier = !(this->placingBezier);
+		}
 	}
+
+
 
 	const KeyEventData eventData(key, scancode, action, mods);
 	const Event event(EVENT_KEY, (EventData*)&eventData);
@@ -155,11 +199,11 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 			{
 				printf("\tClicked object ID: %d\n", clickedObject->getClickableId());
 
-				if(this->selectedObject != clickedObject)
+				if (this->selectedObject != clickedObject)
 				{
-					if(this->selectedObject != nullptr)
+					if (this->selectedObject != nullptr)
 						this->selectedObject->unselect();
-					
+
 					this->selectedObject = clickedObject;
 					clickedObject->select();
 				}
@@ -175,7 +219,7 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 
 		// Calculate position in global coordinates (convert from screen-space to global) 
 		glm::vec3 screenPos = glm::vec3(xInt, yGl, depth);
-		glm::mat4 view = camera->getViewMatrix();
+		glm::mat4 view = camera->getViewMatrix();;
 		glm::mat4 projection = camera->getProjectionMatrix();
 		glm::vec4 viewPort = glm::vec4(0, 0, viewPortSize.x, viewPortSize.y);
 		glm::vec3 pos = glm::unProject(screenPos, view, projection, viewPort);
@@ -186,14 +230,24 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 
 		if (button == GLFW_MOUSE_BUTTON_MIDDLE)
 		{
-			if (!this->placeObjectPropertiesInitialized)
-				this->initPlaceObjectProperties();
+			if (this->placingBezier)
+			{
+				this->bezierPositions.push_back(pos);
 
-			this->placeObjectProperties.rotation = Rotation(static_cast<float>(Helper::random(0, 360)), 0, 0);
-			this->placeObjectProperties.position = pos;
-			renderer->addObject(DrawableObjectFactory::createObject(this->placeObjectProperties));
+				printf("\tInserted bezier point number %lld: [ %f , %f , %f ]\n", this->bezierPositions.size(), pos.x, pos.y, pos.z);
+			}
+			else
+			{
+				if (!this->placeObjectPropertiesInitialized)
+					this->initPlaceObjectProperties();
+
+				this->placeObjectProperties.rotation = Rotation(static_cast<float>(Helper::random(0, 360)), 0, 0);
+				this->placeObjectProperties.position = pos;
+				renderer->addObject(DrawableObjectFactory::createObject(this->placeObjectProperties));
+			}
 		}
 	}
+
 
 
 	const MouseButtonEventData eventData(button, action, mode);

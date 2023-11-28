@@ -4,10 +4,23 @@
 
 
 
+BezierCurve::BezierCurve()
+{
+    cubics.push_back(BezierCubic(
+        glm::vec3(-1, 0, 0),
+        glm::vec3(0, 1, 0),
+        glm::vec3(0, -1, 0),
+        glm::vec3(1, 0, 0)
+    ));
+}
+
 BezierCurve::BezierCurve(std::vector<glm::vec3> points)
 {
-    if(points.size() < 4)
+    if (points.size() < 4)
+    {
         throw "Invalid curve";
+        return;
+    }
 
     
 
@@ -32,27 +45,28 @@ BezierCurve::BezierCurve(std::vector<glm::vec3> points)
             lastCubicPointsIndex = 0;
         }
     }
-
-    if(lastCubicPointsIndex == 0)
-    {
-        lastOffset = 0;
-    }
-    else
-    {
-        cubics.push_back(BezierCubic(
-            cubicPoints[lastCubicPointsIndex],
-            cubicPoints[lastCubicPointsIndex + 1 % 4],
-            cubicPoints[lastCubicPointsIndex + 2 % 4],
-            cubicPoints[lastCubicPointsIndex + 3 % 4]
-        ));
-
-        lastOffset = 4 - lastCubicPointsIndex;
-    }
 }
 
 
 
 glm::vec3 BezierCurve::getPoint(float t)
 {
-    
+    t = t * this->cubics.size();
+
+    int selectedCubic = static_cast<int>(floor(t));
+    if (selectedCubic >= this->cubics.size())
+        selectedCubic = this->cubics.size() - 1;
+    else if (selectedCubic < 0)
+        selectedCubic = 0;
+
+    t = t - selectedCubic;
+
+    return this->cubics[selectedCubic].getPoint(t);
+}
+
+
+
+size_t BezierCurve::getCubicsCount()
+{
+    return this->cubics.size();
 }

@@ -7,7 +7,7 @@
 class BezierCubic
 {
 private:
-    static const glm::mat4 thingMatrix;
+    static const glm::mat4 cubicMatrix;
 
     glm::mat3x4 pointMatrix;
 

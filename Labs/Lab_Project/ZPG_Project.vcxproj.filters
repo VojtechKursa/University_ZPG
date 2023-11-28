@@ -151,6 +151,15 @@
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Curves\BezierCubic.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Curves\BezierCurve.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Transforms\TransformTranslateBezier.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -402,6 +411,18 @@
     <ClInclude Include="Model\VertexCollection.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Curves\BezierCubic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Curves\BezierCurve.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Transforms\TransformTranslateBezier.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Curves\BezierOverflowBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="glew32.dll" />
@@ -507,6 +528,9 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Assets\Textures\grass2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Assets\Textures\wall.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
