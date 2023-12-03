@@ -3,10 +3,11 @@
 #include <vector>
 
 #include "BezierCubic.h"
+#include "../Interfaces/ICurve.h"
 
 
 
-class BezierCurve
+class BezierCurve : public ICurve
 {
 private:
     std::vector<BezierCubic> cubics;
@@ -15,7 +16,7 @@ public:
     BezierCurve();
     BezierCurve(std::vector<glm::vec3> points);
 
-    glm::vec3 getPoint(float t);
+    virtual glm::vec3 getPoint(float t) override;
 
-    size_t getCubicsCount();
+    virtual size_t getSegmentCount() override;
 };

@@ -101,7 +101,7 @@
     <ClInclude Include="Transforms\TransformRotateSimple.h" />
     <ClInclude Include="Transforms\TransformScale.h" />
     <ClInclude Include="Transforms\TransformTranslate.h" />
-    <ClInclude Include="Transforms\TransformTranslateBezier.h" />
+    <ClInclude Include="Transforms\TransformTranslateCurve.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="Model\Vertex.h" />
@@ -150,7 +150,7 @@
     <ClCompile Include="Transforms\TransformRotateSimple.cpp" />
     <ClCompile Include="Transforms\TransformScale.cpp" />
     <ClCompile Include="Transforms\TransformTranslate.cpp" />
-    <ClCompile Include="Transforms\TransformTranslateBezier.cpp" />
+    <ClCompile Include="Transforms\TransformTranslateCurve.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="Model\VertexCollection.cpp" />

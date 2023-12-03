@@ -25,6 +25,7 @@ file(GLOB SRC_FILES
   "${PROJECT_SOURCE_DIR}/Lights/*.h" "${PROJECT_SOURCE_DIR}/Lights/*.cpp"
   "${PROJECT_SOURCE_DIR}/Shader/*.h" "${PROJECT_SOURCE_DIR}/Shader/*.cpp"
   "${PROJECT_SOURCE_DIR}/Texture/*.h" "${PROJECT_SOURCE_DIR}/Texture/*.cpp"
+  "${PROJECT_SOURCE_DIR}/Curves/*.h" "${PROJECT_SOURCE_DIR}/Curves/*.cpp"
   "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/SOIL/*.h" "${PROJECT_SOURCE_DIR}/../../Libraries-src/soil/SOIL/*.c"
   )
 

@@ -20,9 +20,11 @@
 
 #include "Model/ModelManager.h"
 #include "Transforms/TransformComposite.h"
-#include "Transforms/TransformTranslateBezier.h"
+#include "Transforms/TransformTranslateCurve.h"
 #include "Transforms/TransformScale.h"
 #include "Shader/ShaderManager.h"
+
+#include "Curves/BezierCurve.h"
 
 
 
@@ -94,7 +96,12 @@ void Application::key_callback(GLFWwindow* window, int key, int scancode, int ac
 		{
 			if (this->placingBezier)
 			{
+				#ifdef _MSC_VER
 				printf("Creating model moving on bezier curve between %lld points:\n", this->bezierPositions.size());
+				#else
+				printf("Creating model moving on bezier curve between %ld points:\n", this->bezierPositions.size());
+				#endif
+				
 				for (auto& pos : this->bezierPositions)
 				{
 					printf("\t[ %f , %f , %f ]\n", pos.x, pos.y, pos.z);
@@ -112,10 +119,10 @@ void Application::key_callback(GLFWwindow* window, int key, int scancode, int ac
 				const float scale = 0.25f;
 
 				transform->addTransform(new TransformScale(scale));
-				transform->addTransform(new TransformTranslateBezier(BezierCurve(this->bezierPositions)));
+				transform->addTransform(new TransformTranslateCurve(new BezierCurve(this->bezierPositions)));
 				transform->addTransform(new TransformTranslate(glm::vec3(0, scale, 0)));
 
-				DrawableObject* obj = new DrawableObject(model, program, transform, Material(), true);
+				DrawableObject* obj = new DrawableObject(model, program, transform, Material(glm::vec3(1.f, 0, 0)), true);
 				renderer->addObject(obj);
 
 				this->bezierPositions.clear();
@@ -234,7 +241,11 @@ void Application::button_callback(GLFWwindow *window, int button, int action, in
 			{
 				this->bezierPositions.push_back(pos);
 
+				#ifdef _MSC_VER
 				printf("\tInserted bezier point number %lld: [ %f , %f , %f ]\n", this->bezierPositions.size(), pos.x, pos.y, pos.z);
+				#else
+				printf("\tInserted bezier point number %ld: [ %f , %f , %f ]\n", this->bezierPositions.size(), pos.x, pos.y, pos.z);
+				#endif
 			}
 			else
 			{

@@ -157,7 +157,7 @@
     <ClCompile Include="Curves\BezierCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Transforms\TransformTranslateBezier.cpp">
+    <ClCompile Include="Transforms\TransformTranslateCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -417,7 +417,7 @@
     <ClInclude Include="Curves\BezierCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Transforms\TransformTranslateBezier.h">
+    <ClInclude Include="Transforms\TransformTranslateCurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Curves\BezierOverflowBehaviour.h">

@@ -1,6 +1,6 @@
 #pragma once
 
-enum BezierOverflowBehaviour
+enum CurveOverflowBehaviour
 {
 	OVERFLOW_RESET,
 	OVERFLOW_REVERSE
