@@ -11,10 +11,13 @@
 #include "Transforms/TransformContinuous.h"
 #include "Transforms/TransformTranslate.h"
 #include "Transforms/TransformScale.h"
-#include "Transforms/TransformTranslateBezier.h"
+#include "Transforms/TransformTranslateCurve.h"
 #include "Lights/LightSpot.h"
 #include "Lights/LightPoint.h"
 #include "Lights/LightDirectional.h"
+
+#include "Curves/BezierCurve.h"
+#include "Curves/Line.h"
 
 #include "Texture/Texture.h"
 
@@ -315,7 +318,7 @@ void SceneLoader::loadForest(Renderer* renderer)
 
     renderer->addLight(DrawableObjectFactory::createLight(glm::vec3(0,1,0), true, glm::vec3(1,0,0)));
     LightDirectional* sun = new LightDirectional(glm::normalize(glm::vec3(1,-1,1)), glm::vec3(1,1,1));
-    sun->setAttCoeficients(0.8f);
+    sun->setAttCoeficients(0.5f);
     renderer->addLight(sun);
 
     ObjectProperties plainProperties;
@@ -418,8 +421,8 @@ void SceneLoader::loadForest(Renderer* renderer)
     }
 
     Camera* camera = renderer->getCamera();
-    camera->setPosition(glm::vec3(0, 2, 0));
-    camera->setRotation(Rotation(90, 90, 0));
+    camera->setPosition(glm::vec3(-4.5f, 2, -4.f));
+    camera->setRotation(Rotation(30, 90, 0));
     camera->setFlying(false);
     camera->addFlashlight();
 
@@ -434,15 +437,33 @@ void SceneLoader::loadForest(Renderer* renderer)
     TransformComposite* transform = new TransformComposite();
 
     std::vector<glm::vec3> bezierPoints;
-    bezierPoints.push_back(glm::vec3(-5, 1, -5));
-    bezierPoints.push_back(glm::vec3(-1, 5, -5));
-    bezierPoints.push_back(glm::vec3(1, 5, -5));
-    bezierPoints.push_back(glm::vec3(5, 1, -5));
+    bezierPoints.push_back(glm::vec3(26, 0.4, 1.7));
+    bezierPoints.push_back(glm::vec3(26, 0.5, 4.3));
+    bezierPoints.push_back(glm::vec3(26, 2.5, 3));
+    bezierPoints.push_back(glm::vec3(26, 2.4, 5.35));
 
     transform->addTransform(new TransformScale(0.25f));
-    transform->addTransform(new TransformTranslateBezier(BezierCurve(bezierPoints)));
+    transform->addTransform(new TransformTranslateCurve(new BezierCurve(bezierPoints)));
 
-    DrawableObject* obj = new DrawableObject(model, program, transform);
+    DrawableObject* obj = new DrawableObject(model, program, transform, Material(Helper::convertColor(glm::vec3(10, 206, 255), true)), true);
+    renderer->addObject(obj);
+
+
+
+    // Line
+    model = ModelManager::getInstance()->get("Skull.obj");
+
+    program = new ShaderProgram();
+    program->addShader(ShaderManager::getInstance()->get("vert_texture_light"));
+    program->addShader(ShaderManager::getInstance()->get("frag_texture_blinn"));
+    program->link();
+
+    transform = new TransformComposite();
+
+    transform->addTransform(new TransformRotate(Rotation(270, 0, 0)));
+    transform->addTransform(new TransformTranslateCurve(new Line(glm::vec3(30, 6, 1), glm::vec3(30, 6, 19), true), 0.25));
+    
+    obj = new DrawableObject(model, program, transform, Material(Texture::fromFile("Skull.jpg")), true);
     renderer->addObject(obj);
 
 
@@ -474,5 +495,5 @@ void SceneLoader::loadForest(Renderer* renderer)
     std::string prefix = "Skybox/";
     CubeMapImageMap map(prefix+"posx.jpg", prefix+"posy.jpg", prefix+"posz.jpg", prefix+"negx.jpg", prefix+"negy.jpg", prefix+"negz.jpg");
     CubeMapTexture* cubeMapTexture = CubeMapTexture::fromFile(map);
-    renderer->setSkyBox(new SkyBox(cubeMapTexture, camera));
+    renderer->setSkyBox(new SkyBox(cubeMapTexture, camera, 0.5f));
 }

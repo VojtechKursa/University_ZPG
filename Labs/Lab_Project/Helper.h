@@ -11,4 +11,6 @@ public:
 
     static glm::vec3 convertRotation(Rotation rotation);
     static glm::vec3 convertRotation(float pitch, float yaw);
+
+    static glm::vec3 convertColor(glm::vec3 color, bool toFloat);
 };

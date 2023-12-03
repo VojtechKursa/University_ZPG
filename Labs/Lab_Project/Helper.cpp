@@ -25,3 +25,13 @@ glm::vec3 Helper::convertRotation(float pitch, float yaw)
 
     return glm::vec3(x,y,z);
 }
+
+
+
+glm::vec3 Helper::convertColor(glm::vec3 color, bool toFloat)
+{
+    if(toFloat)
+        return color / 255.f;
+    else
+        return color * 255.f;
+}
