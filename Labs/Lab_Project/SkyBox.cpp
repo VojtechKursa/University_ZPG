@@ -8,7 +8,7 @@
 
 
 
-SkyBox::SkyBox(CubeMapTexture *texture, Camera* camera)
+SkyBox::SkyBox(CubeMapTexture *texture, Camera* camera, float brightness)
 {
     this->texture = texture;
     this->transformation = new TransformCameraFollow(camera);
@@ -23,6 +23,10 @@ SkyBox::SkyBox(CubeMapTexture *texture, Camera* camera)
     this->shaderProgram = program;
 
     this->texture->bindToProgram(this->shaderProgram);
+
+    this->brightness = brightness;
+
+    this->shaderProgram->bindUniform("brightness", this->brightness);
 }
 
 
