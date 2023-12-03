@@ -11,7 +11,7 @@ TransformTranslateCurve::TransformTranslateCurve()
 { }
 
 TransformTranslateCurve::TransformTranslateCurve(ICurve* curve, float tSpeed, CurveOverflowBehaviour overflowBehaviour)
-	: curve(curve), tSpeed(tSpeed == -1 ? (1 / static_cast<double>(curve->getSegmentCount())) / 2.0 : tSpeed), overflow(overflowBehaviour)
+	: curve(curve), tSpeed(tSpeed == -1 ? (1 / static_cast<float>(curve->getSegmentCount())) / 2.f : tSpeed), overflow(overflowBehaviour)
 {
 	Application::getInstance()->registerObserver(this);
 }

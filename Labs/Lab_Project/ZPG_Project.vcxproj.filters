@@ -160,6 +160,9 @@
     <ClCompile Include="Transforms\TransformTranslateCurve.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Curves\Line.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Application.h">
@@ -421,6 +424,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Curves\BezierOverflowBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Curves\CurveOverflowBehaviour.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Curves\Line.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Interfaces\ICurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

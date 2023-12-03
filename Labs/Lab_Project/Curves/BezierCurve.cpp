@@ -24,7 +24,7 @@ BezierCurve::BezierCurve(std::vector<glm::vec3> points)
 
     
     
-    glm::vec3 cubicPoints[4];
+    glm::vec3 cubicPoints[4] { };
 
     int lastCubicPointsIndex = 0;
 
@@ -48,7 +48,7 @@ glm::vec3 BezierCurve::getPoint(float t)
 {
     t = t * this->cubics.size();
 
-    int selectedCubic = static_cast<int>(floor(t));
+    size_t selectedCubic = static_cast<size_t>(floor(t));
     if (selectedCubic >= this->cubics.size())
         selectedCubic = this->cubics.size() - 1;
     else if (selectedCubic < 0)
