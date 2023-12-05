@@ -19,10 +19,10 @@ Model* ModelLoader::loadModel(std::string filename)
 {
     Assimp::Importer importer;
     unsigned int importOptions = 
-          aiProcess_OptimizeMeshes              // sloučení malých plošek
-        | aiProcess_JoinIdenticalVertices       // NUTNÉ jinak hodně duplikuje
-        | aiProcess_Triangulate                 // prevod vsech ploch na trojuhelniky
-        | aiProcess_CalcTangentSpace;           // vypocet tangenty, nutny pro spravne pouziti normalove mapy
+          aiProcess_OptimizeMeshes
+        | aiProcess_JoinIdenticalVertices
+        | aiProcess_Triangulate
+        | aiProcess_CalcTangentSpace;
 
 
 

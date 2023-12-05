@@ -1,7 +1,5 @@
 #include "BezierCurve.h"
 
-#include <queue>
-
 
 
 BezierCurve::BezierCurve()

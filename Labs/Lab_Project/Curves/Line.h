@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/ext.hpp>
+#include <glm/vec3.hpp>
 
 #include "../Interfaces/ICurve.h"
 
