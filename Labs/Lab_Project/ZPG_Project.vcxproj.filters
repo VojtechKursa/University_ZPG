@@ -435,6 +435,12 @@
     <ClInclude Include="Interfaces\ICurve.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Model\ModelFormat.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Model\HeaderModelDefinition.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <CopyFileToFolders Include="glew32.dll" />

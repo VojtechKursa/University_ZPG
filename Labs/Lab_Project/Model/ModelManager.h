@@ -10,11 +10,6 @@ class ModelManager : public Manager<Model>
 private:
     static ModelManager* instance;
 
-    static std::string names[];
-    static const float* data[];
-    static unsigned long sizes[];
-
-
     Model* loadDefaultModel(int index);
 
     ModelManager();

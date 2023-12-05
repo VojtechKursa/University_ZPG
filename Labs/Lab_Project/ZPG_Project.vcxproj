@@ -53,6 +53,8 @@
     <ClInclude Include="Manager.h" />
     <ClInclude Include="Material.h" />
     <ClInclude Include="MaterialSetFlag.h" />
+    <ClInclude Include="Model\HeaderModelDefinition.h" />
+    <ClInclude Include="Model\ModelFormat.h" />
     <ClInclude Include="Model\ModelLoader.h" />
     <ClInclude Include="Models\bushes.h" />
     <ClInclude Include="Models\gift.h" />

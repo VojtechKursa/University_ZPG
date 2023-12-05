@@ -3,6 +3,8 @@
 #include "ModelFactory.h"
 #include "ModelLoader.h"
 
+#include "HeaderModelDefinition.h"
+
 #ifdef _MSC_VER
 #pragma warning( push )
 #pragma warning( disable : 4305 )
@@ -16,12 +18,20 @@
 
 
 
-enum ModelFormat {POS3, POS3_NORM3, POS3_NORM3_TEX2};
+HeaderModelDefinition headerModels[] =
+{
+    HeaderModelDefinition("plain", plain, POS3_NORM3, sizeof(plain)),
+    HeaderModelDefinition("plainTextured", plainTextured, POS3_NORM3_TEX2, sizeof(plainTextured)),
+    HeaderModelDefinition("sphere", sphere, POS3_NORM3, sizeof(sphere)),
+    HeaderModelDefinition("suzi_flat", suziFlat, POS3_NORM3, sizeof(suziFlat)),
+    HeaderModelDefinition("suzi_smooth", suziSmooth, POS3_NORM3, sizeof(suziSmooth)),
+    HeaderModelDefinition("gift", gift, POS3_NORM3, sizeof(gift)),
+    HeaderModelDefinition("bushes", bushes, POS3_NORM3, sizeof(bushes)),
+    HeaderModelDefinition("tree", tree, POS3_NORM3, sizeof(tree)),
+    HeaderModelDefinition("skycube", skycube, POS3, sizeof(skycube))
+};
 
-std::string ModelManager::names[] = {"plain", "plainTextured", "sphere", "suzi_flat", "suzi_smooth", "gift", "bushes", "tree", "skycube"};
-const float* ModelManager::data[] = {plain, plainTextured, sphere, suziFlat, suziSmooth, gift, bushes, tree, skycube};
-const ModelFormat formats[] = {POS3_NORM3, POS3_NORM3_TEX2, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3_NORM3, POS3};
-unsigned long ModelManager::sizes[] = {sizeof(plain), sizeof(plainTextured), sizeof(sphere), sizeof(suziFlat), sizeof(suziSmooth), sizeof(gift), sizeof(bushes), sizeof(tree), sizeof(skycube)};
+
 
 ModelManager* ModelManager::instance = new ModelManager();
 
@@ -37,26 +47,26 @@ ModelManager *ModelManager::getInstance()
 
 void ModelManager::loadDefaultModels()
 {
-    for(int i = 0; i < sizeof(names) / sizeof(names[0]); i++)
+    for(int i = 0; i < sizeof(headerModels) / sizeof(headerModels[0]); i++)
     {
-        if(this->get(this->names[i]) == nullptr)
+        if(this->get(headerModels[i].name) == nullptr)
         {
-            loadDefaultModel(i);
+            this->add(headerModels[i].name, loadDefaultModel(i));
         }
     }
 }
 
 Model* ModelManager::loadDefaultModel(int index)
 {
-    switch(formats[index])
+    switch(headerModels[index].format)
     {
         case POS3_NORM3_TEX2:
-            return ModelFactory::createFrom3Pos3Norm2Tex(data[index], sizes[index]);
+            return ModelFactory::createFrom3Pos3Norm2Tex(headerModels[index].data, headerModels[index].size);
         case POS3:
-            return ModelFactory::createFrom3Pos(data[index], sizes[index]);
+            return ModelFactory::createFrom3Pos(headerModels[index].data, headerModels[index].size);
         case POS3_NORM3:
         default:
-            return ModelFactory::createFrom3Pos3Norm(data[index], sizes[index]);
+            return ModelFactory::createFrom3Pos3Norm(headerModels[index].data, headerModels[index].size);
     }
 }
 
@@ -70,9 +80,9 @@ Model *ModelManager::get(std::string name)
         return result;
     else
     {
-        for(int i = 0; i < sizeof(this->names) / sizeof(this->names[0]); i++)
+        for(int i = 0; i < sizeof(headerModels) / sizeof(headerModels[0]); i++)
         {
-            if(name == this->names[i])
+            if(name == headerModels[i].name)
             {
                 result = this->loadDefaultModel(i);
                 if (result != nullptr)
